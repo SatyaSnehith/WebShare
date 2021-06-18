@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorPrimaryDark">@color/blue_800</item>
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+</resources>

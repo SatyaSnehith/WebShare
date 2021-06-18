@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="action_bar_height">50dp</dimen>
+    <dimen name="back_icon_padding">15dp</dimen>
+    <dimen name="action_bar_text_size">16sp</dimen>
+    <dimen name="path_height">40dp</dimen>
+    <dimen name="horizontal_margin">20dp</dimen>
+    <dimen name="dir_height">55dp</dimen>
+    <dimen name="dir_icon_size">25dp</dimen>
+    <dimen name="loading_stroke_width">2dp</dimen>
+</resources>

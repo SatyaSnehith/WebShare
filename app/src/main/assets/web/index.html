@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+     <link rel="stylesheet" href="style.css">
+    <title>Web Share</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<body>
+
+    <div class="boarding">
+        <image width="300px" height="200px" id="boardingImageShare"/>
+        <image id="boardingImageUpload"/>
+    </div>
+
+    <!-- main -->
+    <div id="mainContainer">
+        <div class="containerHeader">
+            <a class="containerHeading">Web Share</a>
+            <div id="refresh" class="rotateAnime" onclick="updateAccounts();">
+                <svg width="25" height="25" viewBox="0 0 24 25" fill="none">
+                <path stroke-width="0"  d="M11.5885 1.20065e-06C6.26562 1.20065e-06 1.81458 3.29167 0 7.94271L1.92083 8.72396C3.43854 4.83333 7.11979 2.08333 11.5885 2.08333C14.9635 2.08333 17.9781 3.73958 19.8573 6.25H15.7552V8.33333H23.0469V1.04167H20.9635V4.26458C19.7966 2.92479 18.356 1.85083 16.7387 1.11516C15.1215 0.379491 13.3653 -0.000779822 11.5885 1.20065e-06ZM21.2552 16.276C19.7385 20.1667 16.0573 22.9167 11.5885 22.9167C8.17604 22.9167 5.175 21.2375 3.28646 18.75H7.42187V16.6667H0.130208V23.9583H2.21354V20.7354C4.49479 23.3187 7.83333 25 11.5885 25C16.9115 25 21.3625 21.7083 23.1771 17.0573L21.2552 16.276Z"/>
+                </svg>
+            </div>
+            <div id="settingsButton" onclick="openSettingsDialog();">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
+                <path stroke-width="0"  fill-rule="evenodd" clip-rule="evenodd" d="M19.4035 10.7232L22.0804 8.69395L20.4062 5.80212L17.312 7.11176L16.4042 6.47388C16.0283 6.20975 15.6437 5.98424 15.2507 5.80212L14.2452 5.33617L13.8264 2H10.4818L10.063 5.33618L9.05755 5.80212C8.66455 5.98424 8.2799 6.20975 7.90401 6.47388L6.99627 7.11176L3.90288 5.80247L2.22713 8.70591L4.90884 10.7388L4.80841 11.8436C4.78898 12.0573 4.77912 12.2718 4.77912 12.5C4.77912 12.7269 4.78887 12.944 4.8091 13.1767L4.90476 14.2768L2.22783 16.306L3.90206 19.1979L6.99627 17.8882L7.90401 18.5261C8.2799 18.7903 8.66455 19.0158 9.05755 19.1979L10.063 19.6638L10.4818 23H13.8139L14.2327 19.6638L15.2382 19.1979C15.6312 19.0158 16.0158 18.7903 16.3917 18.5261L17.2995 17.8882L20.3937 19.1979L22.0679 16.3061L19.3458 14.2425L19.4959 13.0913C19.5192 12.9126 19.5291 12.7278 19.5291 12.5C19.5291 12.2731 19.5194 12.056 19.4991 11.8233L19.4035 10.7232ZM23.8041 15.1125C24.3041 15.5 24.4416 16.1875 24.1291 16.7375L21.7916 20.775C21.4791 21.325 20.8041 21.55 20.2291 21.3L17.5416 20.1625C17.0791 20.4875 16.5916 20.775 16.0791 21.0125L15.7166 23.9C15.6416 24.525 15.1041 25 14.4791 25H9.81662C9.19162 25 8.65412 24.525 8.57912 23.9L8.21662 21.0125C7.70412 20.775 7.21662 20.4875 6.75412 20.1625L4.06662 21.3C3.49162 21.55 2.81662 21.325 2.50412 20.775L0.166622 16.7375C-0.145878 16.1875 -0.00837758 15.4875 0.491622 15.1125L2.81662 13.35C2.79162 13.0625 2.77912 12.7875 2.77912 12.5C2.77912 12.2125 2.79162 11.9375 2.81662 11.6625L0.491622 9.9C-0.00837758 9.5125 -0.145878 8.825 0.166622 8.275L2.50412 4.225C2.81662 3.675 3.49162 3.45 4.06662 3.7L6.75412 4.8375C7.21662 4.5125 7.70412 4.225 8.21662 3.9875L8.57912 1.1C8.65412 0.475 9.19162 0 9.82912 0H14.4916C15.1166 0 15.6541 0.475 15.7291 1.1L16.0916 3.9875C16.6041 4.225 17.0916 4.5125 17.5541 4.8375L20.2416 3.7C20.8166 3.45 21.4916 3.675 21.8041 4.225L24.1416 8.2625C24.4541 8.8125 24.3166 9.5125 23.8166 9.8875L21.4916 11.65C21.5166 11.9375 21.5291 12.2125 21.5291 12.5C21.5291 12.7875 21.5166 13.0625 21.4791 13.35L23.8041 15.1125ZM12.2041 18.875C8.68705 18.875 5.82912 16.0171 5.82912 12.5C5.82912 8.98293 8.68705 6.125 12.2041 6.125C15.7212 6.125 18.5791 8.98293 18.5791 12.5C18.5791 16.0171 15.7212 18.875 12.2041 18.875ZM7.82912 12.5C7.82912 14.9125 9.79162 16.875 12.2041 16.875C14.6166 16.875 16.5791 14.9125 16.5791 12.5C16.5791 10.0875 14.6166 8.125 12.2041 8.125C9.79162 8.125 7.82912 10.0875 7.82912 12.5Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div id="mainExplorer">
+            <div id="searchDiv">
+                <img id="searchImg" src="search.svg"/>
+                <input id="searchInput" type="text" placeholder="search" oninput="search();"/>
+            </div>
+            <div id="fileExplorer"></div>
+        </div>
+
+        <div class="containerFooter">
+            <div class="footerLeftButton buttonHover" onclick="openShareText()">
+                <div class="buttonIcon">
+                    <svg width="32" height="30" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.3919 1.95656C27.9108 1.95656 28.4085 2.1627 28.7754 2.52963C29.1423 2.89656 29.3485 3.39422 29.3485 3.91313V19.5656C29.3485 20.0846 29.1423 20.5822 28.7754 20.9491C28.4085 21.3161 27.9108 21.5222 27.3919 21.5222H22.5005C21.893 21.5222 21.2938 21.6636 20.7505 21.9353C20.2071 22.207 19.7345 22.6015 19.37 23.0875L15.6525 28.0434L11.935 23.0875C11.5705 22.6015 11.0979 22.207 10.5545 21.9353C10.0112 21.6636 9.41203 21.5222 8.80454 21.5222H3.91313C3.39422 21.5222 2.89656 21.3161 2.52963 20.9491C2.1627 20.5822 1.95656 20.0846 1.95656 19.5656V3.91313C1.95656 3.39422 2.1627 2.89656 2.52963 2.52963C2.89656 2.1627 3.39422 1.95656 3.91313 1.95656H27.3919ZM3.91313 0C2.8753 0 1.87998 0.412275 1.14613 1.14613C0.412275 1.87998 0 2.8753 0 3.91313L0 19.5656C0 20.6035 0.412275 21.5988 1.14613 22.3326C1.87998 23.0665 2.8753 23.4788 3.91313 23.4788H8.80454C9.10829 23.4788 9.40786 23.5495 9.67954 23.6853C9.95122 23.8212 10.1875 24.0184 10.3698 24.2614L14.0873 29.2174C14.2695 29.4604 14.5058 29.6576 14.7775 29.7934C15.0492 29.9293 15.3488 30 15.6525 30C15.9563 30 16.2558 29.9293 16.5275 29.7934C16.7992 29.6576 17.0355 29.4604 17.2178 29.2174L20.9352 24.2614C21.1175 24.0184 21.3538 23.8212 21.6255 23.6853C21.8972 23.5495 22.1967 23.4788 22.5005 23.4788H27.3919C28.4297 23.4788 29.425 23.0665 30.1589 22.3326C30.8928 21.5988 31.305 20.6035 31.305 19.5656V3.91313C31.305 2.8753 30.8928 1.87998 30.1589 1.14613C29.425 0.412275 28.4297 0 27.3919 0L3.91313 0Z"/>
+                    <path d="M19.0361 15.4819C18.5783 15.4819 18.1687 15.6627 17.8554 15.9458L13.5602 13.4458C13.5904 13.3072 13.6145 13.1687 13.6145 13.0241C13.6145 12.8795 13.5904 12.741 13.5602 12.6024L17.8072 10.1265C18.1325 10.4277 18.5602 10.6145 19.0361 10.6145C20.0361 10.6145 20.8434 9.80723 20.8434 8.80723C20.8434 7.80723 20.0361 7 19.0361 7C18.0361 7 17.2289 7.80723 17.2289 8.80723C17.2289 8.95181 17.253 9.09036 17.2831 9.22892L13.0361 11.7048C12.7108 11.4036 12.2831 11.2169 11.8072 11.2169C10.8072 11.2169 10 12.0241 10 13.0241C10 14.0241 10.8072 14.8313 11.8072 14.8313C12.2831 14.8313 12.7108 14.6446 13.0361 14.3434L17.3253 16.8494C17.2952 16.9759 17.2771 17.1084 17.2771 17.241C17.2771 18.2108 18.0663 19 19.0361 19C20.006 19 20.7952 18.2108 20.7952 17.241C20.7952 16.2711 20.006 15.4819 19.0361 15.4819Z" />
+                    </svg>
+
+                </div>
+                <a>Share text</a>
+            </div>
+
+            <div class="footerRightButton buttonHover" onclick="openUploadDialog()">
+                <div class="buttonIcon">
+                    <svg width="37" height="32" viewBox="0 0 37 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1V31H35.6154L35.603 5.15986L15.3654 5.16682L11.8774 1.01722L1 1Z" fill="var(--primary-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M22.0361 20.4819C21.5783 20.4819 21.1687 20.6627 20.8554 20.9458L16.5602 18.4458C16.5904 18.3072 16.6145 18.1687 16.6145 18.0241C16.6145 17.8795 16.5904 17.741 16.5602 17.6024L20.8072 15.1265C21.1325 15.4277 21.5602 15.6145 22.0361 15.6145C23.0361 15.6145 23.8434 14.8072 23.8434 13.8072C23.8434 12.8072 23.0361 12 22.0361 12C21.0361 12 20.2289 12.8072 20.2289 13.8072C20.2289 13.9518 20.253 14.0904 20.2831 14.2289L16.0361 16.7048C15.7108 16.4036 15.2831 16.2169 14.8072 16.2169C13.8072 16.2169 13 17.0241 13 18.0241C13 19.0241 13.8072 19.8313 14.8072 19.8313C15.2831 19.8313 15.7108 19.6446 16.0361 19.3434L20.3253 21.8494C20.2952 21.9759 20.2771 22.1084 20.2771 22.241C20.2771 23.2108 21.0663 24 22.0361 24C23.006 24 23.7952 23.2108 23.7952 22.241C23.7952 21.2711 23.006 20.4819 22.0361 20.4819Z"/>
+                    </svg>
+
+                </div>
+                <a>Share files</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="addTextContainer" class="container">
+        <div class="containerHeader">
+            <a class="containerHeading">Share Text</a>
+            <div class="containerClose">
+                <div onclick="closeShareText()" >
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 1L1 21M21 21L1 1L21 21Z" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+
+                </div>
+            </div>
+        </div>
+        <div id="addTextText">
+            <div id="addTextTitle">
+                <a id="addTextTitleA">Title</a>
+                <input id="addTextTitleTextArea"/>
+            </div>
+            <div id="addTextDescription">
+                <a id="addTextDescriptionA">Description</a>
+                <textarea rows="10" id="addTextDescriptionTextArea"></textarea>
+            </div>
+        </div>
+        <div class="containerFooter">
+            <div class="footerLeftButton buttonHover" onclick="closeShareText()">
+                <div class="buttonIcon">
+                    <svg width="17" height="32" viewBox="0 0 17 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 31L1 16L16 1" fill="var(--primary-color)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="bevel"/>
+                    </svg>
+
+                </div>
+                <a>Go back</a>
+            </div>
+
+            <div class="footerRightButton buttonHover" onclick="sendText()">
+                <div class="buttonIcon">
+                    <svg width="35" height="30" viewBox="0 0 35 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.3302 15.505L1.53803 18.3236L19.3302 15.505ZM19.3302 15.505L22.3605 15.9876L22.5178 15L22.3613 14.0123L19.3307 14.4924L1.53803 11.6588C0.654104 11.5527 0 10.7925 0 9.90859L19.3302 15.505ZM2.08101 28.9308L2.08099 28.9308L2.07272 28.9344C1.57846 29.1516 1.01768 28.7873 1.01768 28.2412L1.01768 28.239L1 20.0914C1 20.0911 1 20.0908 1 20.0905C1.00043 19.7031 1.28955 19.3681 1.67668 19.3139L1.6945 19.3112L22.6742 15.9877C23.1599 15.9107 23.5176 15.4921 23.5178 15.0004C23.518 14.5087 23.1606 14.0898 22.675 14.0124L1.69531 10.6712C1.68263 10.6692 1.66992 10.6674 1.65718 10.6659C1.28995 10.6218 1.00043 10.3008 1 9.90947C1 9.90917 1 9.90888 1 9.90859L1.01768 1.76097L1.01768 1.76097V1.7588C1.01768 1.21267 1.57847 0.848404 2.07272 1.06557L2.0727 1.06561L2.08101 1.06917L32.9273 14.2915C32.9277 14.2917 32.928 14.2919 32.9284 14.292C33.5545 14.5635 33.5545 15.4365 32.9284 15.708C32.928 15.7081 32.9277 15.7083 32.9273 15.7085L2.08101 28.9308Z" fill="var(--primary-color)" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+                <a>Send</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="viewTextContainer" class="container">
+        <div class="containerHeader">
+            <a id="viewTextHeading" class="containerHeading"></a>
+            <div class="containerClose">
+                <div onclick="closeViewText()" >
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 1L1 21M21 21L1 1L21 21Z"  stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+
+                </div>
+            </div>
+        </div>
+        <div id="viewTextDescription">
+            <pre id="viewTextDescriptionP">text</pre>
+        </div>
+        <div class="containerFooter">
+            <div class="footerLeftButton buttonHover" onclick="closeViewText()">
+                <div class="buttonIcon">
+                    <svg width="17" height="32" viewBox="0 0 17 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 31L1 16L16 1" fill="var(--primary-color)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="bevel"/>
+                    </svg>
+
+                </div>
+                <a>Go back</a>
+            </div>
+
+            <div class="footerRightButton buttonHover" onclick="copyViewText()">
+                <div class="buttonIcon" >
+                    <svg width="24" height="31" viewBox="0 0 24 31"  xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="1" width="17" height="23.7143" fill="var(--primary-color)" rx="2" stroke-width="2"/>
+                        <path d="M1 7.5V30H17.5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+                <a>Copy text</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="upload" class="container" ondrop="onDrop(event);" ondragover="onDragOver(event);">
+        <div class="containerHeader">
+            <a class="containerHeading">Share Files</a>
+            <div class="containerClose">
+                <div onclick="closeUploadDialog()">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 1L1 21M21 21L1 1L21 21Z" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <ol id="uploadProgressList"></ol>
+
+        <div class="containerFooter">
+            <div class="footerLeftButton buttonHover" onclick="closeUploadDialog()">
+                <div class="buttonIcon">
+                    <svg width="17" height="32" viewBox="0 0 17 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 31L1 16L16 1" fill="var(--primary-color)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="bevel"/>
+                    </svg>
+
+                </div>
+                <a>Go back</a>
+            </div>
+
+            <div class="footerRightButton buttonHover" onclick="openFileChooser()">
+                <div class="buttonIcon">
+                    <svg width="27" height="31" viewBox="0 0 27 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.16069 18.9465V17.9465H7.16069H3.9665C3.08617 17.9465 2.61988 16.8658 3.26737 16.2183L12.4883 6.99735C12.8813 6.6044 13.5137 6.6044 13.9067 6.99735L23.1276 16.2183C23.76 16.8507 23.3101 17.9465 22.4084 17.9465H19.2142H18.2142V18.9465V28.9911C18.2142 29.5437 17.7579 30 17.2053 30H9.16961C8.61699 30 8.16069 29.5437 8.16069 28.9911V18.9465Z" fill="var(--primary-color)" stroke-width="2"/>
+                    <path d="M1 1H25.1071" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+
+                </div>
+                <a>Upload</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsContainer" class="container">
+        <div class="containerHeader">
+            <a class="containerHeading">Settings</a>
+            <div class="containerClose">
+                <div onclick="closeSettingsDialog()">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 1L1 21M21 21L1 1L21 21Z" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="settingsContent">
+            <div class="settingsPart">
+                <a class="titleSettings">Change Name</a>
+                <br>
+                <input id="nameInput" class="nameInput" type="text"/>
+            </div>
+            <div class="settingsPart">
+                <a class="titleSettings">Theme color</a>
+                <br>
+                <div class="colors">
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                    <div class="color"></div>
+                </div>
+            </div>
+
+            <div class="settingsPart">
+                <a class="titleSettings">Mode</a>
+                <br>
+                <label class="labelSettings" onclick="lightTheme()">
+                    <input type="radio" id="lightThemeRadio" name="theme"/>
+                    Light Mode
+                    <span class="checkmark"></span>
+                </label>
+                <label class="labelSettings" onclick="darkTheme()">
+                    <input type="radio" id="darkThemeRadio" name="theme"/>
+                    Dark Mode
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="containerFooter">
+            <div class="footerLeftButton buttonHover" onclick="closeSettingsDialog()">
+                <div class="buttonIcon">
+                    <svg width="17" height="32" viewBox="0 0 17 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 31L1 16L16 1" fill="var(--primary-color)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="bevel"/>
+                    </svg>
+                </div>
+                <a>Go back</a>
+            </div>
+            <div class="footerRightButton buttonHover" onclick="saveSettings()">
+                <div class="buttonIcon" >
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-width="2" d="M21.95 0H3.33333C1.5 0 0 1.5 0 3.33333V26.6667C0 28.5 1.5 30 3.33333 30H26.6667C28.5 30 30 28.5 30 26.6667V8.05C30 7.16667 29.65 6.31667 29.0167 5.7L24.3 0.983333C23.6833 0.35 22.8333 0 21.95 0V0ZM15 25C12.2333 25 10 22.7667 10 20C10 17.2333 12.2333 15 15 15C17.7667 15 20 17.2333 20 20C20 22.7667 17.7667 25 15 25ZM18.3333 11.6667H6.66667C5.75 11.6667 5 10.9167 5 10V6.66667C5 5.75 5.75 5 6.66667 5H18.3333C19.25 5 20 5.75 20 6.66667V10C20 10.9167 19.25 11.6667 18.3333 11.6667Z" fill="var(--primary-color)"/>
+                    </svg>
+                </div>
+                <a>Save</a>
+            </div>
+        </div>
+
+    </div>
+    <script src="explorer.js"></script>
+
+</body>
+</html>

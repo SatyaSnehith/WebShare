@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Web Share</string>
+    <string name="share">SHARE</string>
+    <string name="server">SERVER</string>
+
+    <string name="start">START</string>
+    <string name="pause">PAUSE</string>
+    <string name="stop">STOP</string>
+    <string name="con">CONTINUE</string>
+    <string name="select_btn">SELECT</string>
+
+    <string name="start_server">Start the server</string>
+    <string name="text_copied">Copied!</string>
+    <string name="port">port</string>
+    <string name="dialog_manage_files">We request you to give access to manage all files</string>
+    <string name="dialog_write_title">Allow access</string>
+    <string name="dialog_write">Allow access to your files so Web Share can easily share files</string>
+    <string name="allow">Allow</string>
+    <string name="cancel">CANCEL</string>
+    <string name="copy">COPY</string>
+    <string name="open">OPEN</string>
+    <string name="linkInfo">Open the link in devices connected to the same Wi-fi</string>
+</resources>

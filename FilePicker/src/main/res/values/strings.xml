@@ -1,0 +1,5 @@
+<resources>
+    <string name="done">DONE</string>
+    <string name="select">Select</string>
+    <string name="empty_directory">Empty Directory</string>
+</resources>
