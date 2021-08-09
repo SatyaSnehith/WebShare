@@ -167,10 +167,11 @@ public class ServerView extends LinearLayout {
         linearLayout1.addView(underLine, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtil.dp(2)));
 
 //        qrImageView.setBackgroundResource(R.drawable.ip_bg);
-        pad = ViewUtil.dp(10);
+        pad = ViewUtil.dp(15);
         qrImageView.setPadding(pad, pad, pad, pad);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 0, 1);
-        int mar = ViewUtil.dp(20);
+        qrImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
+        int mar = ViewUtil.dp(15);
         layoutParams.setMargins(mar, mar, mar, mar);
         addView(qrImageView, layoutParams);
 //        qrImageView.setBackgroundResource(R.drawable.ip_button_ripple);

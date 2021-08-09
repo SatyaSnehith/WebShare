@@ -10,7 +10,7 @@
     <string name="select_btn">SELECT</string>
 
     <string name="start_server">Start the server</string>
-    <string name="text_copied">Copied!</string>
+    <string name="text_copied">Copied</string>
     <string name="port">port</string>
     <string name="dialog_manage_files">We request you to give access to manage all files</string>
     <string name="dialog_write_title">Allow access</string>

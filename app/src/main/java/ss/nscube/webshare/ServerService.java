@@ -27,6 +27,7 @@ public class ServerService extends Service {
     private final IBinder binder = new LocalBinder();
     private HTTPServer server;
     private NotificationCompat.Builder notificationBuilder;
+
 //    private NotificationCompat.Action pauseAction, continueAction;
 //    public static final String PAUSE = "PAUSE";
 //    public static final String CONTINUE = "CONTINUE";

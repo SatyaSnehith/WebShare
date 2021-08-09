@@ -31,7 +31,7 @@ public class SelectedFileView extends LinearLayout {
         mLinearLayout0 = new LinearLayout(context);
         mLinearLayout0.setGravity(Gravity.CENTER_VERTICAL);
         mLinearLayout0.setOrientation(HORIZONTAL);
-        LayoutParams mLinearLayout0Params = new LayoutParams(-1, ViewUtil.dp(50));
+        LayoutParams mLinearLayout0Params = new LayoutParams(-1, ViewUtil.dp(70));
         addView(mLinearLayout0, mLinearLayout0Params);
 
         mImageView0 = new ImageView(context);

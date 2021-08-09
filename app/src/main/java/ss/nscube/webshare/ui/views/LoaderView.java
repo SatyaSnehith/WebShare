@@ -96,7 +96,7 @@ public class LoaderView extends LinearLayout implements View.OnClickListener {
     }
 
     private void setUpView() {
-        addView(mainLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(mainLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtil.dp(70)));
 
         int pad = ViewUtil.dp(15);
         imageView.setPadding(pad, pad, pad, pad);
