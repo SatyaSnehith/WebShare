@@ -68,7 +68,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SatyaSnehith/WebShare/master/images/Screenshot.png?raw=true" alt="Logo" width="250">
+</div>
 
 WebShare is a Android application that enables you to effortlessly share files and text locally using your browser. With its user-friendly interface and robust features, WebShare simplifies the process of sharing data between devices connected to the same network.
 
