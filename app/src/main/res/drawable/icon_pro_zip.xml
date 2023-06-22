@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M20,0L20,0A20,20 0,0 1,40 20L40,20A20,20 0,0 1,20 40L20,40A20,20 0,0 1,0 20L0,20A20,20 0,0 1,20 0z"
+      android:fillColor="#4CAF50"
+      android:fillAlpha="0.15"/>
+  <path
+      android:pathData="M27,20.526V25.699C27,26.122 26.824,26.526 26.512,26.825C26.199,27.123 25.775,27.291 25.333,27.291H13.667C13.225,27.291 12.801,27.123 12.488,26.825C12.176,26.526 12,26.122 12,25.699V20.526"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M19.106,19.435H19.627H20.147C20.423,19.435 20.647,19.658 20.647,19.935V20.904C20.647,20.944 20.652,20.985 20.662,21.025L21.072,22.664C21.123,22.869 21.04,23.084 20.864,23.201L19.904,23.841C19.736,23.953 19.517,23.953 19.35,23.841L18.389,23.201C18.214,23.084 18.131,22.869 18.182,22.664L18.591,21.025C18.601,20.985 18.606,20.944 18.606,20.904V19.935C18.606,19.658 18.83,19.435 19.106,19.435Z"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+  <path
+      android:pathData="M18.914,13H20.445"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+  <path
+      android:pathData="M18.914,17.685H20.445"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+  <path
+      android:pathData="M17.743,16.514H19.274"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+  <path
+      android:pathData="M18.914,15.343H20.445"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+  <path
+      android:pathData="M17.743,14.172H19.274"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4CAF50"/>
+</vector>

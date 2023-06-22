@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/icon_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="10dp"/>
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/icon_iv"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp"
+        tools:text="John Ali" />
+
+    <TextView
+        android:id="@+id/ip_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="?android:textColorSecondary"
+        android:fontFamily="@font/roboto_regular"
+        tools:text="192.168.0.103"
+        android:layout_alignStart="@id/name_tv"
+        android:layout_below="@id/name_tv"/>
+
+    <TextView
+        android:id="@+id/data_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="?android:textColorSecondary"
+        android:fontFamily="@font/roboto_regular"
+        tools:text="10 Files • 6 Texts"
+        android:layout_alignStart="@id/name_tv"
+        android:layout_below="@id/ip_tv"
+        android:layout_marginBottom="5dp"/>
+
+    <FrameLayout
+        android:id="@+id/menu_fl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/round_bg_ripple_20"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_menu"
+            app:tint="?android:textColorPrimary" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_6"
+        android:fontFamily="@font/roboto_medium"
+        tools:text="Blocked"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_below="@id/menu_fl"
+        android:layout_alignEnd="@id/menu_fl"
+        />
+</RelativeLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/root_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_bg_ripple"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:id="@+id/icon_fl"
+            android:layout_width="@dimen/file_item_icon_height"
+            android:layout_height="@dimen/file_item_icon_height"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/round_6">
+            <ImageView
+                android:id="@id/icon_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/image_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/text_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/icon_fl"
+            android:layout_toStartOf="@id/selection_fl">
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="fileName.ext"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_regular"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:id="@+id/info_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10 MB"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="?android:textColorSecondary"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/selection_fl"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_alignParentEnd="true">
+            <ImageView
+                android:id="@+id/selection_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="4dp"
+                android:paddingTop="3dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/icon_not_selected"/>
+        </FrameLayout>
+
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorOnPrimary">
+
+    <ss.nscube.webshare.ui.views.actionbar.ActionBar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_alignParentTop="true"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/text_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:paddingBottom="100dp"
+            android:clipToPadding="false"/>
+
+        <include android:id="@+id/no_content_layout"
+            layout="@layout/layout_no_content_text"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/add_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_primary_ripple_20"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:translationZ="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_add"/>
+    </FrameLayout>
+</RelativeLayout>

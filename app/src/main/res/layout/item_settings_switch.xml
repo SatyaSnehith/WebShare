@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="10dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/round_bg_ripple">
+
+    <ImageView
+        android:id="@+id/item_icon_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginHorizontal="20dp"
+        app:tint="?android:textColorSecondary" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/item_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/DialogTitle"/>
+        <TextView
+            android:id="@+id/item_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/DialogDescription"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        >
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/item_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            />
+    </FrameLayout>
+</LinearLayout>

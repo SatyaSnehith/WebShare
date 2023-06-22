@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/root_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/round_bg_ripple">
+
+        <ImageView
+            android:id="@+id/icon_iv"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            />
+
+        <ImageView
+            android:id="@+id/selection_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:paddingHorizontal="4dp"
+            android:paddingTop="3dp"
+            android:layout_gravity="center"
+            android:background="@drawable/icon_not_selected"
+            android:layout_toEndOf="@id/icon_iv"
+            android:layout_alignBottom="@id/icon_iv"
+            />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="WebShare"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="?android:textColorPrimary"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/icon_iv"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/size_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="10 MB"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="?android:textColorSecondary"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginBottom="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/name_tv"/>
+
+    </RelativeLayout>
+</FrameLayout>

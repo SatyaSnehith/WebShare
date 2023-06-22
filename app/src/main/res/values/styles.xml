@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:colorPrimaryDark">@color/blue_800</item>
-        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    <style name="DialogTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
+
+    <style name="DialogDescription" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="NumberPicker">
+        <item name="android:textColorPrimary">?android:textColorPrimary</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@android:color/transparent</item>
+    </style>
+
 </resources>

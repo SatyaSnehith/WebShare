@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_height"
+    android:orientation="vertical"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?dialogColor">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/selected_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingHorizontal="10dp"
+            tools:text="Selected items: 10"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/DialogTitle"
+            />
+        <FrameLayout
+            android:id="@+id/menu_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/round_bg_ripple_25"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_menu"
+                app:tint="?android:textColorPrimary" />
+        </FrameLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/no_content_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/no_content_iv"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_no_items_selected"
+                />
+            <TextView
+                android:id="@+id/no_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No items selected"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="14sp"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginTop="30dp"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/files_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+    </FrameLayout>
+
+</LinearLayout>

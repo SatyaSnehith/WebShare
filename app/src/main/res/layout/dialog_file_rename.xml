@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?dialogColor"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rename"
+        style="@style/DialogTitle"/>
+
+    <EditText
+        android:id="@+id/name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:background="?backgroundColor"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="?android:textColorPrimary">
+    </EditText>
+
+    <TextView
+        android:id="@+id/error_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/red"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end">
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="Cancel"
+            android:background="@drawable/round_primary_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="?android:textColorPrimary"/>
+        <Button
+            android:id="@+id/update_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="Update"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/round_primary_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="?colorPrimary"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,134 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        android:orientation="horizontal"
-        android:background="@color/blue_800"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_name"
-            android:textColor="@color/gray_200"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="20dp"/>
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_up"
-                    app:tint="@color/white"/>
-                <TextView
-                    android:id="@+id/us_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="15dp"
-                    android:textColor="@color/gray_200"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_downs"
-                    app:tint="@color/white"/>
-                <TextView
-                    android:id="@+id/ds_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="15dp"
-                    android:textColor="@color/gray_200"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl"
+    android:orientation="vertical">
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"/>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:gravity="center"
-            android:background="@drawable/action_bar"
-            android:onClick="server">
-            <ImageView
-                android:id="@+id/server_iv"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/server_icon"/>
-            <TextView
-                android:id="@+id/server_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/server"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginHorizontal="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:gravity="center"
-            android:background="@drawable/action_bar"
-            android:onClick="share">
-            <ImageView
-                android:id="@+id/share_iv"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sfile_icon"
-                app:tint="@color/blue_300" />
-            <TextView
-                android:id="@+id/share_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/share"
-                android:textSize="16sp"
-                android:textColor="@color/blue_300"
-                android:layout_marginHorizontal="10dp"/>
-        </LinearLayout>
-
-    </LinearLayout>
 </LinearLayout>

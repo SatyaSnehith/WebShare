@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?dialogColor"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:id="@+id/switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/round_bg_ripple">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Enable Security"
+            style="@style/DialogTitle"/>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/item_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/security_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set a 6-digit security pin."
+                android:textColor="?android:textColorPrimary"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="?backgroundColor"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/pin_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:maxLength="6"
+                    android:inputType="numberPassword"
+                    android:letterSpacing="0.25"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="?android:textColorPrimary"/>
+                <ImageView
+                    android:id="@+id/show_pwd_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_show"
+                    android:layout_gravity="center"
+                    app:tint="?android:textColorSecondary" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/error_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/red"/>
+
+            <Button
+                android:id="@+id/generate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dialog_button_size"
+                android:text="Generate Random Pin"
+                android:layout_gravity="end"
+                android:background="@drawable/round_primary_ripple_6"
+                android:fontFamily="@font/roboto_medium"
+                android:textStyle="normal"
+                android:textColor="?colorPrimary"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/icon_refresh"
+                android:drawablePadding="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updating the security pin removes access to all users"
+                style="@style/DialogDescription"
+                android:layout_marginVertical="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/no_security_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="20dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/round_6"
+            android:backgroundTint="#3364A1BD"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_no_security"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security Disabled"
+                style="@style/DialogDescription"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end">
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="Cancel"
+            android:background="@drawable/round_primary_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="?android:textColorPrimary"/>
+        <Button
+            android:id="@+id/update_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="Update"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/round_primary_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="?colorPrimary"/>
+    </LinearLayout>
+
+</LinearLayout>

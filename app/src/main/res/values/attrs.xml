@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="actionBarColor" format="color"/>
+    <attr name="dialogColor" format="color" />
+    <attr name="popupBackgroundColor" format="color" />
+    <attr name="borderColor" format="color" />
+    <attr name="fileIconBackgroundColor" format="color" />
+    <attr name="selectionBackgroundColor" format="color" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="rippleBackgroundColor" format="color" />
+    <attr name="rippleOnBackgroundColor" format="color" />
+    <attr name="redRippleColor" format="color" />
+    <attr name="greenRippleColor" format="color" />
+    <attr name="primaryRippleColor" format="color" />
+
+    <attr name="switchOffThumbColor" format="color"/>
+    <attr name="switchOffTrackColor" format="color"/>
+
+    <attr name="homeCard" format="color"/>
+    <attr name="homeCardBg" format="color"/>
+    <attr name="connectNetworkImage" format="reference"/>
+    <attr name="startServerImage" format="reference"/>
+</resources>

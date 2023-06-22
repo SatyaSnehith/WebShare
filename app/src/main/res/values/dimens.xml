@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="action_bar_height">50dp</dimen>
-
-    <dimen name="server_input_padding">10dp</dimen>
-
-    <dimen name="controller_padding">30dp</dimen>
-
-    <dimen name="ll2_margin">10dp</dimen>
-    <dimen name="ib_image_size">18dp</dimen>
-    <dimen name="ib_gap">18dp</dimen>
-    <dimen name="ib_padding_vertical">10dp</dimen>
-    <dimen name="ib_padding_horizontal">20dp</dimen>
-    <dimen name="control_button_gap">20dp</dimen>
-    <dimen name="control_button_height">50dp</dimen>
-
-    <dimen name="selected_files_margin">10dp</dimen>
+    <dimen name="splash_logo_size">160dp</dimen>
+    <dimen name="qr_size">200dp</dimen>
+    <dimen name="dialog_width">320dp</dimen>
+    <dimen name="dialog_height">480dp</dimen>
+    <dimen name="layout_width">300dp</dimen>
+    <dimen name="button_size">50dp</dimen>
+    <dimen name="button_round_radius">25dp</dimen>
+    <dimen name="action_bar_height">56dp</dimen>
+    <dimen name="action_button_size">40dp</dimen>
+    <dimen name="app_icon_size">40dp</dimen>
+    <dimen name="dialog_button_size">40dp</dimen>
+    <dimen name="dialog_text_line_spacing">3dp</dimen>
+    <dimen name="file_item_height">60dp</dimen>
+    <dimen name="file_item_icon_height">50dp</dimen>
 </resources>

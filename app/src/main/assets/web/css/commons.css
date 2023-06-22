@@ -1,0 +1,261 @@
+:root {
+    --primary: #64A1BD;
+    --primary-50: #64A1BD80;
+    --primary-20: #64a1bd33;
+    --fileInfo-width: 270px;
+}
+.lightTheme {
+    --primary-color: var(--primary);
+    --bg-color: #FFFFFF;
+    --secondaryBg-color: #EEEEEE;
+    --text-color: #212121;
+    --description-color: #666666;
+    --icon-color: #ffffff;
+    --dialog-color: #ffffff;
+    --border-color: #eeeeee;
+    --unselect-color: #CDCDCD;
+    --shadow-color: #888888;
+    --infoKey-color: #666666;
+    --progressBg-color: #E0E0E0;
+    --overlay-color: rgba(0, 0, 0, 0.25);
+}
+.darkTheme {
+    --primary-color: var(--primary);
+    --bg-color: #121212;
+    --secondaryBg-color: #292929;
+    --text-color: #EEEEEE;
+    --description-color: #CDCDCD;
+    --icon-color: #ffffff;
+    --dialog-color: #212121;
+    --border-color: #404040;
+    --unselect-color: #666666;
+    --shadow-color: #000000;
+    --infoKey-color: #888888;
+    --progressBg-color: #424242;
+    --overlay-color: rgba(255, 255, 255, 0.25);
+
+}
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto_light-webfont.woff2') format('woff2'),
+         url('../fonts/roboto_light-webfont.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto_regular-webfont.woff2') format('woff2'),
+         url('../fonts/roboto_regular-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto_medium-webfont.woff2') format('woff2'),
+         url('../fonts/roboto_medium-webfont.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+html, body {
+    font-family: 'roboto';
+    /* font-family: 'Trebuchet MS', sans-serif; */
+    /* letter-spacing: 0.1px; */
+    margin: 0px;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-weight: 300;
+
+    background-color: var(--secondaryBg-color);
+}
+.thinScrollBar::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--secondaryBg-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #559AD7;
+}
+::-webkit-resizer {
+    width: 0;
+    height: 0;
+    border-left: 4px solid var(--bg-color);
+    border-right: 4px solid var(--bg-color);
+    border-bottom: 12px solid var(--text-color);
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #999999;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #999999;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #999999;
+}
+.pointer:focus,
+.pointer:hover {
+    cursor: pointer;
+}
+@keyframes slideEnter {
+    0%   {
+        opacity: 0;
+        transform: translate(5%, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+.slideEnterAnim {
+    animation-name: slideEnter;
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+}
+
+@keyframes slideExit {
+    0%   {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(50px, 0);
+    }
+}
+
+.slideExitAnim {
+    animation-name: slideExit;
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+}
+
+.page {
+    position: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+}
+.topBar {
+    position: relative;
+    height: 45px;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    border-radius: 0px 0px 6px 6px;
+    background-color: var(--primary-color);
+}
+.topBarTitle {
+    color: var(--icon-color);
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+.pointer:focus,
+.pointer:hover {
+    cursor: pointer;
+}
+#homeContent {
+    position: relative;
+    width: auto;
+    height: auto;
+    flex: 1 1 auto;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+.sticky {
+    position: fixed;
+    top: 0;
+}
+.pageFooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    display: flex;
+    /* background-image: linear-gradient(rgba(255, 0, 0, 0), var(--bg-color)); */
+    z-index: 1;
+}
+
+#snackbar {
+    visibility: hidden;
+    max-width: max-content;
+    min-width: 100px;
+    /* margin-left: -125px; */
+    background-color: var(--secondaryBg-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 15px 30px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 30px;
+    border-radius: 6px;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+}
+
+#snackbar.show {
+    visibility: visible; 
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

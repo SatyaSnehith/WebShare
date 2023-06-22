@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?dialogColor"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to remove access for all users?"
+        android:textAppearance="@style/DialogTitle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This action will revoke access for all users and cannot be undone."
+        android:layout_marginVertical="10dp"
+        android:textAppearance="@style/DialogDescription"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end">
+        <Button
+            android:id="@+id/no_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="No"
+            android:background="@drawable/round_primary_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="?android:textColorPrimary"/>
+        <Button
+            android:id="@+id/yes_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_button_size"
+            android:text="Yes"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/round_red_ripple_6"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="normal"
+            android:textColor="@color/red"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_800">#1565C0</color>
-    <color name="blue_900">#00296A</color>
-    <color name="blue_300">#64b5f6</color>
-    <color name="gray_800">#424242</color>
-    <color name="gray_700">#616161</color>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="gray_200">#EEEEEE</color>
-    <color name="gray_400">#bdbdbd</color>
+    <color name="primary">#64A1BD</color>
+    <color name="primaryLight">#D8E7EF</color>
+    <color name="primaryDark">#26363D</color>
 
-    <color name="red_400">#EF5350</color>
-    <color name="green_400">#66BB6A</color>
-    <color name="orange_400">#FFA726</color>
-    <color name="red_200">#ef9a9a</color>
-    <color name="green_200">#a5d6a7</color>
-    <color name="orange_200">#ffcc80</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="dark">#121212</color>
+
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+    <color name="blue">#00ACC1</color>
+
+    <color name="grey_50">#fafafa</color>
+    <color name="grey_100">#f5f5f5</color>
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_400">#bdbdbd</color>
+    <color name="grey_500">#9e9e9e</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
+    <color name="grey_900">#212121</color>
+    <color name="pro_icon_color">#4CAF50</color>
+    <color name="start_green">#8BC34A</color>
+
+
 </resources>

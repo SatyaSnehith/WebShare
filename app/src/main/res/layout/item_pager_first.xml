@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?homeCard">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/qr_size"
+            android:layout_gravity="center"
+            android:src="?connectNetworkImage"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="?android:textColorPrimary"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:text="Connect to the same Wi-Fi as this device."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/wifiBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/action_button_size"
+            android:layout_weight="1"
+            android:text="Wi-Fi"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="?android:textColorPrimary"
+            android:stateListAnimator="@null"
+            android:background="@drawable/round_bg_color_ripple_6"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/hotspotBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/action_button_size"
+            android:layout_weight="1"
+            android:text="Hotspot"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="?android:textColorPrimary"
+            android:stateListAnimator="@null"
+            android:background="@drawable/round_bg_color_ripple_6"
+            android:layout_marginStart="10dp"/>
+        <FrameLayout
+            android:id="@+id/arrowFL"
+            android:layout_width="@dimen/action_button_size"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_primary_bg_ripple_6"
+            android:backgroundTint="?colorPrimary"
+            android:layout_marginStart="10dp">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/icon_right_pager"
+                android:rotation="180"
+                android:layout_gravity="center"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+    </LinearLayout>
+</LinearLayout>

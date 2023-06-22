@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.WebShare" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorOnPrimary">@color/dark</item>
+        <item name="android:statusBarColor">?actionBarColor</item>
+
+        <item name="actionBarColor">#282828</item>
+        <item name="dialogColor">?actionBarColor</item>
+        <item name="popupBackgroundColor">@color/grey_800</item>
+        <item name="fileIconBackgroundColor">@color/grey_900</item>
+        <item name="selectionBackgroundColor">@color/primaryDark</item>
+        <item name="borderColor">@color/grey_800</item>
+        <item name="redRippleColor">#B71C1C</item>
+        <item name="greenRippleColor">#33691E</item>
+        <item name="primaryRippleColor">#334B56</item>
+
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey_400</item>
+
+        <item name="backgroundColor">#333333</item>
+        <item name="rippleBackgroundColor">@color/grey_700</item>
+        <item name="rippleOnBackgroundColor">@color/grey_600</item>
+
+        <item name="switchOffThumbColor">@color/grey_400</item>
+        <item name="switchOffTrackColor">@color/grey_600</item>
+
+        <item name="homeCard">?actionBarColor</item>
+        <item name="homeCardBg">?colorOnPrimary</item>
+
+        <item name="connectNetworkImage">@drawable/dark_wifi</item>
+        <item name="startServerImage">@drawable/dark_server</item>
+
+    </style>
+
+    <style name="SplashTheme" parent="Theme.WebShare">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+</resources>

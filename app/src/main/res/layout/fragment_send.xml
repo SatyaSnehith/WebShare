@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="?attr/colorOnPrimary">
+
+    <ss.nscube.webshare.ui.views.actionbar.ActionBar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="?actionBarColor"
+        app:tabMode="scrollable"
+        app:tabIndicatorHeight="0dp"
+        android:background="?actionBarColor"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/select_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_size"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/round_bg_color_ripple_6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginEnd="5dp"/>
+        <TextView
+            android:id="@+id/selection_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/round_6"
+            android:backgroundTint="@color/primary"
+            android:layout_marginEnd="5dp"/>
+    </LinearLayout>
+
+</LinearLayout>

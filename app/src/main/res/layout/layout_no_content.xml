@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/no_content_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/no_content_iv"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_no_content"
+        />
+    <TextView
+        android:id="@+id/no_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No content here"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        android:textColor="?android:textColorSecondary"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>

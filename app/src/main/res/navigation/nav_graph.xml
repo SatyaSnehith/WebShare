@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ss.nscube.webshare.ui.frags.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_usersFragment"
+            app:destination="@id/usersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_serverSettingsFragment"
+            app:destination="@id/serverSettingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_receiveFragment"
+            app:destination="@id/receiveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_textFragment"
+            app:destination="@id/textFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_sendFragment"
+            app:destination="@id/sendFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+
+    <dialog
+        android:id="@+id/securityDialog"
+        android:name="ss.nscube.webshare.ui.dialogs.SecurityDialog"
+        android:label="SecurityDialog" />
+
+    <fragment
+        android:id="@+id/sendFragment"
+        android:name="ss.nscube.webshare.ui.frags.send.SendFragment"
+        android:label="fragment_send"
+        tools:layout="@layout/fragment_send">
+        <action android:id="@+id/action_sendFragment_to_appFolderFragment"
+            app:destination="@+id/appFolderFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="type"
+                app:argType="string"
+                app:nullable="false"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="ss.nscube.webshare.ui.frags.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/appFolderFragment"
+        android:name="ss.nscube.webshare.ui.frags.send.AppFolderFragment"
+        android:label="fragment_app_folder"
+        tools:layout="@layout/fragment_app_folder">
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/textFragment"
+        android:name="ss.nscube.webshare.ui.frags.text.TextFragment"
+        android:label="TextFragment"
+        tools:layout="@layout/fragment_text">
+        <action
+            android:id="@+id/action_textFragment_to_addTextFragment"
+            app:destination="@id/addTextFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_textFragment_to_textHistoryFragment"
+            app:destination="@id/textHistoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_textFragment_to_textInfoFragment"
+            app:destination="@id/textInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="textId"
+                app:argType="integer"/>
+            <argument
+                android:name="textType"
+                app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/addTextFragment"
+        android:name="ss.nscube.webshare.ui.frags.text.AddTextFragment"
+        android:label="AddTextFragment"
+        tools:layout="@layout/fragment_add_text" />
+    <fragment
+        android:id="@+id/textHistoryFragment"
+        android:name="ss.nscube.webshare.ui.frags.text.TextHistoryFragment"
+        android:label="TextHistoryFragment"
+        tools:layout="@layout/fragment_text_history">
+        <action
+            android:id="@+id/action_textHistoryFragment_to_textInfoFragment"
+            app:destination="@id/textInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="textId"
+                app:argType="integer"/>
+            <argument
+                android:name="textType"
+                app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/textInfoFragment"
+        android:name="ss.nscube.webshare.ui.frags.text.TextInfoFragment"
+        android:label="TextInfoFragment"
+        tools:layout="@layout/fragment_text_history">
+        <argument
+            android:name="textId"
+            app:argType="integer"/>
+        <argument
+            android:name="textType"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/serverSettingsFragment"
+        android:name="ss.nscube.webshare.ui.frags.ServerSettingsFragment"
+        android:label="ServerSettingsFragment"
+        tools:layout="@layout/fragment_server_settings"/>
+
+    <fragment
+        android:id="@+id/receiveFragment"
+        android:name="ss.nscube.webshare.ui.frags.receive.ReceiveFragment"
+        android:label="ReceiveFragment"
+        tools:layout="@layout/fragment_receive">
+        <action
+            android:id="@+id/action_receiveFragment_to_receiveHistoryFragment"
+            app:destination="@id/receiveHistoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/receiveHistoryFragment"
+        android:name="ss.nscube.webshare.ui.frags.receive.ReceiveHistoryFragment"
+        android:label="ReceiveHistoryFragment"
+        tools:layout="@layout/fragment_receive_history"/>
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ss.nscube.webshare.ui.frags.home.AboutFragment"
+        android:label="AboutFragment" />
+
+
+</navigation>

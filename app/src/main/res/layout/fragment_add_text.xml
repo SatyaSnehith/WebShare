@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorOnPrimary">
+
+    <ss.nscube.webshare.ui.views.actionbar.ActionBar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_alignParentTop="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:paddingBottom="90dp"
+        android:clipToPadding="false"
+        android:layout_below="@id/action_bar">
+        <EditText
+            android:id="@+id/text_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Text"
+            android:gravity="top"
+            android:padding="10dp"
+            android:background="@null"
+            android:fontFamily="@font/roboto_regular"
+            android:textColorHint="?android:textColorSecondary"
+            android:textColor="?android:textColorPrimary"/>
+    </ScrollView>
+
+
+
+    <FrameLayout
+        android:id="@+id/paste_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_bg_color_ripple_20"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:translationZ="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_paste"
+            app:tint="?android:textColorPrimary" />
+    </FrameLayout>
+</RelativeLayout>

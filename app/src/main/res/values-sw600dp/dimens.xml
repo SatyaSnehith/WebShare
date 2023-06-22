@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="splash_logo_size">200dp</dimen>
+    <dimen name="qr_size">300dp</dimen>
+    <dimen name="dialog_width">560dp</dimen>
+    <dimen name="dialog_height">680dp</dimen>
+    <dimen name="layout_width">500dp</dimen>
+    <dimen name="button_size">60dp</dimen>
+    <dimen name="button_round_radius">30dp</dimen>
+    <dimen name="action_bar_height">64dp</dimen>
+    <dimen name="action_button_size">50dp</dimen>
+    <dimen name="app_icon_size">60dp</dimen>
+    <dimen name="dialog_button_size">50dp</dimen>
+    <dimen name="file_item_height">70dp</dimen>
+    <dimen name="file_item_icon_height">60dp</dimen>
+</resources>

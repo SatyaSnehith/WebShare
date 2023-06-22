@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:id="@+id/root_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/round_bg_ripple"
+        android:focusable="true"
+        android:clickable="true"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="User-1"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="14sp"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="5:20 PM"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="14sp"
+                android:paddingStart="10dp"
+                android:layout_gravity="end"
+                android:textColor="?android:textColorPrimary"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/data_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Lorem ipsum dolor sit amet consectetur. Aliquet integer tempo Lorem ipsum dolor sit amet consectetur. Aliquet integer tempo Lorem ipsum dolor sit amet consectetur. Aliquet integer tempo"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
+            android:textColor="?android:textColorSecondary"/>
+    </LinearLayout>
+</FrameLayout>

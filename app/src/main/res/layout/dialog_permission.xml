@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:orientation="vertical"
+    android:background="@drawable/round_6"
+    android:backgroundTint="?dialogColor"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Allow access"
+        android:textAppearance="@style/DialogTitle"
+        />
+
+    <TextView
+        android:id="@+id/perm_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Allow access to the following permission, So WebShare can perform better"
+        android:textAppearance="@style/DialogDescription"
+        android:layout_marginVertical="10dp"
+        />
+
+    <Button
+        android:id="@+id/okay_vb"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_button_size"
+        android:text="Okay"
+        android:background="@drawable/round_primary_ripple_6"
+        android:fontFamily="@font/roboto_medium"
+        android:textStyle="normal"
+        android:textColor="?colorPrimary"
+        android:layout_gravity="end"/>
+</LinearLayout>
