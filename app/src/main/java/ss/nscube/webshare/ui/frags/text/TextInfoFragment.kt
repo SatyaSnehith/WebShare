@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -64,7 +66,7 @@ class TextInfoFragment : BaseFragment() {
             DeleteConfirmationDialog.show(this, "this text") {
                 server.textManager.remove(text)
                 Util.toast(context, "Text deleted successfully!")
-                findNavController().popBackStack()
+                onBackClicked()
             }
         }
     }
@@ -87,10 +89,11 @@ class TextInfoFragment : BaseFragment() {
             binding?.deleteBtn?.setOnClickListener {
                 DeleteConfirmationDialog.show(this, "this text") {
                     lifecycleScope.launch(Dispatchers.IO) {
+                        setFragmentResult(IsDeletedKey, bundleOf(IsDeleted to true))
                         DatabaseHelper.textDAO?.delete(te.id)
                         lifecycleScope.launch(Dispatchers.Main) {
                             Util.toast(context, "Text deleted successfully!")
-                            findNavController().popBackStack()
+                            onBackClicked()
                         }
                     }
                 }
@@ -103,7 +106,7 @@ class TextInfoFragment : BaseFragment() {
         if (textEntity != null) {
             server.textManager.add(server.mainAccount, textEntity!!.text, true)
             Util.toast(context, "Text sent successfully!")
-            findNavController().popBackStack()
+            onBackClicked()
         }
     }
 
@@ -130,6 +133,8 @@ class TextInfoFragment : BaseFragment() {
     companion object {
         val TypeCurrent = "current"
         val TypeHistory = "history"
+        val IsDeletedKey = "isDeletedKey"
+        val IsDeleted = "isDeleted"
     }
 }
 

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,17 +64,17 @@ class TextHistoryFragment : BaseFragment() {
     }
 
     fun getText() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        launchIO {
             val list = DatabaseHelper.textDAO?.getAllOrdered(paginationCount)
             if (list.isNullOrEmpty()) {
-                lifecycleScope.launch(Dispatchers.Main) {
+                launchMain {
                     updateLayoutVisibility(false)
                 }
             } else {
                 for (i in list) {
                     log("TEXT id: ${i.id}, text: ${i.text}")
                 }
-                lifecycleScope.launch(Dispatchers.Main) {
+                launchMain {
                     adapter.list = ArrayList(list)
                 }
             }
@@ -81,13 +82,17 @@ class TextHistoryFragment : BaseFragment() {
     }
 
     fun getMoreText() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val list = DatabaseHelper.textDAO?.getOrderedFrom(adapter.list.last().id, paginationCount)
+        launchIO {
+            val list = try {
+                DatabaseHelper.textDAO?.getOrderedFrom(adapter.list.last().id, paginationCount)
+            } catch (e: Exception) {
+                listOf()
+            }
             if (!list.isNullOrEmpty()) {
                 for (i in list) {
                     log("TEXT id: ${i.id}, text: ${i.text}")
                 }
-                lifecycleScope.launch(Dispatchers.Main) {
+                launchMain {
                     val insertPos = adapter.list.size
                     adapter.list.addAll(list)
                     adapter.notifyItemRangeInserted(insertPos, list.size)
@@ -101,13 +106,14 @@ class TextHistoryFragment : BaseFragment() {
         binding?.noContentLayout?.noContentLl?.visibility = if(!showContent) View.VISIBLE else View.GONE
     }
 
-    private var isNavigationInProgress = false
     private fun openText(textEntity: TextEntity) {
-        if (!isNavigationInProgress) {
-            isNavigationInProgress = true
-            findNavController().navigate(TextHistoryFragmentDirections.actionTextHistoryFragmentToTextInfoFragment(textEntity.id, TextInfoFragment.TypeHistory))
-            Handler(Looper.getMainLooper()).postDelayed({ isNavigationInProgress = false }, 500) // set delay time to allow navigation after 500 milliseconds
+        setFragmentResultListener(TextInfoFragment.IsDeletedKey) { requestKey, bundle ->
+            if (bundle.getBoolean(TextInfoFragment.IsDeleted)) {
+                adapter.remove(textEntity)
+                updateLayoutVisibility(adapter.list.isNotEmpty())
+            }
         }
+        navigate(TextHistoryFragmentDirections.actionTextHistoryFragmentToTextInfoFragment(textEntity.id, TextInfoFragment.TypeHistory))
     }
 
     fun updateMode(mode: Int) {
@@ -158,7 +164,7 @@ class TextHistoryFragment : BaseFragment() {
             for (text in adapter.selectedList) {
                 server.textManager.add(server.mainAccount, text.text, false)
             }
-            findNavController().popBackStack()
+            onBackClicked()
         }
     }
 
@@ -258,6 +264,13 @@ class TextHistoryFragment : BaseFragment() {
                 }
             }
             selectedList.clear()
+        }
+
+        fun remove(textEntity: TextEntity) {
+            val position = list.indexOf(textEntity)
+            list.remove(textEntity)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, list.size)
         }
 
         inner class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {

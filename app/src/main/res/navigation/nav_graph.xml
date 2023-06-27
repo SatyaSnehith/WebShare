@@ -54,12 +54,6 @@
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
-
-    <dialog
-        android:id="@+id/securityDialog"
-        android:name="ss.nscube.webshare.ui.dialogs.SecurityDialog"
-        android:label="SecurityDialog" />
-
     <fragment
         android:id="@+id/sendFragment"
         android:name="ss.nscube.webshare.ui.frags.send.SendFragment"

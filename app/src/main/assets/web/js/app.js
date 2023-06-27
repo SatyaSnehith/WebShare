@@ -18,7 +18,7 @@ class Theme {
     }
 
     constructor() {
-        this.bodyElement = document.getElementsByTagName("BODY")[0]
+        this.bodyElement = document.body
         this.authThemeChange = $('authThemeChange')
     
         this.DarkTheme = "darkTheme"
@@ -30,9 +30,7 @@ class Theme {
         } else if (this.theme == this.DarkTheme) {
             this.dark();
         } else {
-            localStorage.setItem('theme', JSON.stringify(this.DarkTheme));
-            this.theme = this.DarkTheme;
-            this.dark();
+            this.light();
         }
     }
 
@@ -3166,9 +3164,9 @@ class Api {
         // }
     }
 
-    xhrAuthGet(url, onRes) {
+    xhrAuthGet(url, onRes, isSync = false) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", url, false);
+        xhr.open("GET", url, isSync);
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
         xhr.addEventListener('error', this.onError);
         xhr.send();
@@ -3310,7 +3308,7 @@ class Api {
             onRes({ name: 'name' })
             return;
         }
-        this.xhrAuthGet(ApiInfo, (res) => onRes(res));
+        this.xhrAuthGet(ApiInfo, (res) => onRes(res), true);
     }
 
     deleteFile(fileId, onRes) {

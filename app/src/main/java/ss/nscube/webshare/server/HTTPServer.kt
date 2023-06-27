@@ -20,10 +20,7 @@ import kotlinx.coroutines.*
 import ss.nscube.webshare.ServerService
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.server.accounts.*
-import ss.nscube.webshare.server.accounts.Account
 import ss.nscube.webshare.server.events.ServerStatusListener
-import ss.nscube.webshare.server.BadRequestException
-import ss.nscube.webshare.server.UnauthorizedException
 import ss.nscube.webshare.server.file.*
 import ss.nscube.webshare.server.headers.*
 import ss.nscube.webshare.server.models.*
@@ -39,9 +36,9 @@ import java.net.Socket
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
-import kotlin.collections.HashMap
 import kotlin.random.Random
 import kotlin.random.nextInt
+
 
 /**
  * HTTPServer
@@ -198,14 +195,19 @@ class HTTPServer(val application: WebShareApp) {
             //port of the service
             launchIO {
                 try {
-                    serverSocket = ServerSocket(Port)
+                    serverSocket =
+                        withContext(Dispatchers.IO) {
+                            ServerSocket(Port)
+                        }
                     d("Http log started")
                     isRunning = true
                     startTime = System.currentTimeMillis()
                     notifyListenersForStarting()
                     while (isRunning) {
                         val start = System.currentTimeMillis()
-                        handleSocket(serverSocket!!.accept())
+                        handleSocket(withContext(Dispatchers.IO) {
+                            serverSocket!!.accept()
+                        })
                         log("Http log resTime ${System.currentTimeMillis() - start} ms")
                     }
                 } catch (e: IOException) {

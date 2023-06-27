@@ -61,7 +61,7 @@ class TextFragment : BaseFragment(), TextObserver {
     }
 
     private fun onHistoryIconClicked() {
-        findNavController().navigate(TextFragmentDirections.actionTextFragmentToTextHistoryFragment())
+        navigate(TextFragmentDirections.actionTextFragmentToTextHistoryFragment())
     }
 
     override fun onResume() {
@@ -77,13 +77,8 @@ class TextFragment : BaseFragment(), TextObserver {
         }
     }
 
-    private var isNavigationInProgress = false
     fun openText(text: Text) {
-        if (!isNavigationInProgress) {
-            isNavigationInProgress = true
-            findNavController().navigate(TextFragmentDirections.actionTextFragmentToTextInfoFragment(text.id, TextInfoFragment.TypeCurrent))
-            Handler(Looper.getMainLooper()).postDelayed({ isNavigationInProgress = false }, 500) // set delay time to allow navigation after 500 milliseconds
-        }
+        navigate(TextFragmentDirections.actionTextFragmentToTextInfoFragment(text.id, TextInfoFragment.TypeCurrent))
     }
 
 
@@ -129,7 +124,7 @@ class TextFragment : BaseFragment(), TextObserver {
     fun getSelectedCountText() = "${adapter.selectedList.size} item${if (adapter.selectedList.size == 1) "" else "s"} selected"
 
     fun onAddClicked(view: View) {
-        findNavController().navigate(TextFragmentDirections.actionTextFragmentToAddTextFragment())
+        navigate(TextFragmentDirections.actionTextFragmentToAddTextFragment())
     }
 
     fun updateLayoutVisibility() {

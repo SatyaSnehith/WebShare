@@ -69,9 +69,9 @@ class Api {
         // }
     }
 
-    xhrAuthGet(url, onRes) {
+    xhrAuthGet(url, onRes, isSync = false) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", url, false);
+        xhr.open("GET", url, isSync);
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
         xhr.addEventListener('error', this.onError);
         xhr.send();
@@ -213,7 +213,7 @@ class Api {
             onRes({ name: 'name' })
             return;
         }
-        this.xhrAuthGet(ApiInfo, (res) => onRes(res));
+        this.xhrAuthGet(ApiInfo, (res) => onRes(res), true);
     }
 
     deleteFile(fileId, onRes) {

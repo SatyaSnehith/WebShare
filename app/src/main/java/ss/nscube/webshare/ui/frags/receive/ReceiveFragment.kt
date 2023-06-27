@@ -66,7 +66,7 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
     }
 
     private fun onHistoryIconClicked() {
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToReceiveHistoryFragment())
+        navigate(ReceiveFragmentDirections.actionReceiveFragmentToReceiveHistoryFragment())
     }
 
     fun updateContentVisibility() {

@@ -41,26 +41,6 @@ class FileManager(val server: HTTPServer) {
         server.signedUrlList.removeFile(file)
     }
     
-    fun deleteReceived(file: WebFile): Boolean {
-        return when(file.fileType) {
-//            WebFileUtil.TypeSelected -> {
-//                removeSelection(file)
-//                true
-//            }
-            WebFileUtil.TypeReceived -> {
-                remove(file)
-                file.file?.delete() ?: false
-            }
-            else -> {
-                false
-            }
-        }
-    }
-
-    fun clear() {
-        files.clear()
-    }
-
     fun get(id: Int): WebFile? {
         val index = files.binarySearch { it.id - id }
         return if (index < 0) null
@@ -90,7 +70,8 @@ class FileManager(val server: HTTPServer) {
     fun removeAllSelection() {
         val removeFiles = HashSet<WebFile>()
         for (file in files) if (file.fileType == WebFileUtil.TypeSelected) removeFiles.add(file)
-        files.removeAll(removeFiles)
+        synchronized(mutex) { files.removeAll(removeFiles) }
+        for (file in removeFiles) server.signedUrlList.removeFile(file)
         callOnRemovedAll()
         callOnUpdate()
     }

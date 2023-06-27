@@ -34,7 +34,9 @@ class SignedUrlList {
     fun removeFile(file: WebFile) {
         synchronized(mutex) {
             for (signedUrl in signedUrls) {
+                log("SIGNED_URL removeFile ${file.id}")
                 if (signedUrl is SignedUrlFile && signedUrl.file == file) {
+                    log("SIGNED_URL removeFile ${signedUrl.file.id} ${file.id}")
                     signedUrls.remove(signedUrl)
                     break
                 }

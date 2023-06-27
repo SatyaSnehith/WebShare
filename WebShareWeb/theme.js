@@ -17,7 +17,7 @@ class Theme {
     }
 
     constructor() {
-        this.bodyElement = document.getElementsByTagName("BODY")[0]
+        this.bodyElement = document.body
         this.authThemeChange = $('authThemeChange')
     
         this.DarkTheme = "darkTheme"
@@ -29,9 +29,7 @@ class Theme {
         } else if (this.theme == this.DarkTheme) {
             this.dark();
         } else {
-            localStorage.setItem('theme', JSON.stringify(this.DarkTheme));
-            this.theme = this.DarkTheme;
-            this.dark();
+            this.light();
         }
     }
 

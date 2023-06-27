@@ -56,6 +56,6 @@ class AddTextFragment : BaseFragment() {
         }
         server.textManager.add(server.mainAccount, text)
         Util.toast(context, "Text sent successfully!")
-        findNavController().popBackStack()
+        onBackClicked()
     }
 }

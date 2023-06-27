@@ -42,7 +42,6 @@ import ss.nscube.webshare.utils.IpAddressUpdater
 import ss.nscube.webshare.utils.d
 import ss.nscube.webshare.utils.log
 
-
 class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStatusListener {
     var binding: FragmentHomeBinding? = null
     var ipAddressUpdater = IpAddressUpdater(this)
@@ -238,7 +237,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
                 ThemeDialog.show(parentFragmentManager)
             }
             2 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAboutFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToAboutFragment())
             }
         }
     }
@@ -257,10 +256,10 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         log("onIconButtonClicked $id")
         when(id) {
             0 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUsersFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToUsersFragment())
             }
             1 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToServerSettingsFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToServerSettingsFragment())
             }
             2 -> {
                 SecurityDialog.show(this) {
@@ -268,13 +267,13 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
                 }
             }
             3 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToReceiveFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToReceiveFragment())
             }
             4 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTextFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToTextFragment())
             }
             5 -> {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendFragment())
+                navigate(HomeFragmentDirections.actionHomeFragmentToSendFragment())
             }
         }
     }

@@ -68,7 +68,7 @@ class FileFragment: BaseFileFragment() {
 
     fun onFolderClicked(type: String) {
         log("TYPE $type")
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToAppFolderFragment(type))
+        navigate(SendFragmentDirections.actionSendFragmentToAppFolderFragment(type))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
