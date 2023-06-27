@@ -23,8 +23,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -107,6 +105,4 @@ Distributed under the GNU General Public License v3.0. See `LICENSE.txt` for mor
 [issues-url]: https://github.com/SatyaSnehith/WebShare/issues
 [license-shield]: https://img.shields.io/github/license/SatyaSnehith/WebShare.svg?style=for-the-badge
 [license-url]: https://github.com/SatyaSnehith/WebShare/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/satyasnehith/
 [product-screenshot]: https://raw.githubusercontent.com/SatyaSnehith/WebShare/master/images/Screenshot.svg
