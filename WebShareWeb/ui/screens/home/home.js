@@ -38,7 +38,6 @@ class Home extends Page {
         if (textTab == undefined) textTab = TextTab.getInstance()
 
         this.currentTab = this.filesTab
-        this.loadData()
     }
 
     onSettingsClicked() {

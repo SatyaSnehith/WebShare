@@ -2321,7 +2321,6 @@ class Home extends Page {
         if (textTab == undefined) textTab = TextTab.getInstance()
 
         this.currentTab = this.filesTab
-        this.loadData()
     }
 
     onSettingsClicked() {
@@ -3104,7 +3103,7 @@ class Api {
             isAuthorized: false,
             isSecurityEnabled: false
         }
-    
+        this.statusApiInProgress = false
         this.sampleAuth = {
             isValid: true,
             error: "Blocked"
@@ -3139,8 +3138,9 @@ class Api {
     }
 
     addReadyStateChange(xhr, url, onRes) {
-        // xhr.onreadystatechange = () => {
+        xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
+                this.statusApiInProgress = false
                 console.log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
@@ -3161,51 +3161,55 @@ class Api {
                         }
                 }
             }
-        // }
+        }
     }
 
-    xhrAuthGet(url, onRes, isSync = false) {
+    xhrAuthGet(url, onRes) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", url, isSync);
+        xhr.open("GET", url);
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
         xhr.addEventListener('error', this.onError);
-        xhr.send();
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
+        xhr.send();
     }
 
     xhrPost(url, body, onRes) {
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, false);
+        xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
-        xhr.send(data);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
+        xhr.send(data);
     }
 
     xhrAuthPost(url, body, onRes) {
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, false);
+        xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
-        xhr.send(data);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
+        xhr.send(data);
     }
     
     xhrAuthPostAsync(url, body, onRes) {
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
+        xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
-        xhr.onreadystatechange = () => this.addReadyStateChange(xhr, url, (res) => onRes(res))
+        this.addReadyStateChange(xhr, url, (res) => onRes(res))
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
         xhr.send(data);
     }
 
     updateStatus() {
+        if (this.statusApiInProgress) {
+            return;
+        }
+        this.statusApiInProgress = true
         if (this.isTest) {
             this.apiDelay(() => {
                 this.onStatus(this.sampleStatus)
@@ -3225,6 +3229,7 @@ class Api {
 
     onStatus(statusRes) {
         console.log(statusRes);
+        this.statusApiInProgress = false
         if (statusRes.error) {
             utils.handleError(statusRes);
         } else {
@@ -3238,7 +3243,6 @@ class Api {
                 pageManager.home();
             }
         }
-
     }
 
     onUnauthorized() {
@@ -3279,12 +3283,12 @@ class Api {
             return
         }
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", ApiAddText, false);
+        xhr.open("POST", ApiAddText);
         xhr.setRequestHeader("Content-Type", "text/plain");
         xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
         xhr.addEventListener('error', (e) => this.onError(e));
-        xhr.send(text);
         this.addReadyStateChange(xhr, ApiAddText, (res) => onRes(res));
+        xhr.send(text);
     }
 
     changeName(name, onRes) {
