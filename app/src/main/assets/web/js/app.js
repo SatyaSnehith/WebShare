@@ -1,6 +1,10 @@
-// File: ./theme.js
+// File: ./declare.js
 const $ = q => document.getElementById(q)
 
+function log(str) {
+    if (api.isTest) console.log(str)
+}
+// File: ./theme.js
 var fileTab = undefined
 var fileSelectionMode = undefined
 var fileInfo = undefined
@@ -8,13 +12,13 @@ var fileInfo = undefined
 var textTab = undefined
 
 class Theme {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -110,19 +114,19 @@ class ScrollListener {
     }
 
     checkBottomScrolled() {
-        console.log(`scrollHeight: ${this.div.scrollHeight} offsetHeight: ${this.div.offsetHeight} scrollTop: ${this.div.scrollTop}`);
+        log(`scrollHeight: ${this.div.scrollHeight} offsetHeight: ${this.div.offsetHeight} scrollTop: ${this.div.scrollTop}`);
         return this.div.scrollHeight - (this.div.offsetHeight + this.div.scrollTop) > this.scrollUntil
     }
 }
 // File: ./ui/page-manager.js
 class PageManager {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
     
     constructor() {
@@ -204,7 +208,7 @@ class MaxDialog extends Dialog {
         this.sizeIcon.onclick = () => this.reverseDialogSize()
         closeIcon.onclick = () => this.dismiss()
         this.isFullScreen = false
-        console.log("isFullScreen " + this.isFullScreen);
+        log("isFullScreen " + this.isFullScreen);
     }
 
     show() {
@@ -252,13 +256,13 @@ const fileStates = {
     cancelled: 2,
 }
 class SendFileDialog extends MaxDialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -362,7 +366,7 @@ class SendFileDialog extends MaxDialog {
     }
 
     updateMoreIfNotScrollable() {
-        console.log("updateMoreIfNotScrollable");
+        log("updateMoreIfNotScrollable");
         if (this.myFilesWrap.offsetHeight >= this.myFilesWrap.scrollHeight) {
             this.updateMoreMyFiles();
         }
@@ -408,7 +412,7 @@ class SendFileDialog extends MaxDialog {
                 fileElement.lastLoadedTime = Date.now();
             }, false);
             post.addEventListener("load", (event) => {
-                console.log("status: " + post.status + " readyState: " + post.readyState + " responseText: " + post.respo);
+                log("status: " + post.status + " readyState: " + post.readyState + " responseText: " + post.respo);
                 if (post.readyState === 4 && post.status == 200) {
                     const res = JSON.parse(post.responseText);
                     if (res.isSuccess) {
@@ -634,13 +638,13 @@ class SendFileDialog extends MaxDialog {
 }
 // File: ./ui/dialogs/delete-dialog.js
 class DeleteDialog extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
     
     constructor() {
@@ -661,13 +665,13 @@ class DeleteDialog extends Dialog {
 }
 // File: ./ui/dialogs/add-text-dialog.js
 class AddTextDialog extends MaxDialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -691,8 +695,8 @@ class AddTextDialog extends MaxDialog {
             return
         }
         api.sendText(this.textInput.value, (res) => {
-            console.log(res);
-            console.log(this);
+            log(res);
+            log(this);
             if (res.isUpdated) {
                 this.textInput.value = ""
                 utils.showSnack("Text sent")
@@ -703,13 +707,13 @@ class AddTextDialog extends MaxDialog {
 }
 // File: ./ui/dialogs/file-info-bottom-sheet.js
 class FileInfoBottomSheet extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -720,13 +724,13 @@ class FileInfoBottomSheet extends Dialog {
 }
 // File: ./ui/dialogs/info-dialog.js
 class InfoDialog extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -748,13 +752,13 @@ class InfoDialog extends Dialog {
 }
 // File: ./ui/dialogs/download-menu-dialog.js
 class DownloadMenuDialog extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -782,13 +786,13 @@ class DownloadMenuDialog extends Dialog {
 }
 // File: ./ui/dialogs/name-dialog.js
 class NameDialog extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -831,13 +835,13 @@ class NameDialog extends Dialog {
 }
 // File: ./ui/dialogs/share-dialog.js
 class ShareDialog extends Dialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -1416,8 +1420,8 @@ class FileDropEvent {
             return;
         }
         var hasFiles = ev.dataTransfer.types.includes("Files");
-        console.log("onDragOver " + hasFiles);
-        // console.log(ev);
+        log("onDragOver " + hasFiles);
+        // log(ev);
         if (hasFiles) {
             fileTab.dropDiv(true);
         }
@@ -1425,19 +1429,19 @@ class FileDropEvent {
 
     onDragLeave(ev) {
         if (!this.checkDropPlace(ev)) return;
-        console.log("onDragLeave ");
+        log("onDragLeave ");
         if(ev.fromElement != null || ev.relatedTarget != null) return;
-        // console.log(ev);
+        // log(ev);
         fileTab.dropDiv(false);
     }
 
     onDrop(ev) {
         ev.preventDefault();
-        console.log(document.elementsFromPoint(ev.clientX, ev.clientY));
+        log(document.elementsFromPoint(ev.clientX, ev.clientY));
         if (!this.checkDropPlace(ev)) return;
         fileTab.dropDiv(false);
         var hasFiles = ev.dataTransfer.types.includes("Files");
-        console.log("onDrop " + hasFiles);
+        log("onDrop " + hasFiles);
 
         if (hasFiles) {
             const sendDialog = SendFileDialog.getInstance()
@@ -1794,7 +1798,7 @@ class SelectButton extends Button {
             fileSelectionMode.selectFileNode(fileNode)
             const [icon, text] = this.getIconAndText()
             this.update(icon, text)
-            console.log(text);
+            log(text);
         })
         this.fileNode = fileNode
     }
@@ -1913,13 +1917,13 @@ class ViewMode {
 }
 // File: ./ui/screens/home/sample-data.js
 class SampleData {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -1936,7 +1940,7 @@ class SampleData {
 
     getSampleFiles(req) {
         let sFileList = [];
-        console.log("SampleData currentFileCount: " + this.currentFileCount + ", sampleTotalFileCount: " + this.sampleTotalFileCount);
+        log("SampleData currentFileCount: " + this.currentFileCount + ", sampleTotalFileCount: " + this.sampleTotalFileCount);
         if (this.currentFileCount >= this.sampleTotalFileCount) return sFileList;
         for (let i = this.currentFileCount; i < this.currentFileCount + req.count; ++i) {
             if (i >= this.sampleTotalFileCount) break;
@@ -2098,13 +2102,13 @@ class Page {
 }
 // File: ./ui/screens/try-again-page.js
 class TryAgainPage extends Page {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -2146,13 +2150,13 @@ class TryAgainPage extends Page {
 }
 // File: ./ui/screens/settings/settings.js
 class Settings extends Page {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -2282,13 +2286,13 @@ class ThemeRadioButton {
 }
 // File: ./ui/screens/home/home.js
 class Home extends Page {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -2342,13 +2346,13 @@ class Home extends Page {
 }
 // File: ./ui/screens/home/file-tab.js
 class FileTab {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -2413,7 +2417,7 @@ class FileTab {
 
     onSendFileButtonClicked() {
         api.getUploadInfo((res) => {
-            console.log(res);
+            log(res);
             if (res.isUploadAvailable) {
                 if (res.availableCount <= 0) {
                     InfoDialog.getInstance().show(LimitReachedTitle, LimitReachedDescription)
@@ -2451,7 +2455,7 @@ class FileTab {
     }
 
     updateMoreIfNotScrollable() {
-        console.log("updateMoreIfNotScrollable");
+        log("updateMoreIfNotScrollable");
         const height = this.allFiles.offsetHeight
         if (height > 0 && height == this.allFiles.scrollHeight) {
             this.updateMoreFiles()
@@ -2502,7 +2506,7 @@ class FileTab {
         if (api.isTest) this.sampleData.resetFiles()
         this.currentFileCount = 0;
         this.lastId = -1;
-        console.log("API ISTEST " + api.isTest);
+        log("API ISTEST " + api.isTest);
         if (api.isTest) {
             api.apiDelay(() => {
                 const list = this.sampleData.getSampleFiles(this.getFileApiBody())
@@ -2523,7 +2527,7 @@ class FileTab {
             return
         }
         
-        api.xhrAuthPostAsync(ApiFiles, this.getFileApiBody(), (res) => this.onMoreFiles(res));
+        api.xhrAuthPost(ApiFiles, this.getFileApiBody(), (res) => this.onMoreFiles(res));
     }
 
     // bottomLoader: null,
@@ -2584,13 +2588,13 @@ const VisibilityDiv = {
 }
 // File: ./ui/screens/home/text-tab.js
 class TextTab {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -2790,13 +2794,13 @@ class TextTab {
 }
 // File: ./ui/screens/auth.js
 class Auth extends Page {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -3141,7 +3145,7 @@ class Api {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this.statusApiInProgress = false
-                console.log("api: " + url + " -> " + xhr.status);
+                log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
                         var res = JSON.parse(xhr.responseText)
@@ -3228,7 +3232,7 @@ class Api {
     }
 
     onStatus(statusRes) {
-        console.log(statusRes);
+        log(statusRes);
         this.statusApiInProgress = false
         if (statusRes.error) {
             utils.handleError(statusRes);
@@ -3348,7 +3352,7 @@ class Api {
         xhr.timeout = 2000;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                console.log("api: " + url + " -> " + xhr.status);
+                log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
                         onSuccess('data:image/png;base64, ' + xhr.responseText);
@@ -3461,7 +3465,7 @@ window.matchMedia("(max-width: 760px)").addEventListener("change", (x) => {
     isFileInfoSideVisible = !x.matches
     if (fileSelectionMode) fileSelectionMode.updateMode()
     if (fileInfo) fileInfo.updateSelectedCountText()
-    console.log("760px isFileInfoSideVisible " + isFileInfoSideVisible);
+    log("760px isFileInfoSideVisible " + isFileInfoSideVisible);
 });
 
 const delay = ms => new Promise(res => setTimeout(res, ms));

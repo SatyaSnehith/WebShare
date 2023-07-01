@@ -13,7 +13,7 @@ class SelectButton extends Button {
             fileSelectionMode.selectFileNode(fileNode)
             const [icon, text] = this.getIconAndText()
             this.update(icon, text)
-            console.log(text);
+            log(text);
         })
         this.fileNode = fileNode
     }

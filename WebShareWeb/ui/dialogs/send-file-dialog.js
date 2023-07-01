@@ -4,13 +4,13 @@ const fileStates = {
     cancelled: 2,
 }
 class SendFileDialog extends MaxDialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -114,7 +114,7 @@ class SendFileDialog extends MaxDialog {
     }
 
     updateMoreIfNotScrollable() {
-        console.log("updateMoreIfNotScrollable");
+        log("updateMoreIfNotScrollable");
         if (this.myFilesWrap.offsetHeight >= this.myFilesWrap.scrollHeight) {
             this.updateMoreMyFiles();
         }
@@ -160,7 +160,7 @@ class SendFileDialog extends MaxDialog {
                 fileElement.lastLoadedTime = Date.now();
             }, false);
             post.addEventListener("load", (event) => {
-                console.log("status: " + post.status + " readyState: " + post.readyState + " responseText: " + post.respo);
+                log("status: " + post.status + " readyState: " + post.readyState + " responseText: " + post.respo);
                 if (post.readyState === 4 && post.status == 200) {
                     const res = JSON.parse(post.responseText);
                     if (res.isSuccess) {

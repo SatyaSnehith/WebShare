@@ -7,7 +7,7 @@ class MaxDialog extends Dialog {
         this.sizeIcon.onclick = () => this.reverseDialogSize()
         closeIcon.onclick = () => this.dismiss()
         this.isFullScreen = false
-        console.log("isFullScreen " + this.isFullScreen);
+        log("isFullScreen " + this.isFullScreen);
     }
 
     show() {

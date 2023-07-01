@@ -1,4 +1,5 @@
 fileList=(\
+./declare.js
 ./theme.js
 ./ui/visibility.js
 ./ui/scroll-listener.js

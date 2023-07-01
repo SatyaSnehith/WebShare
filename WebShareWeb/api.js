@@ -34,12 +34,13 @@ class Api {
 
     getOs() {
         let os = "Unknown OS";
-        if (navigator.userAgent.indexOf("Win") != -1) os = "Windows";
-        if (navigator.userAgent.indexOf("Mac") != -1) os = "MacOS";
-        if (navigator.userAgent.indexOf("X11") != -1) os = "UNIX";
-        if (navigator.userAgent.indexOf("Linux") != -1) os = "Linux";
-        if (navigator.userAgent.indexOf("Android") != -1) os = "Android";
-        if (navigator.userAgent.indexOf("like Mac") != -1) os = "iOS";
+        const ua = navigator.userAgent
+        if (ua.indexOf("Win") != -1) os = "Windows";
+        if (ua.indexOf("Mac") != -1) os = "MacOS";
+        if (ua.indexOf("X11") != -1) os = "UNIX";
+        if (ua.indexOf("Linux") != -1) os = "Linux";
+        if (ua.indexOf("Android") != -1) os = "Android";
+        if (ua.indexOf("like Mac") != -1) os = "iOS";
         return os;
     }
 
@@ -47,7 +48,7 @@ class Api {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this.statusApiInProgress = false
-                console.log("api: " + url + " -> " + xhr.status);
+                log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
                         var res = JSON.parse(xhr.responseText)
@@ -134,7 +135,7 @@ class Api {
     }
 
     onStatus(statusRes) {
-        console.log(statusRes);
+        log(statusRes);
         this.statusApiInProgress = false
         if (statusRes.error) {
             utils.handleError(statusRes);
@@ -254,7 +255,7 @@ class Api {
         xhr.timeout = 2000;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                console.log("api: " + url + " -> " + xhr.status);
+                log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
                         onSuccess('data:image/png;base64, ' + xhr.responseText);

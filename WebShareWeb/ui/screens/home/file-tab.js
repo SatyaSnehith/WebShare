@@ -1,11 +1,11 @@
 class FileTab {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -70,7 +70,7 @@ class FileTab {
 
     onSendFileButtonClicked() {
         api.getUploadInfo((res) => {
-            console.log(res);
+            log(res);
             if (res.isUploadAvailable) {
                 if (res.availableCount <= 0) {
                     InfoDialog.getInstance().show(LimitReachedTitle, LimitReachedDescription)
@@ -108,7 +108,7 @@ class FileTab {
     }
 
     updateMoreIfNotScrollable() {
-        console.log("updateMoreIfNotScrollable");
+        log("updateMoreIfNotScrollable");
         const height = this.allFiles.offsetHeight
         if (height > 0 && height == this.allFiles.scrollHeight) {
             this.updateMoreFiles()
@@ -159,7 +159,7 @@ class FileTab {
         if (api.isTest) this.sampleData.resetFiles()
         this.currentFileCount = 0;
         this.lastId = -1;
-        console.log("API ISTEST " + api.isTest);
+        log("API ISTEST " + api.isTest);
         if (api.isTest) {
             api.apiDelay(() => {
                 const list = this.sampleData.getSampleFiles(this.getFileApiBody())
@@ -180,7 +180,7 @@ class FileTab {
             return
         }
         
-        api.xhrAuthPostAsync(ApiFiles, this.getFileApiBody(), (res) => this.onMoreFiles(res));
+        api.xhrAuthPost(ApiFiles, this.getFileApiBody(), (res) => this.onMoreFiles(res));
     }
 
     // bottomLoader: null,

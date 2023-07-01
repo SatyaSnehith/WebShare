@@ -1,11 +1,11 @@
 class SampleData {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -22,7 +22,7 @@ class SampleData {
 
     getSampleFiles(req) {
         let sFileList = [];
-        console.log("SampleData currentFileCount: " + this.currentFileCount + ", sampleTotalFileCount: " + this.sampleTotalFileCount);
+        log("SampleData currentFileCount: " + this.currentFileCount + ", sampleTotalFileCount: " + this.sampleTotalFileCount);
         if (this.currentFileCount >= this.sampleTotalFileCount) return sFileList;
         for (let i = this.currentFileCount; i < this.currentFileCount + req.count; ++i) {
             if (i >= this.sampleTotalFileCount) break;

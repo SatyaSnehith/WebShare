@@ -24,8 +24,8 @@ class FileDropEvent {
             return;
         }
         var hasFiles = ev.dataTransfer.types.includes("Files");
-        console.log("onDragOver " + hasFiles);
-        // console.log(ev);
+        log("onDragOver " + hasFiles);
+        // log(ev);
         if (hasFiles) {
             fileTab.dropDiv(true);
         }
@@ -33,19 +33,19 @@ class FileDropEvent {
 
     onDragLeave(ev) {
         if (!this.checkDropPlace(ev)) return;
-        console.log("onDragLeave ");
+        log("onDragLeave ");
         if(ev.fromElement != null || ev.relatedTarget != null) return;
-        // console.log(ev);
+        // log(ev);
         fileTab.dropDiv(false);
     }
 
     onDrop(ev) {
         ev.preventDefault();
-        console.log(document.elementsFromPoint(ev.clientX, ev.clientY));
+        log(document.elementsFromPoint(ev.clientX, ev.clientY));
         if (!this.checkDropPlace(ev)) return;
         fileTab.dropDiv(false);
         var hasFiles = ev.dataTransfer.types.includes("Files");
-        console.log("onDrop " + hasFiles);
+        log("onDrop " + hasFiles);
 
         if (hasFiles) {
             const sendDialog = SendFileDialog.getInstance()

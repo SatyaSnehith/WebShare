@@ -1,5 +1,3 @@
-const $ = q => document.getElementById(q)
-
 var fileTab = undefined
 var fileSelectionMode = undefined
 var fileInfo = undefined
@@ -7,13 +5,13 @@ var fileInfo = undefined
 var textTab = undefined
 
 class Theme {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {

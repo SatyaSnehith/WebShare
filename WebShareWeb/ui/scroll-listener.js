@@ -18,7 +18,7 @@ class ScrollListener {
     }
 
     checkBottomScrolled() {
-        console.log(`scrollHeight: ${this.div.scrollHeight} offsetHeight: ${this.div.offsetHeight} scrollTop: ${this.div.scrollTop}`);
+        log(`scrollHeight: ${this.div.scrollHeight} offsetHeight: ${this.div.offsetHeight} scrollTop: ${this.div.scrollTop}`);
         return this.div.scrollHeight - (this.div.offsetHeight + this.div.scrollTop) > this.scrollUntil
     }
 }

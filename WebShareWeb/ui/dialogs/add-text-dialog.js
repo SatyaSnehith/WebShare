@@ -1,11 +1,11 @@
 class AddTextDialog extends MaxDialog {
-    static instance = null
+    static inst = null
 
     static getInstance() {
-        if (this.instance == null) {
-            this.instance = new this()
+        if (this.inst == null) {
+            this.inst = new this()
         }
-        return this.instance
+        return this.inst
     }
 
     constructor() {
@@ -29,8 +29,8 @@ class AddTextDialog extends MaxDialog {
             return
         }
         api.sendText(this.textInput.value, (res) => {
-            console.log(res);
-            console.log(this);
+            log(res);
+            log(this);
             if (res.isUpdated) {
                 this.textInput.value = ""
                 utils.showSnack("Text sent")
