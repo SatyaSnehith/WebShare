@@ -10,10 +10,10 @@ class ListFileNode extends FileNode {
     }
 
     createFileNode() {
-        let div = document.createElement("DIV")
-        let iconDiv = document.createElement("DIV")
-        let infoDiv = document.createElement("DIV")
-        this.selectDiv = document.createElement("DIV")
+        let div = element("DIV")
+        let iconDiv = element("DIV")
+        let infoDiv = element("DIV")
+        this.selectDiv = element("DIV")
 
         div.style.width = '100%'
         div.style.height = '60px'
@@ -22,7 +22,7 @@ class ListFileNode extends FileNode {
         div.classList.add("pointer")
         div.tabIndex = fileTab.allFiles.childElementCount
 
-        let iconWrapDiv = document.createElement('DIV')
+        let iconWrapDiv = element('DIV')
         iconWrapDiv.onclick = () => this.onClick()
         div.appendChild(iconWrapDiv)
 
@@ -49,7 +49,7 @@ class ListFileNode extends FileNode {
 
         div.appendChild(infoDiv)
 
-        let fileNameA = document.createElement('A')
+        let fileNameA = element('A')
         fileNameA.style.color = 'var(--text-color)'
         fileNameA.style.fontWeight = '200'
         fileNameA.style.overflow = 'hidden'
@@ -59,18 +59,18 @@ class ListFileNode extends FileNode {
         fileNameA.innerHTML = this.fileData.name
         infoDiv.appendChild(fileNameA)
 
-        let descriptionDiv = document.createElement('DIV')
+        let descriptionDiv = element('DIV')
         descriptionDiv.style.position = 'relative'
         infoDiv.appendChild(descriptionDiv)
 
-        let uploaderA = document.createElement('A')
+        let uploaderA = element('A')
         uploaderA.style.color = 'var(--description-color)'
         uploaderA.style.fontWeight = '200'
         uploaderA.style.fontSize = '0.8em'
         uploaderA.innerHTML = this.fileData.uploader
         descriptionDiv.appendChild(uploaderA)
 
-        let sizeA = document.createElement('A')
+        let sizeA = element('A')
         sizeA.style.color = 'var(--description-color)'
         sizeA.style.fontWeight = '200'
         sizeA.style.fontSize = '0.8em'
@@ -78,7 +78,7 @@ class ListFileNode extends FileNode {
 
         sizeA.innerHTML = utils.getSizeString(this.fileData.size)
         descriptionDiv.appendChild(sizeA)
-        let selectWrapDiv = document.createElement('DIV')
+        let selectWrapDiv = element('DIV')
         selectWrapDiv.onclick = () => {
             fileSelectionMode.selectFileNode(this)
         }

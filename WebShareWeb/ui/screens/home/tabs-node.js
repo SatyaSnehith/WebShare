@@ -25,7 +25,7 @@ class TabsNode {
     }
 
     getStateButton(key, text) {
-        const title = document.createElement("A");
+        const title = element("A");
         title.innerHTML = text
         title.style.width = 'auto';
         title.style.height = 'auto';

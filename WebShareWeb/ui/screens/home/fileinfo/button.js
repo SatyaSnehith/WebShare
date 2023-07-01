@@ -1,6 +1,6 @@
 class Button {
     constructor(icon, text, onClick) {
-        this.div = document.createElement('DIV')
+        this.div = element('DIV')
         this.div.onclick = () => onClick()
         this.div.style.display = 'flex'
         this.div.style.borderRadius = '6px'
@@ -18,7 +18,7 @@ class Button {
         iconSvg.style.height = 'auto'
         iconSvg.style.marginRight = '10px'
 
-        let textA = document.createElement('A')
+        let textA = element('A')
         textA.style.fontWeight = '200'
         textA.style.color = 'var(--text-color)'
         textA.innerHTML = newText

@@ -3,7 +3,7 @@ class ThemeRadioButton {
     constructor(radio) {
         this.radio = radio
         this.unselectedColor = '#AAAAAA'
-        const radioDiv = document.createElement('DIV')
+        const radioDiv = element('DIV')
         radioDiv.classList.add("pointer")
         radioDiv.style.width = '60px'
         radioDiv.style.height = '60px'
@@ -16,7 +16,7 @@ class ThemeRadioButton {
         this.path = svg.getElementsByTagName('path')[0];
         svg.style.height = '18px'
         svg.style.margin = 'auto'
-        this.textA = document.createElement('A')
+        this.textA = element('A')
         this.textA.style.height = '20px'
         this.textA.style.fontSize = '0.8em'
         this.textA.style.color = ''

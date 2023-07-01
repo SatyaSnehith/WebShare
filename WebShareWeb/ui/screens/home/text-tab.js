@@ -107,7 +107,7 @@ class TextTab {
 
     // showBottomLoading(isShow) {
     //     if (this.bottomLoader == null) {
-    //         this.bottomLoader = document.createElement('div');
+    //         this.bottomLoader = element('div');
     //         this.bottomLoader.style.width = '30px';
     //         this.bottomLoader.style.minHeight = '30px';
     //         this.bottomLoader.style.margin = 'auto';
@@ -144,7 +144,7 @@ class TextTab {
     }
 
     createTextDiv(textData, showFullText = false) {
-        let div = document.createElement('DIV');
+        let div = element('DIV');
         div.style.padding = '10px';
         div.style.display = 'flex';
         div.style.flexFlow = 'column';
@@ -158,18 +158,18 @@ class TextTab {
             div.style.backgroundColor = primary + utils.percentToHex(20);
         }
 
-        let userDiv =  document.createElement('DIV');
+        let userDiv =  element('DIV');
         userDiv.style.display = "flex";
         userDiv.style.justifyContent = "space-between";
 
-        let name = document.createElement('A')
+        let name = element('A')
         name.innerHTML = textData.from
         name.style.textDecoration = 'none'
         name.style.fontWeight = '500'
         name.style.fontSize = '0.8em'
         name.style.color = "var(--text-color)"
         userDiv.appendChild(name)
-        let time = document.createElement('A')
+        let time = element('A')
         time.innerHTML = utils.getTimeString(textData.time)
         time.style.fontWeight = '300'
         time.style.textDecoration = 'none'
@@ -179,7 +179,7 @@ class TextTab {
         userDiv.appendChild(time)
         div.appendChild(userDiv)
 
-        let textA = document.createElement('A')
+        let textA = element('A')
         textA.style.fontWeight = '200'
         textA.style.fontSize = '0.9em'
         textA.style.textDecoration = 'none'

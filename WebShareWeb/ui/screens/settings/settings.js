@@ -65,7 +65,7 @@ class Settings extends Page {
             }
         ]
         let id = 0
-        const mainDiv = document.createElement('DIV')
+        const mainDiv = element('DIV')
         mainDiv.style.display = "inline-flex"
         mainDiv.style.flexWrap = "wrap"
         mainDiv.style.alignContent = "flex-start"

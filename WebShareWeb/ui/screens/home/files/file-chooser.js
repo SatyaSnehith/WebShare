@@ -1,6 +1,6 @@
 class FileChooser {
     constructor() {
-        this.inputFileElement = document.createElement('INPUT')
+        this.inputFileElement = element('INPUT')
         this.inputFileElement.onchange = () => {
             SendFileDialog.getInstance().uploadFiles(this.inputFileElement.files)
         };

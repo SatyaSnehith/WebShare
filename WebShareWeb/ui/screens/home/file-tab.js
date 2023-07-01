@@ -189,7 +189,7 @@ class FileTab {
     // showBottomLoading(isShow) {
     //     window.requestAnimationFrame(() => {
     //         if (files.bottomLoader == null) {
-    //             files.bottomLoader = document.createElement('div')
+    //             files.bottomLoader = element('div')
     //             files.bottomLoader.style.width = '30px'
     //             files.bottomLoader.style.height = '30px'
     //             files.bottomLoader.style.margin = 'auto'

@@ -56,9 +56,9 @@ class FileTypeChips {
     }
 
     getChipDiv(chip) {
-        let div = document.createElement('DIV')
-        let name = document.createElement('A')
-        let closeImg = document.createElement('DIV')
+        let div = element('DIV')
+        let name = element('A')
+        let closeImg = element('DIV')
 
         div.classList.add('pointer')
         div.style.display = 'flex'

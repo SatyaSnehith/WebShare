@@ -29,7 +29,7 @@ const utils = {
     },
 
     addIcon: function(parentDiv, file, padding) {
-        let icon = document.createElement('div')
+        let icon = element('div')
         icon.style.objectFit = "cover"
         icon.style.width = "100%"
         icon.style.height = '100%'
@@ -48,7 +48,7 @@ const utils = {
         const padding = isGrid ? 30 : 20
         if (file.type == 'image' || file.type == 'video' || file.type == 'app') {
             api.addImage(file.id, (response) => {
-                let image = document.createElement('img')
+                let image = element('img')
                 image.style.objectFit = "cover"
                 image.style.width = "100%"
                 image.style.borderRadius = isGrid ? "6px 6px 0px 0px" : "6px"
@@ -58,7 +58,7 @@ const utils = {
                 utils.addIcon(parentDiv, file, padding)
             })
             if (file.type == 'video' && isGrid) {
-                let durationDiv = document.createElement('DIV')
+                let durationDiv = element('DIV')
                 // durationDiv.style.width = '1 6px'
                 durationDiv.style.height = '16px'
                 durationDiv.style.position = 'absolute'
@@ -72,7 +72,7 @@ const utils = {
                 durationDiv.innerHTML = Play
                 let svg = durationDiv.getElementsByTagName('svg')[0];
                 svg.style.margin = 'auto 4px auto auto'
-                let durationText = document.createElement('A')
+                let durationText = element('A')
                 durationText.style.fontWeight = '300'
                 durationText.style.fontSize = '0.8em'
                 durationText.style.color = 'white'
@@ -116,7 +116,7 @@ const utils = {
     },
 
     openUrl: function(url, open) {
-        let a = document.createElement('a')
+        let a = element('a')
         a.href = url
         if (open)
             a.target = '_blank'

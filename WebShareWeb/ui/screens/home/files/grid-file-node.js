@@ -9,11 +9,11 @@ class GridFileNode extends FileNode {
     }
 
     createFileNode() {
-        let div = document.createElement("DIV")
-        let topDiv = document.createElement("DIV")
-        let nameDiv = document.createElement("DIV")
-        let nameA = document.createElement("A")
-        this.selectDiv = document.createElement("DIV")
+        let div = element("DIV")
+        let topDiv = element("DIV")
+        let nameDiv = element("DIV")
+        let nameA = element("A")
+        this.selectDiv = element("DIV")
 
         div.style.margin = '5px'
         div.style.border = '1px solid var(--border-color)'

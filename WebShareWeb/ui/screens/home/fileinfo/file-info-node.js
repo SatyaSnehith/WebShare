@@ -24,7 +24,7 @@ class FileInfoNode {
 
     addUI() {
         this.fileInfoDiv.innerHTML = ''
-        let titleDiv = document.createElement('DIV')
+        let titleDiv = element('DIV')
         titleDiv.style.paddingBottom = '25px'
         titleDiv.style.display = 'flex'
         titleDiv.style.alignItems= 'flex-start';
@@ -35,7 +35,7 @@ class FileInfoNode {
         iconSvg.style.height = 'auto'
         iconSvg.style.margin = '8px 12px 0px 4px'
 
-        let title = document.createElement('A')
+        let title = element('A')
         title.style.fontSize = '1.2em'
         title.style.color = 'var(--text-color)'
         title.style.wordBreak = 'break-word'
@@ -44,7 +44,7 @@ class FileInfoNode {
         title.innerHTML = this.fileData.name
         titleDiv.appendChild(title)
 
-        let details = document.createElement('A')
+        let details = element('A')
         details.style.color = 'var(--text-color)'
         details.style.wordBreak = 'break-word'
         details.style.paddingBottom = '10px'
@@ -59,7 +59,7 @@ class FileInfoNode {
     }
 
     getFileInfoTable() {
-        let table = document.createElement("TABLE")
+        let table = element("TABLE")
         table.style.width = '100%'
         table.style.marginBottom = '10px'
         // table.style.borderSpacing = '5px'
@@ -87,14 +87,14 @@ class FileInfoNode {
     }
 
     getFileInfoRow(key, value) {
-        let tRow = document.createElement("TR")
-        let tDataKey = document.createElement("TD")
+        let tRow = element("TR")
+        let tDataKey = element("TD")
         tDataKey.style.fontSize = '0.9em'
         tDataKey.style.fontWeight = '200'
         tDataKey.innerHTML = key
         tDataKey.style.color = 'var(--description-color)'
         tRow.appendChild(tDataKey)
-        let tDataValue = document.createElement("TD")
+        let tDataValue = element("TD")
         tDataValue.style.width = '60%'
         tDataValue.style.color = 'var(--text-color)'
         tDataValue.style.fontSize = '0.9em'

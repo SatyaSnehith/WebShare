@@ -1,6 +1,8 @@
 // File: ./declare.js
 const $ = q => document.getElementById(q)
 
+const element = t => document.createElement(t)
+
 function log(str) {
     if (api.isTest) console.log(str)
 }
@@ -442,7 +444,7 @@ class SendFileDialog extends MaxDialog {
     }
 
     addProgressFile(file) {
-        const fileElement = this.addFile(document.createElement("DIV"), fileStates.progress, file);
+        const fileElement = this.addFile(element("DIV"), fileStates.progress, file);
         if (this.currentSentDiv.childElementCount == 0) {
             this.currentSentDiv.appendChild(fileElement.div);
         } else {
@@ -452,16 +454,16 @@ class SendFileDialog extends MaxDialog {
     }
 
     addCompletedFile(file) {
-        const fileElement = this.addFile(document.createElement("DIV"), fileStates.completed, file);
+        const fileElement = this.addFile(element("DIV"), fileStates.completed, file);
         this.sentDiv.appendChild(fileElement.div);
     }
 
     addFile(div, state, file) {
         div.innerHTML = '';
-        let iconDiv = document.createElement("DIV");
-        let infoDiv = document.createElement("DIV");
-        let progressBar = document.createElement("DIV");
-        let progressDiv = document.createElement("DIV");
+        let iconDiv = element("DIV");
+        let infoDiv = element("DIV");
+        let progressBar = element("DIV");
+        let progressDiv = element("DIV");
 
         let fileElement = {
             lastLoaded: 0,
@@ -491,7 +493,7 @@ class SendFileDialog extends MaxDialog {
         div.classList.add("pointer");
         // div.tabIndex = index
 
-        let iconWrapDiv = document.createElement('DIV');
+        let iconWrapDiv = element('DIV');
         // iconWrapDiv.onclick = () => list.onClick(index)
         div.appendChild(iconWrapDiv);
 
@@ -520,7 +522,7 @@ class SendFileDialog extends MaxDialog {
 
         div.appendChild(infoDiv);
 
-        let fileNameA = document.createElement('A');
+        let fileNameA = element('A');
         fileNameA.style.color = 'var(--text-color)';
         fileNameA.style.fontWeight = '200';
         fileNameA.style.overflow = 'hidden';
@@ -546,18 +548,18 @@ class SendFileDialog extends MaxDialog {
             infoDiv.appendChild(progressBar);
         }
 
-        let descriptionDiv = document.createElement('DIV');
+        let descriptionDiv = element('DIV');
         descriptionDiv.style.position = 'relative';
         infoDiv.appendChild(descriptionDiv);
 
-        let fileSize = document.createElement('A');
+        let fileSize = element('A');
         fileSize.style.color = 'var(--description-color)';
         fileSize.style.fontWeight = '200';
         fileSize.style.fontSize = '0.8em';
         fileSize.innerHTML = utils.getSizeString(file.size) + (state == fileStates.progress ? " • " : "");
         descriptionDiv.appendChild(fileSize);
 
-        let speedText = document.createElement('A');
+        let speedText = element('A');
         if (state == fileStates.progress) {
             speedText.style.color = 'var(--description-color)';
             speedText.style.fontWeight = '200';
@@ -566,7 +568,7 @@ class SendFileDialog extends MaxDialog {
             descriptionDiv.appendChild(speedText);
         }
 
-        let percent = document.createElement('A');
+        let percent = element('A');
         if (state != fileStates.completed) {
             percent.style.color = 'var(--description-color)';
             percent.style.fontSize = '0.8em';
@@ -585,7 +587,7 @@ class SendFileDialog extends MaxDialog {
 
         if (state != fileStates.cancelled) {
             if (state == fileStates.completed) {
-                let deleteImage = document.createElement("IMG");
+                let deleteImage = element("IMG");
                 deleteImage.style.width = '40px';
                 deleteImage.style.height = '40px';
                 deleteImage.style.margin = '10px';
@@ -614,7 +616,7 @@ class SendFileDialog extends MaxDialog {
                 deleteImage.src = 'images/remove_red.svg';
                 div.appendChild(deleteImage);
             } else {
-                let cancelDiv = document.createElement("DIV");
+                let cancelDiv = element("DIV");
                 cancelDiv.style.width = '40px';
                 cancelDiv.style.height = '40px';
                 cancelDiv.style.margin = '10px';
@@ -856,14 +858,14 @@ class ShareDialog extends Dialog {
         socialMediaList.innerHTML = ''
         for (const sm of this.getSocialMediaList()) {
             const media = sm
-            let image = document.createElement('img')
+            let image = element('img')
             image.classList.add('pointer')
             image.style.width = '40px'
             image.style.height = '40px'
             image.style.padding = '10px'
             image.src = "images/" + media.name + ".svg"
             image.onclick = () => {
-                let a = document.createElement('a')
+                let a = element('a')
                 a.href = media.url
                 a.target = '_blank'
                 a.click()
@@ -1050,9 +1052,9 @@ class FileTypeChips {
     }
 
     getChipDiv(chip) {
-        let div = document.createElement('DIV')
-        let name = document.createElement('A')
-        let closeImg = document.createElement('DIV')
+        let div = element('DIV')
+        let name = element('A')
+        let closeImg = element('DIV')
 
         div.classList.add('pointer')
         div.style.display = 'flex'
@@ -1141,7 +1143,7 @@ class FileNode {
 // File: ./ui/screens/home/files/file-chooser.js
 class FileChooser {
     constructor() {
-        this.inputFileElement = document.createElement('INPUT')
+        this.inputFileElement = element('INPUT')
         this.inputFileElement.onchange = () => {
             SendFileDialog.getInstance().uploadFiles(this.inputFileElement.files)
         };
@@ -1300,10 +1302,10 @@ class ListFileNode extends FileNode {
     }
 
     createFileNode() {
-        let div = document.createElement("DIV")
-        let iconDiv = document.createElement("DIV")
-        let infoDiv = document.createElement("DIV")
-        this.selectDiv = document.createElement("DIV")
+        let div = element("DIV")
+        let iconDiv = element("DIV")
+        let infoDiv = element("DIV")
+        this.selectDiv = element("DIV")
 
         div.style.width = '100%'
         div.style.height = '60px'
@@ -1312,7 +1314,7 @@ class ListFileNode extends FileNode {
         div.classList.add("pointer")
         div.tabIndex = fileTab.allFiles.childElementCount
 
-        let iconWrapDiv = document.createElement('DIV')
+        let iconWrapDiv = element('DIV')
         iconWrapDiv.onclick = () => this.onClick()
         div.appendChild(iconWrapDiv)
 
@@ -1339,7 +1341,7 @@ class ListFileNode extends FileNode {
 
         div.appendChild(infoDiv)
 
-        let fileNameA = document.createElement('A')
+        let fileNameA = element('A')
         fileNameA.style.color = 'var(--text-color)'
         fileNameA.style.fontWeight = '200'
         fileNameA.style.overflow = 'hidden'
@@ -1349,18 +1351,18 @@ class ListFileNode extends FileNode {
         fileNameA.innerHTML = this.fileData.name
         infoDiv.appendChild(fileNameA)
 
-        let descriptionDiv = document.createElement('DIV')
+        let descriptionDiv = element('DIV')
         descriptionDiv.style.position = 'relative'
         infoDiv.appendChild(descriptionDiv)
 
-        let uploaderA = document.createElement('A')
+        let uploaderA = element('A')
         uploaderA.style.color = 'var(--description-color)'
         uploaderA.style.fontWeight = '200'
         uploaderA.style.fontSize = '0.8em'
         uploaderA.innerHTML = this.fileData.uploader
         descriptionDiv.appendChild(uploaderA)
 
-        let sizeA = document.createElement('A')
+        let sizeA = element('A')
         sizeA.style.color = 'var(--description-color)'
         sizeA.style.fontWeight = '200'
         sizeA.style.fontSize = '0.8em'
@@ -1368,7 +1370,7 @@ class ListFileNode extends FileNode {
 
         sizeA.innerHTML = utils.getSizeString(this.fileData.size)
         descriptionDiv.appendChild(sizeA)
-        let selectWrapDiv = document.createElement('DIV')
+        let selectWrapDiv = element('DIV')
         selectWrapDiv.onclick = () => {
             fileSelectionMode.selectFileNode(this)
         }
@@ -1466,11 +1468,11 @@ class GridFileNode extends FileNode {
     }
 
     createFileNode() {
-        let div = document.createElement("DIV")
-        let topDiv = document.createElement("DIV")
-        let nameDiv = document.createElement("DIV")
-        let nameA = document.createElement("A")
-        this.selectDiv = document.createElement("DIV")
+        let div = element("DIV")
+        let topDiv = element("DIV")
+        let nameDiv = element("DIV")
+        let nameA = element("A")
+        this.selectDiv = element("DIV")
 
         div.style.margin = '5px'
         div.style.border = '1px solid var(--border-color)'
@@ -1656,7 +1658,7 @@ class FileInfoNode {
 
     addUI() {
         this.fileInfoDiv.innerHTML = ''
-        let titleDiv = document.createElement('DIV')
+        let titleDiv = element('DIV')
         titleDiv.style.paddingBottom = '25px'
         titleDiv.style.display = 'flex'
         titleDiv.style.alignItems= 'flex-start';
@@ -1667,7 +1669,7 @@ class FileInfoNode {
         iconSvg.style.height = 'auto'
         iconSvg.style.margin = '8px 12px 0px 4px'
 
-        let title = document.createElement('A')
+        let title = element('A')
         title.style.fontSize = '1.2em'
         title.style.color = 'var(--text-color)'
         title.style.wordBreak = 'break-word'
@@ -1676,7 +1678,7 @@ class FileInfoNode {
         title.innerHTML = this.fileData.name
         titleDiv.appendChild(title)
 
-        let details = document.createElement('A')
+        let details = element('A')
         details.style.color = 'var(--text-color)'
         details.style.wordBreak = 'break-word'
         details.style.paddingBottom = '10px'
@@ -1691,7 +1693,7 @@ class FileInfoNode {
     }
 
     getFileInfoTable() {
-        let table = document.createElement("TABLE")
+        let table = element("TABLE")
         table.style.width = '100%'
         table.style.marginBottom = '10px'
         // table.style.borderSpacing = '5px'
@@ -1719,14 +1721,14 @@ class FileInfoNode {
     }
 
     getFileInfoRow(key, value) {
-        let tRow = document.createElement("TR")
-        let tDataKey = document.createElement("TD")
+        let tRow = element("TR")
+        let tDataKey = element("TD")
         tDataKey.style.fontSize = '0.9em'
         tDataKey.style.fontWeight = '200'
         tDataKey.innerHTML = key
         tDataKey.style.color = 'var(--description-color)'
         tRow.appendChild(tDataKey)
-        let tDataValue = document.createElement("TD")
+        let tDataValue = element("TD")
         tDataValue.style.width = '60%'
         tDataValue.style.color = 'var(--text-color)'
         tDataValue.style.fontSize = '0.9em'
@@ -1757,7 +1759,7 @@ class FileInfoNode {
 // File: ./ui/screens/home/fileinfo/button.js
 class Button {
     constructor(icon, text, onClick) {
-        this.div = document.createElement('DIV')
+        this.div = element('DIV')
         this.div.onclick = () => onClick()
         this.div.style.display = 'flex'
         this.div.style.borderRadius = '6px'
@@ -1775,7 +1777,7 @@ class Button {
         iconSvg.style.height = 'auto'
         iconSvg.style.marginRight = '10px'
 
-        let textA = document.createElement('A')
+        let textA = element('A')
         textA.style.fontWeight = '200'
         textA.style.color = 'var(--text-color)'
         textA.innerHTML = newText
@@ -2010,7 +2012,7 @@ class TabsNode {
     }
 
     getStateButton(key, text) {
-        const title = document.createElement("A");
+        const title = element("A");
         title.innerHTML = text
         title.style.width = 'auto';
         title.style.height = 'auto';
@@ -2216,7 +2218,7 @@ class Settings extends Page {
             }
         ]
         let id = 0
-        const mainDiv = document.createElement('DIV')
+        const mainDiv = element('DIV')
         mainDiv.style.display = "inline-flex"
         mainDiv.style.flexWrap = "wrap"
         mainDiv.style.alignContent = "flex-start"
@@ -2247,7 +2249,7 @@ class ThemeRadioButton {
     constructor(radio) {
         this.radio = radio
         this.unselectedColor = '#AAAAAA'
-        const radioDiv = document.createElement('DIV')
+        const radioDiv = element('DIV')
         radioDiv.classList.add("pointer")
         radioDiv.style.width = '60px'
         radioDiv.style.height = '60px'
@@ -2260,7 +2262,7 @@ class ThemeRadioButton {
         this.path = svg.getElementsByTagName('path')[0];
         svg.style.height = '18px'
         svg.style.margin = 'auto'
-        this.textA = document.createElement('A')
+        this.textA = element('A')
         this.textA.style.height = '20px'
         this.textA.style.fontSize = '0.8em'
         this.textA.style.color = ''
@@ -2536,7 +2538,7 @@ class FileTab {
     // showBottomLoading(isShow) {
     //     window.requestAnimationFrame(() => {
     //         if (files.bottomLoader == null) {
-    //             files.bottomLoader = document.createElement('div')
+    //             files.bottomLoader = element('div')
     //             files.bottomLoader.style.width = '30px'
     //             files.bottomLoader.style.height = '30px'
     //             files.bottomLoader.style.margin = 'auto'
@@ -2696,7 +2698,7 @@ class TextTab {
 
     // showBottomLoading(isShow) {
     //     if (this.bottomLoader == null) {
-    //         this.bottomLoader = document.createElement('div');
+    //         this.bottomLoader = element('div');
     //         this.bottomLoader.style.width = '30px';
     //         this.bottomLoader.style.minHeight = '30px';
     //         this.bottomLoader.style.margin = 'auto';
@@ -2733,7 +2735,7 @@ class TextTab {
     }
 
     createTextDiv(textData, showFullText = false) {
-        let div = document.createElement('DIV');
+        let div = element('DIV');
         div.style.padding = '10px';
         div.style.display = 'flex';
         div.style.flexFlow = 'column';
@@ -2747,18 +2749,18 @@ class TextTab {
             div.style.backgroundColor = primary + utils.percentToHex(20);
         }
 
-        let userDiv =  document.createElement('DIV');
+        let userDiv =  element('DIV');
         userDiv.style.display = "flex";
         userDiv.style.justifyContent = "space-between";
 
-        let name = document.createElement('A')
+        let name = element('A')
         name.innerHTML = textData.from
         name.style.textDecoration = 'none'
         name.style.fontWeight = '500'
         name.style.fontSize = '0.8em'
         name.style.color = "var(--text-color)"
         userDiv.appendChild(name)
-        let time = document.createElement('A')
+        let time = element('A')
         time.innerHTML = utils.getTimeString(textData.time)
         time.style.fontWeight = '300'
         time.style.textDecoration = 'none'
@@ -2768,7 +2770,7 @@ class TextTab {
         userDiv.appendChild(time)
         div.appendChild(userDiv)
 
-        let textA = document.createElement('A')
+        let textA = element('A')
         textA.style.fontWeight = '200'
         textA.style.fontSize = '0.9em'
         textA.style.textDecoration = 'none'
@@ -2873,7 +2875,7 @@ const utils = {
     },
 
     addIcon: function(parentDiv, file, padding) {
-        let icon = document.createElement('div')
+        let icon = element('div')
         icon.style.objectFit = "cover"
         icon.style.width = "100%"
         icon.style.height = '100%'
@@ -2892,7 +2894,7 @@ const utils = {
         const padding = isGrid ? 30 : 20
         if (file.type == 'image' || file.type == 'video' || file.type == 'app') {
             api.addImage(file.id, (response) => {
-                let image = document.createElement('img')
+                let image = element('img')
                 image.style.objectFit = "cover"
                 image.style.width = "100%"
                 image.style.borderRadius = isGrid ? "6px 6px 0px 0px" : "6px"
@@ -2902,7 +2904,7 @@ const utils = {
                 utils.addIcon(parentDiv, file, padding)
             })
             if (file.type == 'video' && isGrid) {
-                let durationDiv = document.createElement('DIV')
+                let durationDiv = element('DIV')
                 // durationDiv.style.width = '1 6px'
                 durationDiv.style.height = '16px'
                 durationDiv.style.position = 'absolute'
@@ -2916,7 +2918,7 @@ const utils = {
                 durationDiv.innerHTML = Play
                 let svg = durationDiv.getElementsByTagName('svg')[0];
                 svg.style.margin = 'auto 4px auto auto'
-                let durationText = document.createElement('A')
+                let durationText = element('A')
                 durationText.style.fontWeight = '300'
                 durationText.style.fontSize = '0.8em'
                 durationText.style.color = 'white'
@@ -2960,7 +2962,7 @@ const utils = {
     },
 
     openUrl: function(url, open) {
-        let a = document.createElement('a')
+        let a = element('a')
         a.href = url
         if (open)
             a.target = '_blank'
@@ -3132,12 +3134,13 @@ class Api {
 
     getOs() {
         let os = "Unknown OS";
-        if (navigator.userAgent.indexOf("Win") != -1) os = "Windows";
-        if (navigator.userAgent.indexOf("Mac") != -1) os = "MacOS";
-        if (navigator.userAgent.indexOf("X11") != -1) os = "UNIX";
-        if (navigator.userAgent.indexOf("Linux") != -1) os = "Linux";
-        if (navigator.userAgent.indexOf("Android") != -1) os = "Android";
-        if (navigator.userAgent.indexOf("like Mac") != -1) os = "iOS";
+        const ua = navigator.userAgent
+        if (ua.indexOf("Win") != -1) os = "Windows";
+        if (ua.indexOf("Mac") != -1) os = "MacOS";
+        if (ua.indexOf("X11") != -1) os = "UNIX";
+        if (ua.indexOf("Linux") != -1) os = "Linux";
+        if (ua.indexOf("Android") != -1) os = "Android";
+        if (ua.indexOf("like Mac") != -1) os = "iOS";
         return os;
     }
 
@@ -3477,9 +3480,3 @@ pageManager.loader()
 
 const api = new Api()
 api.updateStatus()
-
-// var fileTab = undefined
-// var fileSelectionMode = undefined
-// var fileInfo = undefined
-
-// var textTab = undefined

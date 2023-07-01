@@ -20,14 +20,14 @@ class ShareDialog extends Dialog {
         socialMediaList.innerHTML = ''
         for (const sm of this.getSocialMediaList()) {
             const media = sm
-            let image = document.createElement('img')
+            let image = element('img')
             image.classList.add('pointer')
             image.style.width = '40px'
             image.style.height = '40px'
             image.style.padding = '10px'
             image.src = "images/" + media.name + ".svg"
             image.onclick = () => {
-                let a = document.createElement('a')
+                let a = element('a')
                 a.href = media.url
                 a.target = '_blank'
                 a.click()

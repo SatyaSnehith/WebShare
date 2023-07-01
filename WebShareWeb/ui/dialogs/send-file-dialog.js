@@ -190,7 +190,7 @@ class SendFileDialog extends MaxDialog {
     }
 
     addProgressFile(file) {
-        const fileElement = this.addFile(document.createElement("DIV"), fileStates.progress, file);
+        const fileElement = this.addFile(element("DIV"), fileStates.progress, file);
         if (this.currentSentDiv.childElementCount == 0) {
             this.currentSentDiv.appendChild(fileElement.div);
         } else {
@@ -200,16 +200,16 @@ class SendFileDialog extends MaxDialog {
     }
 
     addCompletedFile(file) {
-        const fileElement = this.addFile(document.createElement("DIV"), fileStates.completed, file);
+        const fileElement = this.addFile(element("DIV"), fileStates.completed, file);
         this.sentDiv.appendChild(fileElement.div);
     }
 
     addFile(div, state, file) {
         div.innerHTML = '';
-        let iconDiv = document.createElement("DIV");
-        let infoDiv = document.createElement("DIV");
-        let progressBar = document.createElement("DIV");
-        let progressDiv = document.createElement("DIV");
+        let iconDiv = element("DIV");
+        let infoDiv = element("DIV");
+        let progressBar = element("DIV");
+        let progressDiv = element("DIV");
 
         let fileElement = {
             lastLoaded: 0,
@@ -239,7 +239,7 @@ class SendFileDialog extends MaxDialog {
         div.classList.add("pointer");
         // div.tabIndex = index
 
-        let iconWrapDiv = document.createElement('DIV');
+        let iconWrapDiv = element('DIV');
         // iconWrapDiv.onclick = () => list.onClick(index)
         div.appendChild(iconWrapDiv);
 
@@ -268,7 +268,7 @@ class SendFileDialog extends MaxDialog {
 
         div.appendChild(infoDiv);
 
-        let fileNameA = document.createElement('A');
+        let fileNameA = element('A');
         fileNameA.style.color = 'var(--text-color)';
         fileNameA.style.fontWeight = '200';
         fileNameA.style.overflow = 'hidden';
@@ -294,18 +294,18 @@ class SendFileDialog extends MaxDialog {
             infoDiv.appendChild(progressBar);
         }
 
-        let descriptionDiv = document.createElement('DIV');
+        let descriptionDiv = element('DIV');
         descriptionDiv.style.position = 'relative';
         infoDiv.appendChild(descriptionDiv);
 
-        let fileSize = document.createElement('A');
+        let fileSize = element('A');
         fileSize.style.color = 'var(--description-color)';
         fileSize.style.fontWeight = '200';
         fileSize.style.fontSize = '0.8em';
         fileSize.innerHTML = utils.getSizeString(file.size) + (state == fileStates.progress ? " • " : "");
         descriptionDiv.appendChild(fileSize);
 
-        let speedText = document.createElement('A');
+        let speedText = element('A');
         if (state == fileStates.progress) {
             speedText.style.color = 'var(--description-color)';
             speedText.style.fontWeight = '200';
@@ -314,7 +314,7 @@ class SendFileDialog extends MaxDialog {
             descriptionDiv.appendChild(speedText);
         }
 
-        let percent = document.createElement('A');
+        let percent = element('A');
         if (state != fileStates.completed) {
             percent.style.color = 'var(--description-color)';
             percent.style.fontSize = '0.8em';
@@ -333,7 +333,7 @@ class SendFileDialog extends MaxDialog {
 
         if (state != fileStates.cancelled) {
             if (state == fileStates.completed) {
-                let deleteImage = document.createElement("IMG");
+                let deleteImage = element("IMG");
                 deleteImage.style.width = '40px';
                 deleteImage.style.height = '40px';
                 deleteImage.style.margin = '10px';
@@ -362,7 +362,7 @@ class SendFileDialog extends MaxDialog {
                 deleteImage.src = 'images/remove_red.svg';
                 div.appendChild(deleteImage);
             } else {
-                let cancelDiv = document.createElement("DIV");
+                let cancelDiv = element("DIV");
                 cancelDiv.style.width = '40px';
                 cancelDiv.style.height = '40px';
                 cancelDiv.style.margin = '10px';
