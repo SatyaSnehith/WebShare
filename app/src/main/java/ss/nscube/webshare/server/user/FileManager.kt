@@ -1,4 +1,4 @@
-package ss.nscube.webshare.server.accounts
+package ss.nscube.webshare.server.user
 
 import ss.nscube.webshare.server.HTTPServer
 import ss.nscube.webshare.server.file.WebFile

@@ -1,13 +1,10 @@
 package ss.nscube.webshare.ui.frags.text
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentAddTextBinding
 import ss.nscube.webshare.ui.frags.BaseFragment
@@ -54,7 +51,7 @@ class AddTextFragment : BaseFragment() {
             Toast.makeText(context, "Please enter your text.", Toast.LENGTH_SHORT).show()
             return
         }
-        server.textManager.add(server.mainAccount, text)
+        server.textManager.add(server.mainUser, text)
         Util.toast(context, "Text sent successfully!")
         onBackClicked()
     }

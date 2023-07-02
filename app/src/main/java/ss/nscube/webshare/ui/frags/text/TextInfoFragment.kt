@@ -10,7 +10,6 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +51,7 @@ class TextInfoFragment : BaseFragment() {
         }
         val text = server.textManager.fromId(args.textId)
         if (text != null) {
-            binding?.nameTv?.text = text.fromAccount.name
+            binding?.nameTv?.text = text.fromUser.name
             binding?.timeTv?.text = Util.getDisplayTime(text.time)
             setTextAsync(binding?.dataTv, text.value)
         }
@@ -104,7 +103,7 @@ class TextInfoFragment : BaseFragment() {
 
     fun onSendTextClicked() {
         if (textEntity != null) {
-            server.textManager.add(server.mainAccount, textEntity!!.text, true)
+            server.textManager.add(server.mainUser, textEntity!!.text, true)
             Util.toast(context, "Text sent successfully!")
             onBackClicked()
         }

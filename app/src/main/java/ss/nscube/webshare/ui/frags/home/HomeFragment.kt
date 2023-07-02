@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -25,9 +24,9 @@ import ss.nscube.webshare.databinding.FragmentHomeBinding
 import ss.nscube.webshare.databinding.ItemPagerFirstBinding
 import ss.nscube.webshare.databinding.ItemPagerSecondBinding
 import ss.nscube.webshare.databinding.ItemPagerThirdBinding
-import ss.nscube.webshare.server.accounts.AccountsUpdateObserver
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
-import ss.nscube.webshare.server.accounts.TextObserver
+import ss.nscube.webshare.server.user.UserUpdateObserver
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.TextObserver
 import ss.nscube.webshare.server.events.ServerStatusListener
 import ss.nscube.webshare.server.file.FileTransferObserver
 import ss.nscube.webshare.server.file.WebFile
@@ -70,7 +69,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
             }
 
         val iconButtonList = listOf(
-            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#AFBB66"), "Users", getIndicatorText(server.accounts.size(), "user")),
+            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#AFBB66"), "Users", getIndicatorText(server.userManager.size(), "user")),
             IconButtonItem(1, R.drawable.icon_settings, Color.parseColor("#BB6666"), "Settings"),
             IconButtonItem(2, R.drawable.icon_lock, Color.parseColor("#666FBB"), "Security", getSecurityIndicator()),
             IconButtonItem(3, R.drawable.icon_download, Color.parseColor("#BB66B2"), "Receive", getIndicatorText(server.downloadManager.files.size, "file")),
@@ -103,7 +102,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         TimeCal.stop(this, TimeCal.AppStart)
     }
 
-    val accountsUpdateObserver = object: AccountsUpdateObserver {
+    val userUpdateObserver = object: UserUpdateObserver {
         override fun onAdded() { updateUserIndicator() }
         override fun onUpdate(index: Int) {}
         override fun onRemoved(index: Int) { updateUserIndicator() }
@@ -168,7 +167,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
     }
 
     private fun addIndicatorObservers() {
-        server.accounts.observerList.add(accountsUpdateObserver)
+        server.userManager.observerList.add(userUpdateObserver)
         server.downloadManager.observerList.add(fileTransferObserver)
         server.textManager.observerList.add(textObserver)
         server.fileManager.observers.add(selectionUpdateObserver)
@@ -189,7 +188,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         log("Indicator updateUserIndicator ${Thread.currentThread().name} $isAdded")
         launchMain {
             log("Indicator updateUserIndicator launchMain ${Thread.currentThread().name} $isAdded")
-            updateIndicator(0, server.accounts.size(), "user")
+            updateIndicator(0, server.userManager.size(), "user")
         }
     }
 
@@ -305,7 +304,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
 
     override fun onResume() {
         super.onResume()
-        updateIndicatorText(0, getIndicatorText(server.accounts.size(), "user"))
+        updateIndicatorText(0, getIndicatorText(server.userManager.size(), "user"))
         updateIndicatorText(2, getSecurityIndicator())
         updateIndicatorText(3, getIndicatorText(server.downloadManager.files.size, "file"))
         updateIndicatorText(4, getIndicatorText(server.textManager.size, "text"))

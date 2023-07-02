@@ -1,24 +1,19 @@
 package ss.nscube.webshare.ui
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.ui.dialogs.SelectedDialog
-import ss.nscube.webshare.ui.utils.Colors
-import ss.nscube.webshare.ui.utils.ThemeUtil
 import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
-import ss.nscube.webshare.utils.log
 
 class MainActivity : AppCompatActivity() {
     val webShareApp: WebShareApp
@@ -63,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 else intent.getParcelableExtra(Intent.EXTRA_STREAM)
                 if (receivedText != null) {
-                    server.textManager.add(server.mainAccount, receivedText, true)
+                    server.textManager.add(server.mainUser, receivedText, true)
                     Util.toast(this, "Text sent successfully!")
                 }
                 if (uri != null) {

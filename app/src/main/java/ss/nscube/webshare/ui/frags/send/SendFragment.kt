@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.databinding.FragmentSendBinding
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.ui.dialogs.SelectedDialog
 import ss.nscube.webshare.ui.frags.BaseFragment

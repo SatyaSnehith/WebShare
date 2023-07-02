@@ -19,7 +19,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.*
 import ss.nscube.webshare.ServerService
 import ss.nscube.webshare.WebShareApp
-import ss.nscube.webshare.server.accounts.*
+import ss.nscube.webshare.server.user.*
 import ss.nscube.webshare.server.events.ServerStatusListener
 import ss.nscube.webshare.server.file.*
 import ss.nscube.webshare.server.headers.*
@@ -52,8 +52,8 @@ class HTTPServer(val application: WebShareApp) {
     private val context = application.applicationContext
     val preferencesUtil = application.preferencesUtil
     private var serverSocket: ServerSocket? = null
-    val accounts: Accounts = Accounts(preferencesUtil.adminUserName)
-    val mainAccount: Account = accounts.mainAccount
+    val userManager: UserManager = UserManager(preferencesUtil.adminUserName)
+    val mainUser: User = userManager.mainUser
     val textManager: TextManager = TextManager()
     var fileManager: FileManager = FileManager(this)
     val signedUrlList = SignedUrlList()
@@ -76,7 +76,7 @@ class HTTPServer(val application: WebShareApp) {
     val Port = 1111
     private var serverServiceIntent =  Intent(application, ServerService::class.java)
     val timerTaskManager = TimerTaskManager()
-    val periodCallRemoveExpiredSignedUrl = 2 * 60 * 1000L
+    val periodCallRemoveExpiredSignedUrl = 5 * 60 * 1000L
     val periodServerInactivityCheck = 30 * 1000L
     var disableFileUpload = false
     var disableUserCreation = false
@@ -107,16 +107,16 @@ class HTTPServer(val application: WebShareApp) {
 
     init {
         appFolderManager.initFolders()
-        textManager.add(mainAccount, "Hello", false)
+        textManager.add(mainUser, "Hello", false)
 //        for (i in 0..100) {
-//            textManager.add(mainAccount, getRandomString())
+//            textManager.add(mainUser, getRandomString())
 //        }
     }
 
     fun enableSecurity(mPin: Int?) {
         if (pin != mPin) {
-            for (account in accounts.accounts) {
-                account.authAttemptCount = 0
+            for (user in userManager.users) {
+                user.authAttemptCount = 0
             }
         }
         isSecured = mPin != null
@@ -239,7 +239,7 @@ class HTTPServer(val application: WebShareApp) {
             try {
 //                    serverTime((System.currentTimeMillis() - startTime) / 1000)
                 notifyListenersForStopping()
-                accounts.clear()
+                userManager.clear()
                 stopAllDownloadsAndUploads()
                 serverSocket!!.close()
             } catch (e: IOException) {
@@ -267,8 +267,8 @@ class HTTPServer(val application: WebShareApp) {
         }
     }
 
-    fun isAuthorized(account: Account): Boolean {
-        return !isSecured || account.hasAccess || account.pin == pin
+    fun isAuthorized(user: User): Boolean {
+        return !isSecured || user.hasAccess || user.pin == pin
     }
 
     inner class Request(private val inputStream: InputStream) {
@@ -342,10 +342,10 @@ class HTTPServer(val application: WebShareApp) {
 
 
         fun checkAuth(): Boolean {
-            val account = if (!header.hasAuth || header.auth == null) null
-            else accounts[header.auth!!]
-            if (account == null) return false
-            if (!isAuthorized(account) || account.isBlocked) return false
+            val user = if (!header.hasAuth || header.auth == null) null
+            else userManager[header.auth!!]
+            if (user == null) return false
+            if (!isAuthorized(user) || user.isBlocked) return false
             return true
         }
 
@@ -395,9 +395,9 @@ class HTTPServer(val application: WebShareApp) {
         }
     }
 
-    fun createAccount(ip: String): Account? {
+    fun createUser(ip: String): User? {
         return if (disableUserCreation) null
-        else accounts.createAccount(ip)
+        else userManager.createUser(ip)
     }
 
     inner class Response(private val socket: Socket) {
@@ -422,13 +422,6 @@ class HTTPServer(val application: WebShareApp) {
                 e.printStackTrace()
                 sendErrorResponse(e)
             }
-        }
-
-        fun getAccount(): Account? {
-            if(requestHeader.hasAuth && requestHeader.auth != null) {
-                return accounts[requestHeader.auth!!]
-            }
-            return null
         }
 
         @Throws(Exception::class)
@@ -584,49 +577,49 @@ class HTTPServer(val application: WebShareApp) {
                     val statusRequest = getRequestJson(StatusRequest::class.java)
                     val ip = socket.inetAddress.hostAddress ?: throw BadRequestException("no ip address")
 
-                    val account = if (statusRequest.accountId != null) accounts[statusRequest.accountId] ?: createAccount(ip) else createAccount(ip)
-                    if (account == null) {
+                    val user = if (statusRequest.userId != null) userManager[statusRequest.userId] ?: createUser(ip) else createUser(ip)
+                    if (user == null) {
                         sendJson(ErrorResponse(ErrorResponse.TypeNoUserCreation, "User creation disabled"))
                     } else {
-                        account.os = statusRequest.os
-                        log("Http log ${account.accountId.length}")
-                        sendJson(StatusResponse(account.name, account.accountId, isAuthorized(account), isSecured, account.isBlocked))
+                        user.os = statusRequest.os
+                        log("Http log ${user.base64Id.length}")
+                        sendJson(StatusResponse(user.name, user.base64Id, isAuthorized(user), isSecured, user.isBlocked))
                     }
                 }
                 Path.Auth -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
+                    val user = assertUser()
                     val authRequest = getRequestJson(AuthRequest::class.java)
-                    account.pin = authRequest.pin
-                    account.authAttemptCount++
-                    val isCorrectPin = account.pin == pin
-                    val hasAttempt = account.authAttemptCount <= maxPinAttempts
-                    if (isCorrectPin && hasAttempt && !account.isBlocked) {
+                    user.pin = authRequest.pin
+                    user.authAttemptCount++
+                    val isCorrectPin = user.pin == pin
+                    val hasAttempt = user.authAttemptCount <= maxPinAttempts
+                    if (isCorrectPin && hasAttempt && !user.isBlocked) {
                         sendJson(AuthResponse(true, null))
                     } else {
-                        var error = "PIN entered is incorrect. You have ${maxPinAttempts - account.authAttemptCount} attempts remaining."
+                        var error = "PIN entered is incorrect. You have ${maxPinAttempts - user.authAttemptCount} attempts remaining."
                         if (!hasAttempt) error = "You have reached the maximum number of attempts allowed"
-                        if (account.isBlocked) error = "Access denied"
+                        if (user.isBlocked) error = "Access denied"
                         sendJson(AuthResponse(false, error))
                     }
                 }
                 Path.SignedUrlFile -> {
                     assertMethod(Get)
-                    val account = assertAccount()
-                    assertAuth(account)
-                    val url = signedUrlList.addFile(getFileFromPath(), account)
+                    val user = assertUser()
+                    assertAuth(user)
+                    val url = signedUrlList.addFile(getFileFromPath(), user)
                     sendJson(SignedUrlResponse(url.hash))
                 }
                 Path.SignedUrlZip -> {
                     assertMethod(Post)
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val zipRequest = getRequestJson(ZipRequest::class.java)
                     val url = signedUrlList.addZip(
                         ss.nscube.webshare.server.utils.Util.getZipDateName(),
                         zipRequest.ids ?: throw BadRequestException("id list not found"),
-                        account
+                        user
                     )
                     sendJson(SignedUrlResponse(url.hash))
                 }
@@ -667,8 +660,8 @@ class HTTPServer(val application: WebShareApp) {
                 Path.Text -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val tpr: TextPaginationRequest = getRequestJson(TextPaginationRequest::class.java)
                     if (tpr.fromId == -1 && textManager.isNotEmpty()) {
                         tpr.fromId = textManager.last().id + 1
@@ -679,7 +672,7 @@ class HTTPServer(val application: WebShareApp) {
                         val text = textManager[index]
                         if (textArray.size >= tpr.count) break
                         if (text.id < tpr.fromId) {
-                            textArray.add(Text(text.fromAccount.name, text.valueBase64, text.time, text.id, text.fromAccount.id == account.id))
+                            textArray.add(Text(text.fromUser.name, text.valueBase64, text.time, text.id, text.fromUser.id == user.id))
                         }
                     }
                     sendJson(textArray)
@@ -687,26 +680,26 @@ class HTTPServer(val application: WebShareApp) {
                 Path.AddText -> {
                     assertMethod(Post)
                     assertText()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     if (request.text.isNullOrEmpty()) throw BadRequestException("text not received")
-                    val text = textManager.add(account, request.text!!)
-                    sendJson(AddTextResponse(true, null, Text(text.fromAccount.name, text.valueBase64, text.time, text.id, true)))
+                    val text = textManager.add(user, request.text!!)
+                    sendJson(AddTextResponse(true, null, Text(text.fromUser.name, text.valueBase64, text.time, text.id, true)))
                 }
                 Path.DeleteText -> {
                     assertMethod(Get)
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val text = textManager.fromId(getIdFromPath()) ?: throw FileNotFoundResException("text not found")
-                    if (text.fromAccount != account) throw UnauthorizedException(ErrorResponse.TypeSnack, "access denied")
+                    if (text.fromUser != user) throw UnauthorizedException(ErrorResponse.TypeSnack, "access denied")
                     textManager.remove(text)
                     sendJson(DeletedResponse(true))
                 }
                 Path.Files -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val fpr: FilePaginationRequest = getRequestJson(FilePaginationRequest::class.java)
                     val files = fileManager.files
                     log("FILE_API fromId ${fpr.fromId}")
@@ -730,8 +723,8 @@ class HTTPServer(val application: WebShareApp) {
                                     file.type,
                                     file.length,
                                     file.uploadedTime,
-                                    file.account?.name ?: "",
-                                    account.id == file.account?.id,
+                                    file.user?.name ?: "",
+                                    user.id == file.user?.id,
                                     file.duration,
                                     file.resolution
                                 ))
@@ -742,8 +735,8 @@ class HTTPServer(val application: WebShareApp) {
                 Path.MyFiles -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val mfpr = getRequestJson(MyFilesPaginationRequest::class.java)
                     val files = fileManager.files
                     if (mfpr.fromId == -1 && files.isNotEmpty()) {
@@ -754,7 +747,7 @@ class HTTPServer(val application: WebShareApp) {
                     if (files.isNotEmpty()) for (fileIndex in files.size-1 downTo  0) {
                         val file = files[fileIndex]
                         if (fileResponseArray.size >= mfpr.count) break
-                        if (account.id == file.account?.id && file.id < mfpr.fromId) {
+                        if (user.id == file.user?.id && file.id < mfpr.fromId) {
                             fileResponseArray.add(
                                 FileResponse(
                                     file.name,
@@ -762,7 +755,7 @@ class HTTPServer(val application: WebShareApp) {
                                     file.type,
                                     file.length,
                                     file.uploadedTime,
-                                    file.account?.name ?: "",
+                                    file.user?.name ?: "",
                                     true,
                                     file.duration,
                                     file.resolution
@@ -774,8 +767,8 @@ class HTTPServer(val application: WebShareApp) {
                 }
                 Path.Image -> {
                     assertMethod(Get)
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val file = getFileFromPath()
                     if (WebFileUtil.isSvg(file)) {
                         launchIO {
@@ -801,7 +794,7 @@ class HTTPServer(val application: WebShareApp) {
                                 override fun onLoadCleared(placeholder: Drawable?) {}
                             })
                     } else if (file.type == WebFileUtil.App) {
-                        if (file.imageByteArray == null) throw FileNotFoundResException("image not found for app")
+                        if (file.imageByteArray == null) throw FileNotFoundResException("image not found")
                         sendBase64(file.imageByteArray!!)
                     } else {
                         throw FileNotFoundResException("image not found")
@@ -809,20 +802,20 @@ class HTTPServer(val application: WebShareApp) {
                 }
                 Path.Info -> {
                     assertMethod(Get)
-                    val account = assertAccount()
-//                    assertAuth(account)
-                    sendJson(InfoResponse(account.name))
+                    val user = assertUser()
+//                    assertAuth(user)
+                    sendJson(InfoResponse(user.name))
                 }
                 Path.UploadFile -> {
                     val file = request.file
                     try {
                         assertMethod(Post)
-                        val account = assertAccount()
-                        assertAuth(account)
+                        val user = assertUser()
+                        assertAuth(user)
                         if (disableFileUpload) {
                             sendJson(ErrorResponse(ErrorResponse.TypeSnack,"file upload disabled"))
                         } else if (file != null && file.state == FileState.Completed) {
-                            file.account = account
+                            file.user = user
                             log("FILE_API file addReceived ${file.id}")
                             file.updateId() // to add the files in ascending order of id to filemanager
                             fileManager.addReceived(file)
@@ -834,8 +827,8 @@ class HTTPServer(val application: WebShareApp) {
                                     file.type,
                                     file.length,
                                     file.uploadedTime,
-                                    file.account?.name ?: "",
-                                    account.id == file.account?.id,
+                                    file.user?.name ?: "",
+                                    user.id == file.user?.id,
                                     file.duration,
                                     file.resolution
                                 ),
@@ -855,10 +848,10 @@ class HTTPServer(val application: WebShareApp) {
                 }
                 Path.DeleteFile -> {
                     assertMethod(Get)
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val file = getFileFromPath()
-                    if (account != file.account) throw UnauthorizedException("file access denied")
+                    if (user != file.user) throw UnauthorizedException("file access denied")
 //                    fileManager.deleteReceived(file)
                     downloadManager.remove(file)
                     sendJson(DeletedResponse(true))
@@ -866,13 +859,13 @@ class HTTPServer(val application: WebShareApp) {
                 Path.DeleteMultiFile -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val ids = getRequestJson(DeleteMultiRequest::class.java).ids ?: throw BadRequestException("id list not found")
                     var isDeleted = true
                     for (id in ids) {
                         val file = getFile(id)
-                        if (account.id != file.account?.id) throw BadRequestException("file is not accessible")
+                        if (user.id != file.user?.id) throw BadRequestException("file is not accessible")
                         downloadManager.remove(file)
 //                        if (!fileManager.deleteReceived(file)) isDeleted = false
                     }
@@ -881,16 +874,16 @@ class HTTPServer(val application: WebShareApp) {
                 Path.ChangeName -> {
                     assertMethod(Post)
                     assertJson()
-                    val account = assertAccount()
-                    assertAuth(account)
+                    val user = assertUser()
+                    assertAuth(user)
                     val changeNameRequest = getRequestJson(ChangeNameRequest::class.java)
-                    val message = accounts.validateName(changeNameRequest.name)
-                    if (message == null) account.updateName(changeNameRequest.name)
+                    val message = userManager.validateName(changeNameRequest.name)
+                    if (message == null) user.updateName(changeNameRequest.name)
                     sendJson(UpdatedResponse(message == null, message))
                 }
                 Path.UploadInfo -> {
                     assertMethod(Get)
-                    assertAuth(assertAccount())
+                    assertAuth(assertUser())
                     val availableCount = downloadManager.availableFileCount()
                     sendJson(UploadInfoResponse(!disableFileUpload, availableCount))
                 }
@@ -966,14 +959,14 @@ class HTTPServer(val application: WebShareApp) {
         }
 
         @Throws(UnauthorizedException::class)
-        fun assertAccount(): Account {
+        fun assertUser(): User {
             if (!requestHeader.hasAuth || requestHeader.auth == null) throw UnauthorizedException(ErrorResponse.TypeNoAccess, "invalid auth")
-            return accounts[requestHeader.auth!!] ?: throw UnauthorizedException(ErrorResponse.TypeNoAccess, "no such user")
+            return userManager[requestHeader.auth!!] ?: throw UnauthorizedException(ErrorResponse.TypeNoAccess, "no such user")
         }
 
         @Throws(UnauthorizedException::class)
-        fun assertAuth(account: Account) {
-            if (!isAuthorized(account) || account.isBlocked) {
+        fun assertAuth(user: User) {
+            if (!isAuthorized(user) || user.isBlocked) {
                 throw UnauthorizedException(ErrorResponse.TypeNoAccess, "do not have access")
             }
         }

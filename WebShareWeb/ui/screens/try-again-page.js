@@ -21,7 +21,7 @@ class TryAgainPage extends Page {
         this.imageIfValid(this.tryAgainImg, info.image)
         this.textIfValid(this.tryAgainDesc, info.description)
         this.tryAgainButton.onclick = () => {
-            PageManager.getInstance().loader();
+            pageManager.loader();
             api.updateStatus();
         }
     }

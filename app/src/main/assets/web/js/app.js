@@ -1,4 +1,4 @@
-// File: ./declare.js
+// File: declare.js
 const $ = q => document.getElementById(q)
 
 const element = t => document.createElement(t)
@@ -6,7 +6,7 @@ const element = t => document.createElement(t)
 function log(str) {
     if (api.isTest) console.log(str)
 }
-// File: ./theme.js
+// File: theme.js
 var fileTab = undefined
 var fileSelectionMode = undefined
 var fileInfo = undefined
@@ -68,7 +68,7 @@ class Theme {
 
     isDarkTheme() { return this.theme == this.DarkTheme; }
 };
-// File: ./ui/visibility.js
+// File: ui/visibility.js
 class Visibility {
     constructor(contentDiv, noContentDiv, progressDiv, displayType) {
         this.contentDiv = contentDiv
@@ -95,7 +95,7 @@ class Visibility {
         this.progressDiv.style.display = this.displayType;
     }
 }
-// File: ./ui/scroll-listener.js
+// File: ui/scroll-listener.js
 class ScrollListener {
 
     constructor(div, onBottomScrolled) {
@@ -120,7 +120,7 @@ class ScrollListener {
         return this.div.scrollHeight - (this.div.offsetHeight + this.div.scrollTop) > this.scrollUntil
     }
 }
-// File: ./ui/page-manager.js
+// File: ui/page-manager.js
 class PageManager {
     static inst = null
 
@@ -170,7 +170,7 @@ class PageManager {
 
     }
 }
-// File: ./ui/dialogs/dialog.js
+// File: ui/dialogs/dialog.js
 class Dialog {
     constructor(dialogWrap) {
         this.dialogWrap = dialogWrap
@@ -200,7 +200,7 @@ class Dialog {
         }
     }
 }
-// File: ./ui/dialogs/max-dialog.js
+// File: ui/dialogs/max-dialog.js
 class MaxDialog extends Dialog {
 
     constructor(dialog, dialogWrap, sizeIcon, closeIcon) {
@@ -251,7 +251,7 @@ class MaxDialog extends Dialog {
         this.sizeIcon.innerHTML = MinimizeIcon;
     }
 }
-// File: ./ui/dialogs/send-file-dialog.js
+// File: ui/dialogs/send-file-dialog.js
 const fileStates = {
     progress: 0,
     completed: 1,
@@ -401,7 +401,7 @@ class SendFileDialog extends MaxDialog {
             let post = new XMLHttpRequest();
             fileElement.xhr = post;
             post.open("POST", "/api/upload-file");
-            post.setRequestHeader("Authorization", "Basic " + api.accountId);
+            post.setRequestHeader("Authorization", "Basic " + api.userId);
             post.upload.addEventListener("progress", (event) => {
                 fileElement.updateProgress(Math.floor((event.loaded / event.total) * 100));
                 if (fileElement.lastLoaded != 0) {
@@ -638,7 +638,7 @@ class SendFileDialog extends MaxDialog {
         return fileElement
     }
 }
-// File: ./ui/dialogs/delete-dialog.js
+// File: ui/dialogs/delete-dialog.js
 class DeleteDialog extends Dialog {
     static inst = null
 
@@ -665,7 +665,7 @@ class DeleteDialog extends Dialog {
         };
     }
 }
-// File: ./ui/dialogs/add-text-dialog.js
+// File: ui/dialogs/add-text-dialog.js
 class AddTextDialog extends MaxDialog {
     static inst = null
 
@@ -707,7 +707,7 @@ class AddTextDialog extends MaxDialog {
         })
     }
 }
-// File: ./ui/dialogs/file-info-bottom-sheet.js
+// File: ui/dialogs/file-info-bottom-sheet.js
 class FileInfoBottomSheet extends Dialog {
     static inst = null
 
@@ -724,7 +724,7 @@ class FileInfoBottomSheet extends Dialog {
         this.setCancellable()
     }
 }
-// File: ./ui/dialogs/info-dialog.js
+// File: ui/dialogs/info-dialog.js
 class InfoDialog extends Dialog {
     static inst = null
 
@@ -752,7 +752,7 @@ class InfoDialog extends Dialog {
         this.infoDialogDescription.innerHTML = description;
     }
 }
-// File: ./ui/dialogs/download-menu-dialog.js
+// File: ui/dialogs/download-menu-dialog.js
 class DownloadMenuDialog extends Dialog {
     static inst = null
 
@@ -786,7 +786,7 @@ class DownloadMenuDialog extends Dialog {
         fileSelectionMode.cancelSelection()
     }
 }
-// File: ./ui/dialogs/name-dialog.js
+// File: ui/dialogs/name-dialog.js
 class NameDialog extends Dialog {
     static inst = null
 
@@ -835,7 +835,7 @@ class NameDialog extends Dialog {
         this.nameErrorMessage.style.display = 'none';
     }
 }
-// File: ./ui/dialogs/share-dialog.js
+// File: ui/dialogs/share-dialog.js
 class ShareDialog extends Dialog {
     static inst = null
 
@@ -918,7 +918,7 @@ class ShareDialog extends Dialog {
         });
     }
 }
-// File: ./ui/dialogs/view-text-dialog.js
+// File: ui/dialogs/view-text-dialog.js
 class ViewTextDialog extends MaxDialog {
     constructor() {
         super($('viewTextDialog'), $('viewTextDialogWrap'), $('viewTextMaximizeIcon'), $('viewTextcloseButton'))
@@ -993,7 +993,7 @@ class ViewTextDialog extends MaxDialog {
         }
     }
 }
-// File: ./ui/screens/home/file-type-chips.js
+// File: ui/screens/home/file-type-chips.js
 class FileTypeChips {
 
     constructor() {
@@ -1102,7 +1102,7 @@ class FileTypeChips {
         return  div;
     }
 }
-// File: ./ui/screens/home/files/file-node.js
+// File: ui/screens/home/files/file-node.js
 class FileNode {
     constructor(fileData) {
         this.fileData = fileData
@@ -1140,7 +1140,7 @@ class FileNode {
     }
     
 }
-// File: ./ui/screens/home/files/file-chooser.js
+// File: ui/screens/home/files/file-chooser.js
 class FileChooser {
     constructor() {
         this.inputFileElement = element('INPUT')
@@ -1155,7 +1155,7 @@ class FileChooser {
         this.inputFileElement.click()
     }
 }
-// File: ./ui/screens/home/files/selection-mode.js
+// File: ui/screens/home/files/selection-mode.js
 class SelectionMode {
     constructor() {
         this.selectedFiles = new Set()
@@ -1289,7 +1289,7 @@ class SelectionMode {
         }
     }
 }
-// File: ./ui/screens/home/files/list-file-node.js
+// File: ui/screens/home/files/list-file-node.js
 class ListFileNode extends FileNode {
 
     constructor(fileData) {
@@ -1395,7 +1395,7 @@ class ListFileNode extends FileNode {
     }
 
 }
-// File: ./ui/screens/home/files/file-drop-event.js
+// File: ui/screens/home/files/file-drop-event.js
 class FileDropEvent {
     constructor() {
         document.documentElement.addEventListener("drop", (ev) => this.onDrop(ev));
@@ -1456,7 +1456,7 @@ class FileDropEvent {
         }
     }
 }
-// File: ./ui/screens/home/files/grid-file-node.js
+// File: ui/screens/home/files/grid-file-node.js
 class GridFileNode extends FileNode {
     constructor(fileData) {
         super(fileData)
@@ -1537,7 +1537,7 @@ class GridFileNode extends FileNode {
         this.fileDiv.style.border = '1px solid var(--border-color)'
     }
 }
-// File: ./ui/screens/home/files/search-node.js
+// File: ui/screens/home/files/search-node.js
 class SearchNode {
 
     constructor() {
@@ -1561,7 +1561,7 @@ class SearchNode {
     }
 
 }
-// File: ./ui/screens/home/files/files-view.js
+// File: ui/screens/home/files/files-view.js
 class FilesView {
     
     constructor() {
@@ -1585,7 +1585,7 @@ class FilesView {
         fileInfo.showFileInfo(fileNode)
     }
 }
-// File: ./ui/screens/home/files/list-view.js
+// File: ui/screens/home/files/list-view.js
 class ListView extends FilesView {
 
     update(fileList) {
@@ -1604,7 +1604,7 @@ class ListView extends FilesView {
     }
 
 }
-// File: ./ui/screens/home/files/grid-view.js
+// File: ui/screens/home/files/grid-view.js
 class GridView extends FilesView {
 
     update(fileList) {
@@ -1631,7 +1631,7 @@ class GridView extends FilesView {
     }
 
 }
-// File: ./ui/screens/home/fileinfo/file-info-node.js
+// File: ui/screens/home/fileinfo/file-info-node.js
 class FileInfoNode {
 
     constructor(fileNode, fileInfoDiv) {
@@ -1756,7 +1756,7 @@ class FileInfoNode {
         })
     }
 }
-// File: ./ui/screens/home/fileinfo/button.js
+// File: ui/screens/home/fileinfo/button.js
 class Button {
     constructor(icon, text, onClick) {
         this.div = element('DIV')
@@ -1784,7 +1784,7 @@ class Button {
         this.div.appendChild(textA)
     }
 }
-// File: ./ui/screens/home/fileinfo/select-button.js
+// File: ui/screens/home/fileinfo/select-button.js
 class SelectButton extends Button {
     constructor(fileNode) {
         let icon
@@ -1818,7 +1818,7 @@ class SelectButton extends Button {
         return [icon, text]
     }
 }
-// File: ./ui/screens/home/fileinfo/file-info.js
+// File: ui/screens/home/fileinfo/file-info.js
 class FileInfo {
     constructor() {
         this.fileInfo = $('fileInfo')
@@ -1858,7 +1858,7 @@ class FileInfo {
         }
     }
 }
-// File: ./ui/screens/home/viewMode.js
+// File: ui/screens/home/viewMode.js
 class ViewMode {
     
     constructor() {
@@ -1917,7 +1917,7 @@ class ViewMode {
         fileTab.loadData();
     }
 }
-// File: ./ui/screens/home/sample-data.js
+// File: ui/screens/home/sample-data.js
 class SampleData {
     static inst = null
 
@@ -1984,7 +1984,7 @@ class SampleData {
     }
 
 }
-// File: ./ui/screens/home/tabs-node.js
+// File: ui/screens/home/tabs-node.js
 class TabsNode {
 
     constructor(onTabClick) {
@@ -2057,7 +2057,7 @@ class TabsNode {
         this.onTabClick(type)
     }
 }
-// File: ./ui/screens/page.js
+// File: ui/screens/page.js
 class Page {
     constructor(pageDiv, displayType = 'flex') {
         this.pageDiv = pageDiv
@@ -2102,7 +2102,7 @@ class Page {
         delay(250).then(() => onFinish())
     }
 }
-// File: ./ui/screens/try-again-page.js
+// File: ui/screens/try-again-page.js
 class TryAgainPage extends Page {
     static inst = null
 
@@ -2126,7 +2126,7 @@ class TryAgainPage extends Page {
         this.imageIfValid(this.tryAgainImg, info.image)
         this.textIfValid(this.tryAgainDesc, info.description)
         this.tryAgainButton.onclick = () => {
-            PageManager.getInstance().loader();
+            pageManager.loader();
             api.updateStatus();
         }
     }
@@ -2150,7 +2150,7 @@ class TryAgainPage extends Page {
     }
 
 }
-// File: ./ui/screens/settings/settings.js
+// File: ui/screens/settings/settings.js
 class Settings extends Page {
     static inst = null
 
@@ -2194,7 +2194,7 @@ class Settings extends Page {
     }
 
     onBackClicked() {
-        PageManager.getInstance().home()
+        pageManager.home()
     }
 
     onSettingsNameClicked() {
@@ -2202,7 +2202,6 @@ class Settings extends Page {
     }
 
     getRadioButtonsDiv() {
-        const theme = Theme.getInstance()
         let radios = [
             {
                 icon: LightThemeIcon,
@@ -2243,7 +2242,7 @@ class Settings extends Page {
         }
     }
 }
-// File: ./ui/screens/settings/theme-radio-button.js
+// File: ui/screens/settings/theme-radio-button.js
 class ThemeRadioButton {
 
     constructor(radio) {
@@ -2286,7 +2285,7 @@ class ThemeRadioButton {
         this.textA.innerHTML = this.radio.text
     }
 }
-// File: ./ui/screens/home/home.js
+// File: ui/screens/home/home.js
 class Home extends Page {
     static inst = null
 
@@ -2346,7 +2345,7 @@ class Home extends Page {
     }
 
 }
-// File: ./ui/screens/home/file-tab.js
+// File: ui/screens/home/file-tab.js
 class FileTab {
     static inst = null
 
@@ -2588,7 +2587,7 @@ const VisibilityDiv = {
     NoContent: 2,
     FileDrag: 3
 }
-// File: ./ui/screens/home/text-tab.js
+// File: ui/screens/home/text-tab.js
 class TextTab {
     static inst = null
 
@@ -2794,7 +2793,7 @@ class TextTab {
         return div
     }
 }
-// File: ./ui/screens/auth.js
+// File: ui/screens/auth.js
 class Auth extends Page {
     static inst = null
 
@@ -2843,7 +2842,7 @@ class Auth extends Page {
     }
 
 }
-// File: ./ui/utils.js
+// File: ui/utils.js
 const utils = {
     kilo: 1024,
     mega: Math.pow(1024, 2),
@@ -3097,15 +3096,15 @@ const utils = {
         setTimeout(function() { this.snackbar.className = this.snackbar.className.replace("show", ""); }, 3000);
     },
 }
-// File: ./api.js
+// File: api.js
 class Api {
     constructor() {
         this.isTest = window.location.protocol == 'file:'
         this.testLoadTime = 300
-        this.accountId = null
+        this.userId = null
         this.sampleStatus = {
             name: "sompt",
-            accountId: "MA==",
+            userId: "MA==",
             isAuthorized: false,
             isSecurityEnabled: false
         }
@@ -3122,12 +3121,12 @@ class Api {
         }, this.testLoadTime))
     }
 
-    saveAccountId(accountId) {
-        localStorage.setItem('accountId', JSON.stringify(accountId));
+    saveUserId(userId) {
+        localStorage.setItem('userId', JSON.stringify(userId));
     }
 
-    getSavedAccountId() {
-        let data = localStorage['accountId'];
+    getSavedUserId() {
+        let data = localStorage['userId'];
         if(data == undefined || data == 'undefined') return null;
         return JSON.parse(data);
     }
@@ -3174,7 +3173,7 @@ class Api {
     xhrAuthGet(url, onRes) {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", url);
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', this.onError);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
         xhr.send();
@@ -3194,7 +3193,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
@@ -3205,7 +3204,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         this.addReadyStateChange(xhr, url, (res) => onRes(res))
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
@@ -3223,8 +3222,8 @@ class Api {
             });
         } else {
             let body = { os: this.getOs() };
-            let accountId = this.getSavedAccountId();
-            if (accountId != null) body['accountId'] = accountId;
+            let userId = this.getSavedUserId();
+            if (userId != null) body['userId'] = userId;
             this.xhrPost(ApiStatus, body, (res) => this.onStatus(res));
         }
     }
@@ -3240,8 +3239,8 @@ class Api {
         if (statusRes.error) {
             utils.handleError(statusRes);
         } else {
-            this.accountId = statusRes.id;
-            this.saveAccountId(this.accountId);
+            this.userId = statusRes.id;
+            this.saveUserId(this.userId);
             if (statusRes.isBlocked) {
                 pageManager.tryAgainDialog(NoAccess);
             } else if (statusRes.isSecurityEnabled && !statusRes.isAuthorized) {
@@ -3292,7 +3291,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", ApiAddText);
         xhr.setRequestHeader("Content-Type", "text/plain");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', (e) => this.onError(e));
         this.addReadyStateChange(xhr, ApiAddText, (res) => onRes(res));
         xhr.send(text);
@@ -3351,7 +3350,7 @@ class Api {
         const url = ApiImage + "/" + fileId;
         let xhr = new XMLHttpRequest();
         xhr.open("GET", url);
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.timeout = 2000;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
@@ -3384,7 +3383,7 @@ class Api {
         this.xhrAuthGet(ApiUploadInfo, (res) => onSuccess(res));
     }
 }
-// File: ./constants.js
+// File: constants.js
 const primaryTransparent = "#64A1BD40";
 const primary = getComputedStyle(document.getElementsByTagName("BODY")[0]).getPropertyValue('--primary-color');
 const types = ['video', 'audio', 'image', 'document', 'app'];
@@ -3461,7 +3460,7 @@ const ApiDeleteMultiFile = "/api/delete-multi-file";
 const ApiZip = "/api/zip";
 const ApiChangeName = "/api/change-name";
 const ApiUploadInfo = "/api/upload-info";
-// File: ./init.js
+// File: init.js
 var isFileInfoSideVisible = !(document.body.clientWidth < 760);
 
 window.matchMedia("(max-width: 760px)").addEventListener("change", (x) => {

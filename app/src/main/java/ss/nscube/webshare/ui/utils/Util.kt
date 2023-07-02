@@ -1,6 +1,5 @@
 package ss.nscube.webshare.ui.utils
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
@@ -11,14 +10,10 @@ import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
-import android.os.Build.VERSION.SDK_INT
-import android.os.Environment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -26,7 +21,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import coil.decode.SvgDecoder
@@ -46,7 +40,6 @@ import ss.nscube.webshare.server.HTTPServer
 import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
-import ss.nscube.webshare.ui.MainActivity
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
 import ss.nscube.webshare.utils.scan.models.*
@@ -251,14 +244,14 @@ object Util {
                 if (data.isSelected) { //remove
                     fileManager.removeSelection(WebFile.valueOf(data.file), false)
                 } else { // add
-                    result = fileManager.addSelection(WebFile.valueOf(data, server.mainAccount))
+                    result = fileManager.addSelection(WebFile.valueOf(data, server.mainUser))
                 }
             }
             is Audio, is Image, is Video, is App, is Document -> {
                 if (data.isSelected) { //remove
                     fileManager.removeSelection(WebFile.valueOf(data.uri, WebFileUtil.typeFromData(data)), false)
                 } else { // add
-                    result = fileManager.addSelection(WebFile.fromData(data, server.mainAccount))
+                    result = fileManager.addSelection(WebFile.fromData(data, server.mainUser))
                 }
             }
         }

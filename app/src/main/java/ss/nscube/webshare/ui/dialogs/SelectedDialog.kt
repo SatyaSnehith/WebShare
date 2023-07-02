@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.databinding.ItemSelectedFileBinding
-import ss.nscube.webshare.server.accounts.FileManager
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.FileManager
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.ui.MenuPopup

@@ -1,7 +1,7 @@
 package ss.nscube.webshare.server.headers
 
 /*
-Path format: "/<files/json/data>/<accountId>/<file_path>"
+Path format: "/<files/json/data>/<userId>/<file_path>"
 */
 class Path(val path: String) {
     val names: List<String> = path.split("/").filter { it.isNotEmpty() }

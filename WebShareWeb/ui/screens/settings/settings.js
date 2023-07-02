@@ -41,7 +41,7 @@ class Settings extends Page {
     }
 
     onBackClicked() {
-        PageManager.getInstance().home()
+        pageManager.home()
     }
 
     onSettingsNameClicked() {
@@ -49,7 +49,6 @@ class Settings extends Page {
     }
 
     getRadioButtonsDiv() {
-        const theme = Theme.getInstance()
         let radios = [
             {
                 icon: LightThemeIcon,

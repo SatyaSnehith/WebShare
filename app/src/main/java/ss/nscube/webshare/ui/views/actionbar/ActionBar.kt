@@ -127,10 +127,6 @@ class ActionBar(context: Context, attributeSet: AttributeSet?, style: Int): Line
         removeAllViews()
         updateActionBar()
     }
-
-    fun title(title: String) {
-        addTitle(title)
-    }
 }
 
 abstract class ActionMode(val actionBar: ActionBar) {

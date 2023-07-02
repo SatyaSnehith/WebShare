@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
 import ss.nscube.webshare.ui.adapters.ImageVideoAdapter
 import ss.nscube.webshare.ui.dialogs.AlbumDialog
 import ss.nscube.webshare.server.file.WebFile
@@ -17,8 +17,7 @@ import ss.nscube.webshare.utils.scan.OnScanCompletedListener
 import ss.nscube.webshare.utils.scan.models.*
 
 abstract class PictureFragment<D: Data>: BaseFileFragment(),
-    OnScanCompletedListener<ArrayList<Album<D>>>,
-    SelectionUpdateObserver {
+    OnScanCompletedListener<ArrayList<Album<D>>>, SelectionUpdateObserver {
 
     abstract var imageVideoAdapter: ImageVideoAdapter<D>
     abstract val type: String

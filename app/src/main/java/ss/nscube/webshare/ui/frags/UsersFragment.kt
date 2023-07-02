@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentUsersBinding
 import ss.nscube.webshare.databinding.ItemUserBinding
-import ss.nscube.webshare.server.accounts.Account
-import ss.nscube.webshare.server.accounts.AccountsUpdateObserver
+import ss.nscube.webshare.server.user.User
+import ss.nscube.webshare.server.user.UserUpdateObserver
 import ss.nscube.webshare.ui.MenuPopup
 import ss.nscube.webshare.ui.dialogs.DeleteConfirmationDialog
 import ss.nscube.webshare.ui.dialogs.RemoveAccessConfirmationDialog
 import ss.nscube.webshare.ui.utils.Util
 
-class UsersFragment : BaseFragment(), AccountsUpdateObserver {
+class UsersFragment : BaseFragment(), UserUpdateObserver {
     var binding: FragmentUsersBinding? = null
     val adapter = UserAdapter()
 
@@ -41,9 +41,9 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
         }
         binding?.userRv?.layoutManager = LinearLayoutManager(requireContext())
         binding?.userRv?.adapter = adapter
-        adapter.list = server.accounts.accounts
+        adapter.list = server.userManager.users
         updateContentVisibility()
-        server.accounts.observerList.add(this)
+        server.userManager.observerList.add(this)
     }
 
     override fun openMenu(view: View) {
@@ -54,15 +54,15 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
         menuPopup.onItemClick {
             when(it) {
                 0 -> if (checkRemoveAccessForAll()) RemoveAccessConfirmationDialog().show(parentFragmentManager) {
-                    for (account in server.accounts.accounts) {
-                        account.pin = null
-                        account.hasAccess = false
+                    for (user in server.userManager.users) {
+                        user.pin = null
+                        user.hasAccess = false
                     }
                     Util.toast(context, "Access for all users has been removed")
                 } else Toast.makeText(context, "No user to remove access", Toast.LENGTH_SHORT).show()
                 1 -> if (checkDeleteAll()) DeleteConfirmationDialog.show(this, "All Users") {
-                    for (account in server.accounts.accounts) {
-                        server.accounts.deleteAccount(account)
+                    for (user in server.userManager.users) {
+                        server.userManager.deleteUser(user)
                     }
                     Util.toast(context, "All users deleted successfully!")
                 } else Toast.makeText(context, "No user to delete", Toast.LENGTH_SHORT).show()
@@ -73,14 +73,14 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
     }
 
     fun checkRemoveAccessForAll(): Boolean {
-        for (account in server.accounts.accounts) {
-            if (server.isAuthorized(account)) return true
+        for (user in server.userManager.users) {
+            if (server.isAuthorized(user)) return true
         }
         return false
     }
 
     fun checkDeleteAll(): Boolean {
-        return server.accounts.accounts.isNotEmpty()
+        return server.userManager.users.isNotEmpty()
     }
 
     fun updateContentVisibility() {
@@ -118,19 +118,19 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
 
     override fun onDestroy() {
         super.onDestroy()
-        server.accounts.observerList.remove(this)
+        server.userManager.observerList.remove(this)
     }
 
-    fun showAccountMenu(account: Account, view: View) {
+    fun showUserMenu(user: User, view: View) {
         val menuPopup = MenuPopup(requireContext())
-        if (account.isBlocked) {
+        if (user.isBlocked) {
             menuPopup.addMenuItem(0, R.drawable.icon_unblock, "Unblock")
         }
         else {
             menuPopup.addMenuItem(0, R.drawable.icon_block, "Block")
         }
         if (server.isSecured) {
-            if (server.isAuthorized(account)) {
+            if (server.isAuthorized(user)) {
                 menuPopup.addMenuItem(1, R.drawable.icon_remove_access, "Remove access")
             } else {
                 menuPopup.addMenuItem(1, R.drawable.icon_give_access, "Give access")
@@ -140,24 +140,24 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
         menuPopup.onItemClick {
             when(it) {
                 0 -> { //Block
-                    account.isBlocked = !account.isBlocked
-                    Util.toast(context, "${if (account.isBlocked) "Blocked" else "Unblocked"} ${account.name}")
+                    user.isBlocked = !user.isBlocked
+                    Util.toast(context, "${if (user.isBlocked) "Blocked" else "Unblocked"} ${user.name}")
                 }
                 1 -> { //access
-                    if (server.isAuthorized(account)) {
-                        account.pin = null
-                        account.hasAccess = false
-                        Util.toast(context, "Access removed to ${account.name}")
+                    if (server.isAuthorized(user)) {
+                        user.pin = null
+                        user.hasAccess = false
+                        Util.toast(context, "Access removed to ${user.name}")
                     } else {
-                        account.pin = server.pin
-                        account.hasAccess = true
-                        Util.toast(context, "Access given to ${account.name}")
+                        user.pin = server.pin
+                        user.hasAccess = true
+                        Util.toast(context, "Access given to ${user.name}")
                     }
                 }
                 2 -> { //Delete
-                    DeleteConfirmationDialog.show(this, "this account") {
-                        server.accounts.deleteAccount(account)
-                        Util.toast(context, "Account deleted successfully!")
+                    DeleteConfirmationDialog.show(this, "this user") {
+                        server.userManager.deleteUser(user)
+                        Util.toast(context, "User deleted successfully!")
                     }
                 }
             }
@@ -166,7 +166,7 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
     }
 
     inner class UserAdapter: Adapter<UserViewHolder>() {
-        var list: ArrayList<Account> = ArrayList()
+        var list: ArrayList<User> = ArrayList()
             @SuppressLint("NotifyDataSetChanged")
             set(value) {
                 field = value
@@ -178,15 +178,15 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
         }
 
         override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-            val account = list[position]
-            holder.binding.nameTv.text = account.name
-            holder.binding.ipTv.text = account.ip
+            val user = list[position]
+            holder.binding.nameTv.text = user.name
+            holder.binding.ipTv.text = user.ip
             holder.binding.statusTv.text = when {
-                account.isBlocked -> {
+                user.isBlocked -> {
                     holder.binding.statusTv.backgroundTintList = ColorStateList.valueOf(uiUtil.red)
                     "Blocked"
                 }
-                server.isAuthorized(account) -> {
+                server.isAuthorized(user) -> {
                     holder.binding.statusTv.backgroundTintList = ColorStateList.valueOf(uiUtil.green)
                     "Authorized"
                 } else -> {
@@ -195,7 +195,7 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
                 }
             }
             holder.binding.iconIv.setImageResource(
-                when(account.os) {
+                when(user.os) {
                     "Windows" -> R.drawable.icon_pc_windows
                     "MacOS" -> R.drawable.icon_pc_apple
                     "UNIX", "Linux" -> R.drawable.icon_pc_linux
@@ -205,7 +205,7 @@ class UsersFragment : BaseFragment(), AccountsUpdateObserver {
                 }
             )
             holder.binding.menuFl.setOnClickListener {
-                showAccountMenu(account, it)
+                showUserMenu(user, it)
             }
         }
 

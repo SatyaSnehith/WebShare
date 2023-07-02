@@ -14,7 +14,7 @@ class StatusResponse (
     @SerializedName("name")
     val name: String,
     @SerializedName("id")
-    val accountId: String,
+    val userId: String,
     @SerializedName("isAuthorized")
     val isAuthorized: Boolean,
     @SerializedName("isSecurityEnabled")

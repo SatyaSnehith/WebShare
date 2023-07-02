@@ -31,7 +31,7 @@ class SettingsNameChangeDialog: DialogFragment() {
         val nameEditText = dialog.findViewById<EditText>(R.id.name_et)
         val errorTextView = dialog.findViewById<TextView>(R.id.error_tv)
 
-        nameEditText.setText(server.mainAccount.name)
+        nameEditText.setText(server.mainUser.name)
 
         nameEditText.addTextChangedListener {
             errorTextView.text = ""
@@ -46,9 +46,9 @@ class SettingsNameChangeDialog: DialogFragment() {
         }
         dialog.findViewById<Button>(R.id.update_btn).setOnClickListener {
             val name = nameEditText.text.toString()
-            val error = server.accounts.validateName(name)
+            val error = server.userManager.validateName(name)
             if (error == null) {
-                server.mainAccount.name = name
+                server.mainUser.name = name
                 server.preferencesUtil.adminUserName = name
                 ss.nscube.webshare.ui.utils.Util.toast(context, "Username updated")
                 setFragmentResult(ServerSettingsFragment.UpdateDescription, bundleOf(ServerSettingsFragment.ItemId to ServerSettingsFragment.NameDescription))

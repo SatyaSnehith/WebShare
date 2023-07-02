@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.databinding.ItemSelectFileBinding
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.ui.utils.Util

@@ -1,9 +1,9 @@
-package ss.nscube.webshare.server.accounts
+package ss.nscube.webshare.server.user
 
 import android.util.Base64
 
-class Account(val id: Long, var name: String, var ip: String, val onUpdate: () -> Unit = {}) {
-    var accountId: String = String(Base64.encode(id.toString().toByteArray(), Base64.NO_WRAP))
+class User(val id: Long, var name: String, var ip: String, val onUpdate: () -> Unit = {}) {
+    var base64Id: String = String(Base64.encode(id.toString().toByteArray(), Base64.NO_WRAP))
 
     var pin: Int? = null
         set(value) {

@@ -17,7 +17,6 @@ class RequestHeader: Headers() {
     var contentDisposition: ContentDisposition? = null
     var hasPin: Boolean = false
     var auth: String? = null
-    var accountId: String? = null
     var pin: String? = null
 
     @Throws(Exception::class)
@@ -44,17 +43,6 @@ class RequestHeader: Headers() {
         if (!authParams[0].equals("basic", true)) throw BadRequestException("Authorization header auth-scheme is not basic - $value ")
         hasAuth = true
         auth = authParams[1]
-//        val decoded = try { String(Base64.decode(authParams[1], Base64.NO_WRAP)) }
-//        catch (e: Exception) { throw BadRequestException("Authorization header is not in base64 format - $value") }
-//        if (decoded.contains(':')) {
-//            val credentials = decoded.split(':')
-//            if (credentials.size != 2) throw BadRequestException("Authorization header auth must contain a name and secret only - $value ($decoded) ")
-//            hasPin = true
-//            accountId = credentials[0]
-//            pin = credentials[1]
-//        } else {
-//            accountId = decoded
-//        }
     }
 
     private fun evaluateContentDisposition(value: String) {

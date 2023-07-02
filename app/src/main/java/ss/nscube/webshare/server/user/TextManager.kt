@@ -1,4 +1,4 @@
-package ss.nscube.webshare.server.accounts
+package ss.nscube.webshare.server.user
 
 import ss.nscube.webshare.db.DatabaseHelper
 
@@ -8,11 +8,11 @@ class TextManager: ArrayList<Text>() {
     val observerList: ArrayList<TextObserver> = ArrayList()
     val maxTextLength = 65536
 
-    fun add(account: Account, text: String, saveInDb: Boolean = true): Text {
+    fun add(user: User, text: String, saveInDb: Boolean = true): Text {
         synchronized(mutex) {
             val mText = if (text.length > maxTextLength) text.substring(0, maxTextLength) else text
             if (saveInDb) DatabaseHelper.addText(mText)
-            val t = Text(account, mText, currentId, System.currentTimeMillis())
+            val t = Text(user, mText, currentId, System.currentTimeMillis())
             add(t)
             callOnAdd()
             currentId++

@@ -1,34 +1,30 @@
-package ss.nscube.webshare.server.accounts
+package ss.nscube.webshare.server.user
 
 import ss.nscube.webshare.server.BadRequestException
 import ss.nscube.webshare.utils.log
 import kotlin.collections.ArrayList
 
-class Accounts(adminUsername: String?) {
-    val mainAccount: Account = Account(createId(), adminUsername ?: generateUsername(), "localhost")
-    val accounts: ArrayList<Account> = ArrayList()
+class UserManager(adminUsername: String?) {
+    val mainUser: User = User(createId(), adminUsername ?: generateUsername(), "localhost")
+    val users: ArrayList<User> = ArrayList()
     private val mutex = Any()
-    val observerList: ArrayList<AccountsUpdateObserver> = ArrayList()
+    val observerList: ArrayList<UserUpdateObserver> = ArrayList()
     var userNameCounter = 0
-    var maxNumberOfAccounts = 100
+    var maxNumberOfUsers = 100
 
     fun size(): Int {
-        return accounts.size
+        return users.size
     }
 
-//    fun addIfNotPresent(accountId: String): Account {
-//        return get(accountId) ?: createAccount()
-//    }
-
-    fun createAccount(ip: String): Account {
+    fun createUser(ip: String): User {
         synchronized(mutex) {
             try { Thread.sleep(1) } catch (_: Exception) {}
-            val index = accounts.size
-            if (index >= maxNumberOfAccounts) throw BadRequestException("number of Accounts reached the limit: $maxNumberOfAccounts")
-            val account = Account(createId(), generateUsername(), ip) { callOnUpdate(index) }
-            accounts.add(account)
+            val index = users.size
+            if (index >= maxNumberOfUsers) throw BadRequestException("number of users reached the limit: $maxNumberOfUsers")
+            val user = User(createId(), generateUsername(), ip) { callOnUpdate(index) }
+            users.add(user)
             callOnAdded()
-            return account
+            return user
         }
     }
 
@@ -53,11 +49,11 @@ class Accounts(adminUsername: String?) {
 
     fun createId() = System.currentTimeMillis() - 1_000_000_000_000
 
-    fun deleteAccount(account: Account) {
+    fun deleteUser(user: User) {
         synchronized(mutex) {
-            val index = accounts.indexOf(account)
+            val index = users.indexOf(user)
             if (index > -1) {
-                accounts.remove(account)
+                users.remove(user)
                 callOnRemoved(index)
             }
         }
@@ -65,13 +61,13 @@ class Accounts(adminUsername: String?) {
 
     fun clear() {
         synchronized(mutex) {
-            accounts.clear()
+            users.clear()
             callOnClear()
         }
     }
 
-    operator fun get(id: Long): Account? {
-        for (account in accounts) if (account.id == id) return account
+    operator fun get(id: Long): User? {
+        for (user in users) if (user.id == id) return user
         return null
     }
 
@@ -79,8 +75,8 @@ class Accounts(adminUsername: String?) {
         return get(id) != null
     }
 
-    operator fun get(accountId: String): Account? {
-        for (account in accounts) if (account.accountId == accountId) return account
+    operator fun get(base64Id: String): User? {
+        for (user in users) if (user.base64Id == base64Id) return user
         return null
     }
 
@@ -92,13 +88,13 @@ class Accounts(adminUsername: String?) {
         if (name.length < 5) return "Your username must be at least 5 characters long."
         if (name.length > 25) return "Your username cannot be longer than 25 characters."
         if (!name[0].isLetter()) return "Your username must start with a letter."
-        for (account in accounts) if (name == account.name) return "That username is already in use. Please choose a different username."
+        for (user in users) if (name == user.name) return "That username is already in use. Please choose a different username."
         for (ch in name) if (!(ch.isLetter() || ch.isDigit() || ch == '_')) return "Your username can only contain letters, numbers, and underscores."
         return null
     }
 }
 
-interface AccountsUpdateObserver {
+interface UserUpdateObserver {
     fun onAdded()
     fun onUpdate(index: Int)
     fun onRemoved(index: Int)

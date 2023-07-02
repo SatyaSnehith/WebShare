@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.R
-import ss.nscube.webshare.server.accounts.SelectionUpdateObserver
+import ss.nscube.webshare.server.user.SelectionUpdateObserver
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.ui.utils.Util
@@ -27,8 +27,7 @@ import ss.nscube.webshare.utils.scan.OnScanCompletedListener
 import ss.nscube.webshare.utils.scan.models.App
 
 class AppFragment: BaseFileFragment(),
-    OnScanCompletedListener<ArrayList<App>>,
-    SelectionUpdateObserver {
+    OnScanCompletedListener<ArrayList<App>>, SelectionUpdateObserver {
 
     val adapter = AppFileAdapter(getAppItemSize())
 

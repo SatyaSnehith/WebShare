@@ -47,7 +47,7 @@ class ServerSettingsFragment: BaseFragment() {
 
 
         adapter?.list = arrayListOf(
-            SimpleItem(R.drawable.icon_settings_name, "Username", server.mainAccount.name, ::onNameClicked),
+            SimpleItem(R.drawable.icon_settings_name, "Username", server.mainUser.name, ::onNameClicked),
             SimpleItem(
                 R.drawable.icon_settings_stop,
                 "Stop the server when inactive for",
@@ -89,7 +89,7 @@ class ServerSettingsFragment: BaseFragment() {
     fun updateDescription(position: Int) {
         adapter?.let {
             when(position) {
-                NameDescription -> it.list[0].description = server.mainAccount.name
+                NameDescription -> it.list[0].description = server.mainUser.name
                 InactiveDescription -> it.list[1].description = getServerInactiveDescription()
                 AttemptDescription -> it.list[2].description = getIncorrectAttemptsDescription()
             }

@@ -1,4 +1,4 @@
-package ss.nscube.webshare.server.accounts
+package ss.nscube.webshare.server.user
 
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.utils.log
@@ -44,26 +44,26 @@ class SignedUrlList {
         }
     }
 
-    fun addFile(file: WebFile, account: Account): SignedUrl {
+    fun addFile(file: WebFile, user: User): SignedUrl {
         synchronized(mutex) {
             var signedUrl = signedUrls.find {
-                (if (it is SignedUrlFile) it.file == file else false) && it.account == account
+                (if (it is SignedUrlFile) it.file == file else false) && it.user == user
             }
             if (signedUrl == null) {
-                signedUrl = SignedUrlFile(file, account, hash(file.name), System.currentTimeMillis() + expiry)
+                signedUrl = SignedUrlFile(file, user, hash(file.name), System.currentTimeMillis() + expiry)
                 addAndSort(signedUrl)
             } else if (signedUrl.isExpired()) signedUrl.expiredAt = System.currentTimeMillis() + expiry
             return signedUrl
         }
     }
 
-    fun addZip(fileName: String, idList: ArrayList<Int>, account: Account): SignedUrl {
+    fun addZip(fileName: String, idList: ArrayList<Int>, user: User): SignedUrl {
         synchronized(mutex) {
             var signedUrl = signedUrls.find {
-                (if (it is SignedUrlZip) it.idList == idList else false) && it.account == account
+                (if (it is SignedUrlZip) it.idList == idList else false) && it.user == user
             }
             if (signedUrl == null) {
-                signedUrl = SignedUrlZip(fileName, idList, account, hash(idList.joinToString(", ")), System.currentTimeMillis() + expiry)
+                signedUrl = SignedUrlZip(fileName, idList, user, hash(idList.joinToString(", ")), System.currentTimeMillis() + expiry)
                 addAndSort(signedUrl)
             } else if (signedUrl.isExpired()) signedUrl.expiredAt = System.currentTimeMillis() + expiry
             return signedUrl
@@ -105,7 +105,7 @@ class SignedUrlList {
 
 class SignedUrlFile(
     val file: WebFile,
-    override val account: Account,
+    override val user: User,
     override val hash: String,
     override var expiredAt: Long
 ) : SignedUrl() {
@@ -116,7 +116,7 @@ class SignedUrlFile(
 class SignedUrlZip(
     val fileName: String,
     val idList: ArrayList<Int>,
-    override val account: Account,
+    override val user: User,
     override val hash: String,
     override var expiredAt: Long
 ) : SignedUrl() {
@@ -124,11 +124,11 @@ class SignedUrlZip(
 }
 
 abstract class SignedUrl {
-    abstract val account: Account
+    abstract val user: User
     abstract val hash: String
     abstract var expiredAt: Long
 
-    override fun toString() = "${account.name}, $hash, $expiredAt"
+    override fun toString() = "${user.name}, $hash, $expiredAt"
 
     fun isExpired() = System.currentTimeMillis() > expiredAt
 }

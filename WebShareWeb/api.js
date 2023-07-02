@@ -2,10 +2,10 @@ class Api {
     constructor() {
         this.isTest = window.location.protocol == 'file:'
         this.testLoadTime = 300
-        this.accountId = null
+        this.userId = null
         this.sampleStatus = {
             name: "sompt",
-            accountId: "MA==",
+            userId: "MA==",
             isAuthorized: false,
             isSecurityEnabled: false
         }
@@ -22,12 +22,12 @@ class Api {
         }, this.testLoadTime))
     }
 
-    saveAccountId(accountId) {
-        localStorage.setItem('accountId', JSON.stringify(accountId));
+    saveUserId(userId) {
+        localStorage.setItem('userId', JSON.stringify(userId));
     }
 
-    getSavedAccountId() {
-        let data = localStorage['accountId'];
+    getSavedUserId() {
+        let data = localStorage['userId'];
         if(data == undefined || data == 'undefined') return null;
         return JSON.parse(data);
     }
@@ -74,7 +74,7 @@ class Api {
     xhrAuthGet(url, onRes) {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", url);
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', this.onError);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
         xhr.send();
@@ -94,7 +94,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
         this.addReadyStateChange(xhr, url, (res) => onRes(res));
@@ -105,7 +105,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         this.addReadyStateChange(xhr, url, (res) => onRes(res))
         xhr.addEventListener('error', this.onError);
         let data = JSON.stringify(body);
@@ -123,8 +123,8 @@ class Api {
             });
         } else {
             let body = { os: this.getOs() };
-            let accountId = this.getSavedAccountId();
-            if (accountId != null) body['accountId'] = accountId;
+            let userId = this.getSavedUserId();
+            if (userId != null) body['userId'] = userId;
             this.xhrPost(ApiStatus, body, (res) => this.onStatus(res));
         }
     }
@@ -140,8 +140,8 @@ class Api {
         if (statusRes.error) {
             utils.handleError(statusRes);
         } else {
-            this.accountId = statusRes.id;
-            this.saveAccountId(this.accountId);
+            this.userId = statusRes.id;
+            this.saveUserId(this.userId);
             if (statusRes.isBlocked) {
                 pageManager.tryAgainDialog(NoAccess);
             } else if (statusRes.isSecurityEnabled && !statusRes.isAuthorized) {
@@ -192,7 +192,7 @@ class Api {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", ApiAddText);
         xhr.setRequestHeader("Content-Type", "text/plain");
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.addEventListener('error', (e) => this.onError(e));
         this.addReadyStateChange(xhr, ApiAddText, (res) => onRes(res));
         xhr.send(text);
@@ -251,7 +251,7 @@ class Api {
         const url = ApiImage + "/" + fileId;
         let xhr = new XMLHttpRequest();
         xhr.open("GET", url);
-        xhr.setRequestHeader("Authorization", "Basic " + this.accountId);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
         xhr.timeout = 2000;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {

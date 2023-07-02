@@ -147,7 +147,7 @@ class SendFileDialog extends MaxDialog {
             let post = new XMLHttpRequest();
             fileElement.xhr = post;
             post.open("POST", "/api/upload-file");
-            post.setRequestHeader("Authorization", "Basic " + api.accountId);
+            post.setRequestHeader("Authorization", "Basic " + api.userId);
             post.upload.addEventListener("progress", (event) => {
                 fileElement.updateProgress(Math.floor((event.loaded / event.total) * 100));
                 if (fileElement.lastLoaded != 0) {

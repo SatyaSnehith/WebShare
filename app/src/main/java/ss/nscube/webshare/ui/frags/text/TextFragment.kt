@@ -3,15 +3,12 @@ package ss.nscube.webshare.ui.frags.text
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -20,8 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentTextBinding
-import ss.nscube.webshare.server.accounts.Text
-import ss.nscube.webshare.server.accounts.TextObserver
+import ss.nscube.webshare.server.user.Text
+import ss.nscube.webshare.server.user.TextObserver
 import ss.nscube.webshare.ui.dialogs.DeleteConfirmationDialog
 import ss.nscube.webshare.ui.frags.BaseFragment
 import ss.nscube.webshare.ui.utils.Util
@@ -182,7 +179,7 @@ class TextFragment : BaseFragment(), TextObserver {
 
         override fun onBindViewHolder(holder: TextViewHolder, position: Int) {
             val text = list[position]
-            holder.nameTextView.text = text.fromAccount.name
+            holder.nameTextView.text = text.fromUser.name
             holder.timeTextView.text = Util.getDisplayTime(text.time)
 //        val truncatedText = TextUtils.ellipsize(
 //            text.value,

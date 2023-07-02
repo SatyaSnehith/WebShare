@@ -3,8 +3,6 @@ package ss.nscube.webshare.ui.frags.text
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -162,7 +159,7 @@ class TextHistoryFragment : BaseFragment() {
         if (!isSendClicked) {
             isSendClicked = true
             for (text in adapter.selectedList) {
-                server.textManager.add(server.mainAccount, text.text, false)
+                server.textManager.add(server.mainUser, text.text, false)
             }
             onBackClicked()
         }

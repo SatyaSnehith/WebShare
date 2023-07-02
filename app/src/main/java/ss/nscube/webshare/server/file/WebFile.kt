@@ -6,11 +6,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import ss.nscube.webshare.server.accounts.Account
+import ss.nscube.webshare.server.user.User
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.server.utils.PathUtil
 import ss.nscube.webshare.utils.FileState
@@ -47,7 +45,7 @@ class WebFile() {
 
     var length: Long = -1
 
-    var account: Account? = null
+    var user: User? = null
 
     var appPackageName: String? = null
 
@@ -124,17 +122,17 @@ class WebFile() {
             return webFile
         }
 
-        fun valueOf(uri: Uri, name: String, length: Long, account: Account): WebFile {
+        fun valueOf(uri: Uri, name: String, length: Long, user: User): WebFile {
             val webFile = WebFile()
             webFile.uri = uri
             webFile.name = name
             webFile.length = length
-            webFile.account = account
+            webFile.user = user
             return webFile
         }
 
-        fun fromData(data: Data, account: Account): WebFile {
-            val webFile = valueOf(data.uri, data.name, data.length, account)
+        fun fromData(data: Data, user: User): WebFile {
+            val webFile = valueOf(data.uri, data.name, data.length, user)
             when(data) {
                 is Image -> {
                     webFile.resolution = data.resolution
@@ -168,12 +166,12 @@ class WebFile() {
             return webFile
         }
 
-        fun valueOf(appFile: AppFile, account: Account): WebFile {
+        fun valueOf(appFile: AppFile, user: User): WebFile {
             val webFile = WebFile()
             webFile.name = appFile.name
             webFile.length = appFile.length
             webFile.file = appFile.file
-            webFile.account = account
+            webFile.user = user
             if (appFile.type == WebFileUtil.App) {
                 webFile.drawable = appFile.appIconDrawable
             }
