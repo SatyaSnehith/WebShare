@@ -103,27 +103,6 @@ class TextTab {
         api.xhrAuthPost(ApiText, text.getApiBody(), (res) => this.onMoreText(res));
     }
 
-    // bottomLoader: null,
-
-    // showBottomLoading(isShow) {
-    //     if (this.bottomLoader == null) {
-    //         this.bottomLoader = element('div');
-    //         this.bottomLoader.style.width = '30px';
-    //         this.bottomLoader.style.minHeight = '30px';
-    //         this.bottomLoader.style.margin = 'auto';
-    //         this.bottomLoader.style.marginTop = '10px';
-    //         this.bottomLoader.style.marginBottom = '10px';
-    //         this.bottomLoader.style.borderWidth = '2px';
-    //         this.bottomLoader.classList.add('loader');
-    //     }
-    //     if (isShow) {
-    //         this.textContentDiv.appendChild(this.bottomLoader);
-    //     } else {
-    //         if (this.textContentDiv.contains(this.bottomLoader))
-    //         this.textContentDiv.removeChild(this.bottomLoader);
-    //     }
-    // }
-
     addScrollListener() {
         new ScrollListener(this.textContentDiv, () => this.updateMoreText())
 
@@ -136,6 +115,7 @@ class TextTab {
     noText() { this.visibility.noContent() }
 
     addFirst(text) {
+        this.content()
         this.textContentDiv.insertBefore(this.createTextDiv(text), this.textContentDiv.children[0])
     }
 

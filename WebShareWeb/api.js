@@ -9,7 +9,6 @@ class Api {
             isAuthorized: false,
             isSecurityEnabled: false
         }
-        this.statusApiInProgress = false
         this.sampleAuth = {
             isValid: true,
             error: "Blocked"
@@ -47,7 +46,6 @@ class Api {
     addReadyStateChange(xhr, url, onRes) {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                this.statusApiInProgress = false
                 log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
@@ -62,10 +60,15 @@ class Api {
                         this.onUnauthorized()
                         break;
                     default:
-                        var res = JSON.parse(xhr.responseText)
-                        if (res.showError) {
-                            utils.showSnack(res.error)
+                        try {
+                            var res = JSON.parse(xhr.responseText)
+                            if (res.showError) {
+                                utils.showSnack(res.error)
+                            }
+                        } catch(err) {
+
                         }
+
                 }
             }
         }
@@ -80,16 +83,6 @@ class Api {
         xhr.send();
     }
 
-    xhrPost(url, body, onRes) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.addEventListener('error', this.onError);
-        let data = JSON.stringify(body);
-        this.addReadyStateChange(xhr, url, (res) => onRes(res));
-        xhr.send(data);
-    }
-
     xhrAuthPost(url, body, onRes) {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
@@ -101,31 +94,25 @@ class Api {
         xhr.send(data);
     }
     
-    xhrAuthPostAsync(url, body, onRes) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
-        this.addReadyStateChange(xhr, url, (res) => onRes(res))
-        xhr.addEventListener('error', this.onError);
-        let data = JSON.stringify(body);
-        xhr.send(data);
-    }
-
     updateStatus() {
-        if (this.statusApiInProgress) {
-            return;
-        }
-        this.statusApiInProgress = true
         if (this.isTest) {
             this.apiDelay(() => {
                 this.onStatus(this.sampleStatus)
             });
         } else {
+            if (!this.statusXhr) {
+                this.statusXhr = new XMLHttpRequest();
+            }
+            if (this.statusXhr.readyState > 0 && this.statusXhr.readyState < 4) return;
             let body = { os: this.getOs() };
             let userId = this.getSavedUserId();
             if (userId != null) body['userId'] = userId;
-            this.xhrPost(ApiStatus, body, (res) => this.onStatus(res));
+            let data = JSON.stringify(body);
+            this.statusXhr.open("POST", ApiStatus);
+            this.statusXhr.setRequestHeader("Content-Type", "application/json");
+            this.statusXhr.addEventListener('error', this.onError);
+            this.addReadyStateChange(this.statusXhr, ApiStatus, (res) => this.onStatus(res));
+            this.statusXhr.send(data);
         }
     }
 
@@ -170,7 +157,8 @@ class Api {
         if (authRes.isValid) {
             pageManager.home();
         } else {
-            auth.pinError.innerHTML = authRes.error;
+           const auth = Auth.getInstance()
+           auth.pinError.innerHTML = authRes.error;
         }
     }
 

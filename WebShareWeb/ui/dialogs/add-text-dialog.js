@@ -22,12 +22,12 @@ class AddTextDialog extends MaxDialog {
     }
 
     onSendClicked() {
-        this.dismiss()
         let textString = this.textInput.value.trim()
         if (textString.length == 0) {
             utils.showSnack("Enter Text")
             return
         }
+        this.dismiss()
         api.sendText(this.textInput.value, (res) => {
             log(res);
             log(this);

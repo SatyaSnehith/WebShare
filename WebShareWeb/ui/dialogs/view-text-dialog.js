@@ -35,6 +35,10 @@ class ViewTextDialog extends MaxDialog {
                     this.dismiss()
                     utils.showSnack("Text deleted")
                     this.textDiv.remove()
+                    const textTab = TextTab.getInstance()
+                    if (textTab.textContentDiv.childElementCount == 0) {
+                        textTab.noText();
+                    }
                 } else {
                     utils.showSnack("Text deletion failed")
                 }

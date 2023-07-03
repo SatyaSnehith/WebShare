@@ -1,9 +1,3 @@
-var fileTab = undefined
-var fileSelectionMode = undefined
-var fileInfo = undefined
-
-var textTab = undefined
-
 class Theme {
     static inst = null
 

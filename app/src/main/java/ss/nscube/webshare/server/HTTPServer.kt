@@ -470,7 +470,6 @@ class HTTPServer(val application: WebShareApp) {
             sendByteArray(base64)
         }
 
-
         @Throws(Exception::class)
         fun sendByteArray(byteArray: ByteArray) {
             outputStream.write(byteArray)
@@ -566,7 +565,6 @@ class HTTPServer(val application: WebShareApp) {
             sendResponseBodyText(json)
         }
 
-        @OptIn(DelicateCoroutinesApi::class)
         @Throws(Exception::class)
         private fun handleApi() {
             val path1 = path[1] ?: throw FileNotFoundResException("invalid api")
@@ -893,7 +891,6 @@ class HTTPServer(val application: WebShareApp) {
             }
         }
 
-
         @Throws(Exception::class)
         fun getSignUrl(): SignedUrl {
             val hash = path[2] ?: throw BadRequestException("incomplete filename")
@@ -971,5 +968,4 @@ class HTTPServer(val application: WebShareApp) {
             }
         }
     }
-
 }

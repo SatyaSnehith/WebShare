@@ -59,7 +59,7 @@ class UsersFragment : BaseFragment(), UserUpdateObserver {
                         user.hasAccess = false
                     }
                     Util.toast(context, "Access for all users has been removed")
-                } else Toast.makeText(context, "No user to remove access", Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(context, if (server.isSecured) "No user to remove access" else "Security is disabled", Toast.LENGTH_SHORT).show()
                 1 -> if (checkDeleteAll()) DeleteConfirmationDialog.show(this, "All Users") {
                     for (user in server.userManager.users) {
                         server.userManager.deleteUser(user)
@@ -73,6 +73,7 @@ class UsersFragment : BaseFragment(), UserUpdateObserver {
     }
 
     fun checkRemoveAccessForAll(): Boolean {
+        if (!server.isSecured) return false
         for (user in server.userManager.users) {
             if (server.isAuthorized(user)) return true
         }

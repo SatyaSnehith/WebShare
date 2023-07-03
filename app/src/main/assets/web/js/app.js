@@ -6,13 +6,13 @@ const element = t => document.createElement(t)
 function log(str) {
     if (api.isTest) console.log(str)
 }
-// File: theme.js
+
 var fileTab = undefined
 var fileSelectionMode = undefined
 var fileInfo = undefined
 
 var textTab = undefined
-
+// File: theme.js
 class Theme {
     static inst = null
 
@@ -690,12 +690,12 @@ class AddTextDialog extends MaxDialog {
     }
 
     onSendClicked() {
-        this.dismiss()
         let textString = this.textInput.value.trim()
         if (textString.length == 0) {
             utils.showSnack("Enter Text")
             return
         }
+        this.dismiss()
         api.sendText(this.textInput.value, (res) => {
             log(res);
             log(this);
@@ -956,6 +956,10 @@ class ViewTextDialog extends MaxDialog {
                     this.dismiss()
                     utils.showSnack("Text deleted")
                     this.textDiv.remove()
+                    const textTab = TextTab.getInstance()
+                    if (textTab.textContentDiv.childElementCount == 0) {
+                        textTab.noText();
+                    }
                 } else {
                     utils.showSnack("Text deletion failed")
                 }
@@ -2121,6 +2125,10 @@ class TryAgainPage extends Page {
         this.tryAgainDesc = $("tryAgainDesc")
     }
 
+    close() {
+        this.pageDiv.style.display = 'none';
+    }
+
     update(info) {
         this.textIfValid(this.tryAgainTitle, info.title)
         this.imageIfValid(this.tryAgainImg, info.image)
@@ -2693,27 +2701,6 @@ class TextTab {
         api.xhrAuthPost(ApiText, text.getApiBody(), (res) => this.onMoreText(res));
     }
 
-    // bottomLoader: null,
-
-    // showBottomLoading(isShow) {
-    //     if (this.bottomLoader == null) {
-    //         this.bottomLoader = element('div');
-    //         this.bottomLoader.style.width = '30px';
-    //         this.bottomLoader.style.minHeight = '30px';
-    //         this.bottomLoader.style.margin = 'auto';
-    //         this.bottomLoader.style.marginTop = '10px';
-    //         this.bottomLoader.style.marginBottom = '10px';
-    //         this.bottomLoader.style.borderWidth = '2px';
-    //         this.bottomLoader.classList.add('loader');
-    //     }
-    //     if (isShow) {
-    //         this.textContentDiv.appendChild(this.bottomLoader);
-    //     } else {
-    //         if (this.textContentDiv.contains(this.bottomLoader))
-    //         this.textContentDiv.removeChild(this.bottomLoader);
-    //     }
-    // }
-
     addScrollListener() {
         new ScrollListener(this.textContentDiv, () => this.updateMoreText())
 
@@ -2726,6 +2713,7 @@ class TextTab {
     noText() { this.visibility.noContent() }
 
     addFirst(text) {
+        this.content()
         this.textContentDiv.insertBefore(this.createTextDiv(text), this.textContentDiv.children[0])
     }
 
@@ -3108,7 +3096,6 @@ class Api {
             isAuthorized: false,
             isSecurityEnabled: false
         }
-        this.statusApiInProgress = false
         this.sampleAuth = {
             isValid: true,
             error: "Blocked"
@@ -3146,7 +3133,6 @@ class Api {
     addReadyStateChange(xhr, url, onRes) {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                this.statusApiInProgress = false
                 log("api: " + url + " -> " + xhr.status);
                 switch (xhr.status) {
                     case 200:
@@ -3161,10 +3147,15 @@ class Api {
                         this.onUnauthorized()
                         break;
                     default:
-                        var res = JSON.parse(xhr.responseText)
-                        if (res.showError) {
-                            utils.showSnack(res.error)
+                        try {
+                            var res = JSON.parse(xhr.responseText)
+                            if (res.showError) {
+                                utils.showSnack(res.error)
+                            }
+                        } catch(err) {
+
                         }
+
                 }
             }
         }
@@ -3179,16 +3170,6 @@ class Api {
         xhr.send();
     }
 
-    xhrPost(url, body, onRes) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.addEventListener('error', this.onError);
-        let data = JSON.stringify(body);
-        this.addReadyStateChange(xhr, url, (res) => onRes(res));
-        xhr.send(data);
-    }
-
     xhrAuthPost(url, body, onRes) {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
@@ -3200,31 +3181,25 @@ class Api {
         xhr.send(data);
     }
     
-    xhrAuthPostAsync(url, body, onRes) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
-        this.addReadyStateChange(xhr, url, (res) => onRes(res))
-        xhr.addEventListener('error', this.onError);
-        let data = JSON.stringify(body);
-        xhr.send(data);
-    }
-
     updateStatus() {
-        if (this.statusApiInProgress) {
-            return;
-        }
-        this.statusApiInProgress = true
         if (this.isTest) {
             this.apiDelay(() => {
                 this.onStatus(this.sampleStatus)
             });
         } else {
+            if (!this.statusXhr) {
+                this.statusXhr = new XMLHttpRequest();
+            }
+            if (this.statusXhr.readyState > 0 && this.statusXhr.readyState < 4) return;
             let body = { os: this.getOs() };
             let userId = this.getSavedUserId();
             if (userId != null) body['userId'] = userId;
-            this.xhrPost(ApiStatus, body, (res) => this.onStatus(res));
+            let data = JSON.stringify(body);
+            this.statusXhr.open("POST", ApiStatus);
+            this.statusXhr.setRequestHeader("Content-Type", "application/json");
+            this.statusXhr.addEventListener('error', this.onError);
+            this.addReadyStateChange(this.statusXhr, ApiStatus, (res) => this.onStatus(res));
+            this.statusXhr.send(data);
         }
     }
 
@@ -3269,7 +3244,8 @@ class Api {
         if (authRes.isValid) {
             pageManager.home();
         } else {
-            auth.pinError.innerHTML = authRes.error;
+           const auth = Auth.getInstance()
+           auth.pinError.innerHTML = authRes.error;
         }
     }
 

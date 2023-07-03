@@ -14,8 +14,8 @@ android {
         applicationId "ss.nscube.webshare"
         minSdk 21
         targetSdk 33
-        versionCode 21
-        versionName "2.0.1"
+        versionCode 22
+        versionName "2.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,10 +24,6 @@ android {
     }
 
     buildTypes {
-//        debug {
-//            applicationIdSuffix '.debug'
-//            versionNameSuffix '-DEBUG'
-//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -36,8 +32,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
     }
 
     kotlinOptions {
@@ -50,8 +46,8 @@ android {
 }
 
 dependencies {
-    def nav_version = "2.5.3"
-    def fragment_version = "1.5.7"
+    def nav_version = "2.6.0"
+    def fragment_version = "1.6.0"
     def lifecycle_version = "2.2.0"
 
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
@@ -63,7 +59,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
 
-    def room_version = "2.5.1"
+    def room_version = "2.5.2"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 

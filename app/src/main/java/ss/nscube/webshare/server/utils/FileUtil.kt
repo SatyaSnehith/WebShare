@@ -10,15 +10,6 @@ import java.util.*
 object FileUtil {
     const val OctetStream =  "application/octet-stream"
     const val JsonMimeType =  "application/json"
-    val applicationExtensions = arrayOf("apk", "exe", "jar", "msi", "bin", "ipa","air", "app", "application",
-        "appx", "bin", "deb", "dll", "elf", "msi", "prg", "rpm", "shs").sortedArray()
-    val documentExtensions = arrayOf(
-        "azw", "azw3", "azw4", "cbr", "cbz", "doc", "docm", "docx", "dot", "dotm", "dotx", "epub",
-        "fb2", "iba", "ibooks", "lit", "mdb", "mobi", "mpd", "mpp", "mpt", "numbers", "odf", "ods",
-        "odt", "oft", "one", "onepkg", "opx", "ott", "oxps", "pages", "pdf", "pmd", "pot", "potx",
-        "pps", "ppsx", "ppt", "pptm", "pptx", "prproj", "ps", "pst", "pub", "pwi", "rtf", "sdc", "sdd",
-        "sdw", "snp", "sxc", "sxw", "thmx", "vsd", "vsdx", "wpd", "wps", "wri", "xls", "xlsm", "xlsx", "xps"
-    )
 
     private var mimeTypes: MutableMap<String, String> = HashMap()
 
@@ -64,8 +55,6 @@ object FileUtil {
         }
     }
 
-
-
     val kilo: Long = 1024
     val mega = kilo * kilo
     val giga = mega * kilo
@@ -95,11 +84,6 @@ object FileUtil {
     fun formatSize(length: Long, decimalDivisible: Long, size: Double): String {
         val isWholeNumber = length % decimalDivisible == 0L
         return String.format(if (isWholeNumber) "%d" else "%.2f", if (isWholeNumber) size.toInt() else size)
-    }
-
-    fun isAcceptable(fileName: String): Boolean {
-        val slashPos = fileName.indexOf('/')
-        return slashPos == -1
     }
 
     fun nullOutputStream(): OutputStream {

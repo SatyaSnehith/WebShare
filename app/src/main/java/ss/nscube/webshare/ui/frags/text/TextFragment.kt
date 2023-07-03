@@ -43,7 +43,6 @@ class TextFragment : BaseFragment(), TextObserver {
         super.onViewCreated(view, savedInstanceState)
         updateMode(currentMode)
 
-        updateLayoutVisibility()
         (binding?.textRv?.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.reverseLayout = true
@@ -53,17 +52,13 @@ class TextFragment : BaseFragment(), TextObserver {
         binding?.textRv?.post {
             adapter.list = server.textManager
         }
+        updateLayoutVisibility()
         binding?.addBtn?.setOnClickListener(::onAddClicked)
         server.textManager.observerList.add(this)
     }
 
     private fun onHistoryIconClicked() {
         navigate(TextFragmentDirections.actionTextFragmentToTextHistoryFragment())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding?.textRv?.scrollToPosition(server.textManager.size - 1)
     }
 
     override fun onDestroy() {
@@ -134,6 +129,7 @@ class TextFragment : BaseFragment(), TextObserver {
         lifecycleScope.launch(Dispatchers.Main) {
             adapter.notifyItemInserted(0)
             adapter.notifyItemRangeChanged(0, adapter.list.size)
+            updateLayoutVisibility()
         }
     }
 
@@ -141,6 +137,7 @@ class TextFragment : BaseFragment(), TextObserver {
         lifecycleScope.launch(Dispatchers.Main) {
             adapter.notifyItemRemoved(index)
             adapter.notifyItemRangeChanged(index, adapter.list.size)
+            updateLayoutVisibility()
         }
     }
 

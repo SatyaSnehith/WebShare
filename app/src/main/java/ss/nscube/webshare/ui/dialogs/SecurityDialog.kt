@@ -43,6 +43,8 @@ class SecurityDialog: DialogFragment() {
         val dialog = Dialog(requireContext())
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setContentView(R.layout.dialog_security)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
         switch = dialog.findViewById(R.id.item_switch)
         securityLayout = dialog.findViewById(R.id.security_layout)
         pinEditText = dialog.findViewById(R.id.pin_et)

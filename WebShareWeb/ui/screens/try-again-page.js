@@ -16,6 +16,10 @@ class TryAgainPage extends Page {
         this.tryAgainDesc = $("tryAgainDesc")
     }
 
+    close() {
+        this.pageDiv.style.display = 'none';
+    }
+
     update(info) {
         this.textIfValid(this.tryAgainTitle, info.title)
         this.imageIfValid(this.tryAgainImg, info.image)
