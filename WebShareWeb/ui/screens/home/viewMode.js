@@ -4,7 +4,7 @@ class ViewMode {
         this.List = 'list'
         this.Grid = 'grid'
         this.storageKey = 'viewMode'
-        this.current = localStorage['viewMode'] ? JSON.parse(localStorage['viewMode']) : null
+        this.current = localStorage['viewMode']
     
         if (this.current == null) {
             this.update(this.List);
@@ -24,7 +24,7 @@ class ViewMode {
     }
 
     update(mode) {
-        localStorage.setItem('viewMode', JSON.stringify(mode));
+        localStorage.setItem('viewMode', mode);
         this.current = mode;
     }
 

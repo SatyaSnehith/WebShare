@@ -29,7 +29,7 @@ class Theme {
     
         this.DarkTheme = "darkTheme"
         this.LightTheme = "lightTheme"
-        this.theme = localStorage['theme'] ? JSON.parse(localStorage['theme']) : null
+        this.theme = localStorage['theme']
 
         if(this.theme == this.LightTheme) {
             this.light();
@@ -45,7 +45,7 @@ class Theme {
         this.bodyElement.classList.remove(this.LightTheme);
         this.bodyElement.classList.add(this.DarkTheme);
         authThemeChange.src = 'images/sun.svg';
-        localStorage.setItem('theme', JSON.stringify(this.theme));
+        localStorage.setItem('theme', this.theme);
     }
 
     light() {
@@ -53,7 +53,7 @@ class Theme {
         this.bodyElement.classList.remove(this.DarkTheme);
         this.bodyElement.classList.add(this.LightTheme);
         authThemeChange.src = 'images/moon.svg';
-        localStorage.setItem('theme', JSON.stringify(this.theme));
+        localStorage.setItem('theme', this.theme);
     }
 
     inverseTheme() {
@@ -1869,7 +1869,7 @@ class ViewMode {
         this.List = 'list'
         this.Grid = 'grid'
         this.storageKey = 'viewMode'
-        this.current = localStorage['viewMode'] ? JSON.parse(localStorage['viewMode']) : null
+        this.current = localStorage['viewMode']
     
         if (this.current == null) {
             this.update(this.List);
@@ -1889,7 +1889,7 @@ class ViewMode {
     }
 
     update(mode) {
-        localStorage.setItem('viewMode', JSON.stringify(mode));
+        localStorage.setItem('viewMode', mode);
         this.current = mode;
     }
 
@@ -3109,13 +3109,13 @@ class Api {
     }
 
     saveUserId(userId) {
-        localStorage.setItem('userId', JSON.stringify(userId));
+        localStorage.setItem('userId', userId);
     }
 
     getSavedUserId() {
         let data = localStorage['userId'];
         if(data == undefined || data == 'undefined') return null;
-        return JSON.parse(data);
+        return data;
     }
 
     getOs() {

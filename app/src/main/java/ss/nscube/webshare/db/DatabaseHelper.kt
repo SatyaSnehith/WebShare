@@ -15,17 +15,11 @@ import java.lang.Exception
 object DatabaseHelper {
     var db: RoomDatabase? = null
     var textDAO: TextDAO? = null
-    private val TAG = javaClass.canonicalName
 
     fun init(app: WebShareApp) {
         db = Room.databaseBuilder(app, AppDatabase::class.java, "notesDB")
             .build()
         textDAO = (db as AppDatabase).textDao()
-    }
-
-    val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-        }
     }
 
     fun logSuccess(any: Any) {
@@ -55,32 +49,6 @@ object DatabaseHelper {
         }
     }
 
-//    fun get(id: Int, callBack: CallBack<TextEntity>?): TextEntity? {
-//        return call(callBack) {
-//            textDAO?.ge(id)
-//        }
-//    }
-
-
-    //DELETE
-
-
-
-//    fun deleteMany(ids: IntArray, callBack: CallBack<Any>?) {
-//        call(callBack) {
-//            for (id in ids) {
-//                textDAO?.delete(id)
-//            }
-//        }
-//    }
-
-//    fun getLast(callBack: CallBack<NoteEntity>) {
-//        callOne(callBack) {
-//            noteDAO?.getLast()
-//        }
-//    }
-
-
     private fun <T> call(callback: CallBack<T>?, run: () -> T?): T? {
         if (callback == null) {
             return try {
@@ -103,22 +71,6 @@ object DatabaseHelper {
             }
         }.start()
         return null
-    }
-
-    private fun <T> getCallback(launchActivity: MainActivity, success: (T?) -> Unit, failure: (Throwable?) -> Unit): CallBack<T> {
-        return object: CallBack<T> {
-            override fun onSuccess(data: T?) {
-                launchActivity.runOnUiThread {
-                    success(data)
-                }
-            }
-            override fun onFailure(e: Throwable?) {
-                launchActivity.runOnUiThread {
-                    failure(e)
-                }
-            }
-
-        }
     }
 
 }

@@ -9,6 +9,4 @@ import ss.nscube.webshare.db.entities.TextEntity
 @Database(entities = [TextEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun textDao(): TextDAO
-
-
 }

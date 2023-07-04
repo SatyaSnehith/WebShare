@@ -22,13 +22,13 @@ class Api {
     }
 
     saveUserId(userId) {
-        localStorage.setItem('userId', JSON.stringify(userId));
+        localStorage.setItem('userId', userId);
     }
 
     getSavedUserId() {
         let data = localStorage['userId'];
         if(data == undefined || data == 'undefined') return null;
-        return JSON.parse(data);
+        return data;
     }
 
     getOs() {
