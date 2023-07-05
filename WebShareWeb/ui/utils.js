@@ -57,7 +57,7 @@ const utils = {
             }, () => {
                 utils.addIcon(parentDiv, file, padding)
             })
-            if (file.type == 'video' && isGrid) {
+            if (file.type == 'video' && isGrid && file.duration && file.duration > 0) {
                 let durationDiv = element('DIV')
                 // durationDiv.style.width = '1 6px'
                 durationDiv.style.height = '16px'
@@ -166,14 +166,11 @@ const utils = {
         let seconds = Math.floor(millis / 1000)
         let minutes = Math.floor(seconds / 60)
         let hours = Math.floor(minutes / 60)
-        if (hours > 0) {
-            return `${utils.getInt2d(hours)}:${utils.getInt2d(minutes % 60)}`
-        } else {
-            return `00:${utils.getInt2d(minutes % 60)}`
-        }
+        return `${utils.getInt2d(hours)}:${utils.getInt2d(minutes % 60)}:${utils.getInt2d(seconds % 60)}`
     },
 
     getInt2d(num) {
+        if (num == 0) return '00'
         if (num <= 9) return `0${num}`
         else return num
     },
