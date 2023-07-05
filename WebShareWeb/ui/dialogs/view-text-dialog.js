@@ -13,13 +13,6 @@ class ViewTextDialog extends MaxDialog {
         this.viewTextDiv.appendChild(textTab.createTextDiv(textData, true))
         this.textData = textData
         this.textDiv = textDiv
-        // pageManager.copyTextIcon.onclick = () => {
-        //     navigator.clipboard.writeText(text.data).then(function() {
-        //         utils.showSnack('Copied to clipboard');
-        //       }, function(err) {
-        //         utils.showSnack('Could not copy text');
-        //       });
-        // }
         this.deleteDialog = new DeleteDialog()
         this.deleteTextIcon.style.display = textData.isDeletable ? 'block' : 'none'
         if (textData.isDeletable) this.deleteTextIcon.onclick = () => this.openDeleteDialog()
@@ -44,35 +37,5 @@ class ViewTextDialog extends MaxDialog {
                 }
             })
         })
-    }
-
-    dismiss() {
-        super.dismiss()
-        this.minimize()
-    }
-
-    maximize() {
-        this.dialog.style.removeProperty("height");
-        super.maximize();
-    }
-
-    minimize() {
-        if (this.dialog.style.width == "100%") {
-            delay(450).then(() => {
-                if (this.viewTextButtons.offsetTop + 10 + this.viewTextButtons.offsetHeight < this.dialog.offsetHeight) {
-                    this.dialog.style.height = 'max-content';
-                }
-            })
-        } else {
-            if (this.viewTextButtons.offsetTop + 10 + this.viewTextButtons.offsetHeight < this.dialog.offsetHeight) {
-                this.dialog.style.height = 'max-content';
-            }
-        }
-        super.minimize();
-        if (!this.isFullScreen && 
-            !this.dialogWrap.classList.contains('page') &&
-            this.viewTextDiv.offsetHeight == this.viewTextDiv.scrollHeight) {
-                this.sizeIcon.innerHTML = '';
-        }
     }
 }

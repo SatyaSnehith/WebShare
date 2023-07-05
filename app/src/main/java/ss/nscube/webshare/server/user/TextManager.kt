@@ -1,6 +1,10 @@
 package ss.nscube.webshare.server.user
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import ss.nscube.webshare.db.DatabaseHelper
+import ss.nscube.webshare.db.entities.TextEntity
 
 class TextManager: ArrayList<Text>() {
     private var currentId = 0
@@ -11,7 +15,9 @@ class TextManager: ArrayList<Text>() {
     fun add(user: User, text: String, saveInDb: Boolean = true): Text {
         synchronized(mutex) {
             val mText = if (text.length > maxTextLength) text.substring(0, maxTextLength) else text
-            if (saveInDb) DatabaseHelper.addText(mText)
+            if (saveInDb) MainScope().launch(Dispatchers.IO) {
+                DatabaseHelper.textDAO?.insertAll(TextEntity(text, System.currentTimeMillis()))
+            }
             val t = Text(user, mText, currentId, System.currentTimeMillis())
             add(t)
             callOnAdd()

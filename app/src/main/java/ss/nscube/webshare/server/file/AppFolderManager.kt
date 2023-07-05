@@ -94,15 +94,17 @@ class AppFolderManager(val server: HTTPServer) {
     }
 
     fun deleteFile(file: AppFile): Boolean {
-        if (file.isDownloaded) { // delete downloaded file from downloadManager
+        if (file.isDownloaded) { // check if the file is downloaded in current webshare session
             for (webFile in server.downloadManager.files) {
                 if (webFile.file == file.file) {
+                    log("DELETE FILE ${webFile.name}")
                     server.downloadManager.remove(webFile)
                     listFromType(file.folderType).remove(file)
                     return true
                 }
             }
         } else if (file.file.delete()) {
+            server.fileManager.remove(file)
             listFromType(file.folderType).remove(file)
             return true
         }

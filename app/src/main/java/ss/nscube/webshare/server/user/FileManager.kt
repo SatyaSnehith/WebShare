@@ -1,6 +1,7 @@
 package ss.nscube.webshare.server.user
 
 import ss.nscube.webshare.server.HTTPServer
+import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
@@ -32,6 +33,11 @@ class FileManager(val server: HTTPServer) {
             files.add(file)
         }
         return true
+    }
+
+    fun remove(appFile: AppFile) {
+        val file = files.find { it.file == appFile.file  } ?: return
+        remove(file)
     }
 
     fun remove(file: WebFile) {

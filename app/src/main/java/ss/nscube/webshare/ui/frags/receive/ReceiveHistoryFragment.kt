@@ -105,15 +105,6 @@ class ReceiveHistoryFragment: BaseFragment() {
                             .startChooser()
                     }
                 }
-//                1 -> {
-//                    FileRenameChangeDialog.show(this, file.file.absolutePath) { newFile ->
-//                        if (newFile != null) {
-//                            file.name = newFile.name
-//                            file.file = newFile
-//                            fileAdapter?.notifyItemChanged(position)
-//                        }
-//                    }
-//                }
                 2 -> {
                     DeleteConfirmationDialog.show(this, "this file") {
                         deleteFile(file, position)
