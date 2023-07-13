@@ -71,7 +71,7 @@ Download it here:
 <details>
 <summary>Android app: app/src/main/java/ss/nscube/webshare</summary>
 
-```
+<pre><code>
 ├── db
 │   ├── AppDatabase.kt
 │   ├── CallBack.kt
@@ -222,13 +222,13 @@ Download it here:
 └── WebShareApp.kt
 
 24 directories, 124 files
-```
-</details></br>
+</code></pre>
+</details>
 
 <details>
 <summary>Web: app/src/main/assets/web</summary>
 
-```
+<pre><code>
 ├── css
 │   ├── commons.css
 │   └── style.css
@@ -280,13 +280,13 @@ Download it here:
 └── index.html
 
 4 directories, 45 files
-```
-</details></br>
+</code></pre>
+</details>
 
 <details>
 <summary>Web JS: WebShareWeb</summary>
 
-```
+<pre><code>
 ├── api.js
 ├── constants.js
 ├── declare.js
@@ -344,8 +344,8 @@ Download it here:
 └── WebShareWeb.code-workspace
 
 7 directories, 48 files
-```
-</details></br>
+</code></pre>
+</details>
 
 <!-- LICENSE -->
 ## License
