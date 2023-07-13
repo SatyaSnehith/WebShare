@@ -88,21 +88,11 @@ open class BaseFragment: Fragment() {
         if (!isNavigationInProgress) {
             isNavigationInProgress = true
             findNavController().navigate(navDirections)
-            Handler(Looper.getMainLooper()).postDelayed({ isNavigationInProgress = false }, 300) // set delay time to allow navigation after 500 milliseconds
+            Handler(Looper.getMainLooper()).postDelayed({ isNavigationInProgress = false }, 300) // set delay time to allow navigation after 300 milliseconds
         }
     }
 
     open fun openMenu(view: View) {
-
-    }
-
-    fun loadData(block: suspend CoroutineScope.() -> Unit) {
-        if (isAdded) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                delay(180)
-                block()
-            }
-        }
     }
 
     fun launchMain(block: suspend CoroutineScope.() -> Unit) = if (isAdded) lifecycleScope.launch(Dispatchers.Main, block = block) else null

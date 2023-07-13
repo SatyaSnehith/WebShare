@@ -279,7 +279,6 @@ object FileScan {
                             name,
                             apkFile.length(),
                             applicationInfo.loadIcon(context.packageManager),
-                            applicationInfo,
                             apkFile.toUri()
                         )
                     )

@@ -59,10 +59,13 @@ class WebFile() {
 
     var imageByteArray: ByteArray? = null
 
-    @OptIn(DelicateCoroutinesApi::class)
     var drawable: Drawable? = null
         set(value) {
             field = value
+            if (value == null) {
+                imageByteArray = null
+                return
+            }
             MainScope().launch(Dispatchers.IO) {
                 val imageBitmap = WebFileUtil.getBitmap(field)
                 val stream = ByteArrayOutputStream()

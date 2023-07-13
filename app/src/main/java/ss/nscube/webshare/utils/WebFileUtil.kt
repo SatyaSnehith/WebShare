@@ -9,15 +9,19 @@ import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import androidx.core.content.ContextCompat
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import ss.nscube.webshare.R
 import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
@@ -33,34 +37,10 @@ object WebFileUtil {
     const val Video = "video"
     const val App = "app"
     const val Document = "document"
-//    const val File = "file"
 
     const val TypeNone = 0
     const val TypeSelected = 1
     const val TypeReceived = 2
-
-    fun addImage(context: Context, file: WebFile) {
-        val myOptions = RequestOptions()
-            .centerCrop()
-            .override(300, 300)
-        Glide
-            .with(context)
-            .asBitmap()
-            .apply(myOptions)
-            .load(file.uri)
-            .into(object : CustomTarget<Bitmap?>() {
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap?>?
-                ) {
-                    val out = ByteArrayOutputStream()
-                    resource.compress(Bitmap.CompressFormat.PNG, 100, out)
-                    file.imageByteArray = out.toByteArray()
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {}
-            })
-    }
 
     fun typeFromData(data: Data): String {
         return when(data) {
@@ -79,10 +59,14 @@ object WebFileUtil {
     )
 
     fun getFile(context: Context, uri: Uri): Data? {
+        val file = try { uri.toFile() } catch (e: Exception) { null }
         var fileData: Data? = null
-        var name: String? = null
-        var size: Long? = null
-        context.contentResolver.query(uri, nameSizeProjection, null, null, null)?.use { cursor ->
+        var name: String? = file?.name
+        var size: Long? = file?.length()
+        if (name == null || size == null) context.contentResolver.query(
+            uri,
+            nameSizeProjection,
+            null, null, null)?.use { cursor ->
             cursor.moveToFirst()
             val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
@@ -96,14 +80,18 @@ object WebFileUtil {
             Image -> Image(name!!, size!!, uri, "", 0L)
             Video -> Video(name!!, size!!, 0, uri, 0L)
             Audio -> Audio(name!!, size!!, 0, uri, 0L)
-            App -> getAppFromUri(context, uri, name!!)
+            App -> getAppFromUri(context, uri, name!!, size!!)
             else -> Document(name!!, size!!, uri)
         }
         return fileData
     }
 
-    fun getAppFromUri(context: Context, uri: Uri, fileName: String): App? {
+    fun getAppFromUri(context: Context, uri: Uri, fileName: String, size: Long): App? {
         var app: App? = null
+        var name = fileName
+        if (name.endsWith(".apk", ignoreCase = true)) {
+            name = name.removeSuffix(".apk")
+        }
         try {
             val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             context.grantUriPermission(
@@ -114,41 +102,39 @@ object WebFileUtil {
             context.contentResolver.takePersistableUriPermission(uri, takeFlags)
             val isDocumentUri = DocumentFile.isDocumentUri(context, uri)
             if (!isDocumentUri) return null
-            val fileDescriptor = context.contentResolver.openFileDescriptor(uri, "r") ?: return null
-            val packageArchiveInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.packageManager.getPackageArchiveInfo("/proc/self/fd/" + fileDescriptor.fd, PackageManager.PackageInfoFlags.of(0L))
-            } else {
-                context.packageManager.getPackageArchiveInfo("/proc/self/fd/" + fileDescriptor.fd, 0)
-            }
-            log("AppLog got APK info?${packageArchiveInfo != null}")
-            if (packageArchiveInfo != null) {
-//                packageArchiveInfo.activities[0].labelRes
-                val applicationInfo = packageArchiveInfo.applicationInfo
-                var name = fileName
-                if (name.endsWith(".apk", ignoreCase = true)) {
-                    name = name.removeSuffix(".apk")
+            context.contentResolver.openFileDescriptor(uri, "r")?.use { fileDescriptor ->
+                val packageArchiveInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.packageManager.getPackageArchiveInfo("/proc/self/fd/" + fileDescriptor.fd, PackageManager.PackageInfoFlags.of(0L))
+                } else {
+                    context.packageManager.getPackageArchiveInfo("/proc/self/fd/" + fileDescriptor.fd, 0)
                 }
-//                if (packageArchiveInfo.applicationInfo.activityInfo.labelRes != 0) {
-//                    context.packageManager.getResourcesForApplication(applicationInfo).getString(ri.activityInfo.labelRes)
-//                } else {
-//                    applicationInfo.loadLabel(context.packageManager).toString() ?: fileName
-//                }
-                val apkFile = File(applicationInfo.publicSourceDir)
-                log("AppLog appLabel: $name $fileName ${fileName.endsWith(".apk")}")
-                app = App(
-                        "${name}.apk",
-                        name,
-                        apkFile.length(),
-                        applicationInfo.loadIcon(context.packageManager),
-                        applicationInfo,
-                        apkFile.toUri()
-                    )
+                log("AppLog got APK info $fileName ${fileDescriptor.fd} ${fileDescriptor.dup().fd} ${fileDescriptor.canDetectErrors()} ${fileDescriptor.statSize}    ${packageArchiveInfo != null}")
+                if (packageArchiveInfo != null) {
+    //                packageArchiveInfo.activities[0].labelRes
+                    val applicationInfo = packageArchiveInfo.applicationInfo
+
+                    val apkFile = File(applicationInfo.publicSourceDir)
+                    log("AppLog appLabel: $name $fileName ${fileName.endsWith(".apk")}")
+                    app = App(
+                            "${name}.apk",
+                            name,
+                            apkFile.length(),
+                            applicationInfo.loadIcon(context.packageManager),
+                            apkFile.toUri()
+                        )
+                }
             }
-            fileDescriptor.close()
         } catch (e: Exception) {
             e.printStackTrace()
             log("AppLog failed to get app info: $e")
         }
+        if (app == null) app = App (
+            "${name}.apk",
+            name,
+            size,
+            null,
+            uri
+        )
         return app
     }
 
@@ -167,19 +153,6 @@ object WebFileUtil {
         sec %= 60
         return String.format("%02d : %02d", min, sec)
     }
-
-    private fun getFormattedDuration(duration: Int) : String =
-        when {
-            duration == 0 -> {
-                "00"
-            }
-            duration < 10 -> {
-                "0$duration"
-            }
-            else -> {
-                "$duration"
-            }
-        }
 
     fun getAppIconFromFile(context: Context, path: String): Drawable? {
         val start = System.currentTimeMillis()

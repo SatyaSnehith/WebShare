@@ -14,6 +14,7 @@ import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
+import ss.nscube.webshare.utils.log
 
 class MainActivity : AppCompatActivity() {
     val webShareApp: WebShareApp
@@ -52,11 +53,13 @@ class MainActivity : AppCompatActivity() {
     private fun handleShareIntent() {
         val server = webShareApp.server
         var showSelectedDialog = false
+        log("intent ${intent?.action}")
         when (intent?.action) {
             Intent.ACTION_SEND -> {
                 val receivedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 else intent.getParcelableExtra(Intent.EXTRA_STREAM)
+                log("intent uri $uri")
                 if (receivedText != null) {
                     server.textManager.add(server.mainUser, receivedText, true)
                     Util.toast(this, "Text sent successfully!")
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             Intent.ACTION_SEND_MULTIPLE -> {
                 val uriList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 else intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
+                log("intent uri $uriList")
                 if (uriList != null) for (uri in uriList) {
                     Util.updateSelection(server, WebFileUtil.getFile(this, uri ?: continue) ?: continue)
                     if (!showSelectedDialog) showSelectedDialog = true

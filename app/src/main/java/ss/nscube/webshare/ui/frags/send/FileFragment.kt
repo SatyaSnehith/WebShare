@@ -62,7 +62,6 @@ class FileFragment: BaseFileFragment() {
     }
 
     fun onInternalStorageClicked() {
-
         systemFileChooser.launch(mimeTypes)
     }
 
