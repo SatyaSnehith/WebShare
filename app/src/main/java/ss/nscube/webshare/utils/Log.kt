@@ -3,8 +3,8 @@ package ss.nscube.webshare.utils
 import android.util.Log
 import ss.nscube.webshare.BuildConfig
 
-var enableLogs = BuildConfig.DEBUG;
-var logHttp = BuildConfig.DEBUG;
+var enableLogs = BuildConfig.DEBUG
+var logHttp = BuildConfig.DEBUG
 
 fun Any.log(msg: String?) {
     if (enableLogs) Log.d(this.javaClass.canonicalName, msg.toString())

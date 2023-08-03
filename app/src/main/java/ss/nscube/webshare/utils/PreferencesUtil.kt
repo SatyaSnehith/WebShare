@@ -2,16 +2,14 @@ package ss.nscube.webshare.utils
 
 import android.content.Context
 import ss.nscube.webshare.BuildConfig
-import ss.nscube.webshare.server.utils.Util
 
 class PreferencesUtil(context: Context) {
     private val AdminUsername = "AdminUsername"
     private val ServerInactiveTime = "ServerInactiveTime"
-    val sharedPreferences = context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
     private val SecurityPin = "SecurityPin"
     private val IsSecured = "IsSecured"
     private val MaxPinAttempts = "MaxPinAttempts"
-    private val MaxDownloadLength = "MaxDownloadLength"
     private val Theme = "Theme"
 
     var adminUserName: String?
@@ -47,12 +45,6 @@ class PreferencesUtil(context: Context) {
             sharedPreferences.edit().putInt(MaxPinAttempts, value).apply()
         }
         get() = sharedPreferences.getInt(MaxPinAttempts, 5)
-
-    var maxDownloadLength: Long
-        set(value) {
-            sharedPreferences.edit().putLong(MaxDownloadLength, value).apply()
-        }
-        get() = sharedPreferences.getLong(MaxDownloadLength, Util.bytesFromGB(4))
 
     var theme: Int
         set(value) {

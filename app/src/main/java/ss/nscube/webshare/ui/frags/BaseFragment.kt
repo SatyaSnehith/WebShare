@@ -3,10 +3,7 @@ package ss.nscube.webshare.ui.frags
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,16 +11,11 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.server.HTTPServer
 import ss.nscube.webshare.ui.MainActivity
-import ss.nscube.webshare.ui.frags.home.HomeFragment
-import ss.nscube.webshare.ui.frags.home.HomeFragmentDirections
-import ss.nscube.webshare.ui.frags.text.TextFragmentDirections
-import ss.nscube.webshare.ui.frags.text.TextInfoFragment
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.utils.log
 

@@ -11,7 +11,6 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.*
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -26,7 +25,6 @@ import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.ui.MenuPopup
 import ss.nscube.webshare.ui.dialogs.DeleteConfirmationDialog
 import ss.nscube.webshare.ui.frags.BaseFragment
-import ss.nscube.webshare.ui.frags.text.TextFragmentDirections
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.FileState
@@ -69,7 +67,7 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
         navigate(ReceiveFragmentDirections.actionReceiveFragmentToReceiveHistoryFragment())
     }
 
-    fun updateContentVisibility() {
+    private fun updateContentVisibility() {
         val showContent = server.downloadManager.files.isNotEmpty()
         binding?.receiveRv?.visibility = if(showContent) View.VISIBLE else View.GONE
         binding?.noContentLl?.visibility = if(showContent) View.GONE else View.VISIBLE
@@ -81,7 +79,7 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
         }
     }
 
-    fun onMenuClicked(view: View, file: WebFile, position: Int) {
+    fun onMenuClicked(view: View, file: WebFile) {
         val menuPopup = MenuPopup(requireContext())
         menuPopup.addMenuItem(0, R.drawable.icon_menu_share, "Share")
 //        menuPopup.addMenuItem(1, R.drawable.icon_menu_rename, "Rename")
@@ -165,7 +163,7 @@ class WrapContentLinearLayoutManager(context: Context?) : LinearLayoutManager(co
         try {
             super.onLayoutChildren(recycler, state)
         } catch (e: IndexOutOfBoundsException) {
-            log("onLayoutChildren meet a IOOBE in RecyclerView")
+            log("onLayoutChildren meet a in RecyclerView")
         }
     }
 }
@@ -212,10 +210,9 @@ class ReceiveAdapter(val fragment: ReceiveFragment): Adapter<ReceiveAdapter.Rece
             }
             else -> {}
         }
-        file.fileDownloader?.setProgressUpdater { percent, transferred, eta ->
+        file.fileDownloader?.setProgressUpdater { _, _, _ ->
             fragment.launchMain {
-                val index = position
-                notifyItemChanged(index)
+                notifyItemChanged(position)
 //                binding.seekbar.progress = percent
 //                binding.sizeTv.text = "${FileUtil.getSize(transferred)} / ${FileUtil.getSize(file.length)} • ${WebFileUtil.getETA(eta * 1000)} left"
             }
@@ -229,7 +226,7 @@ class ReceiveAdapter(val fragment: ReceiveFragment): Adapter<ReceiveAdapter.Rece
                     fragment.onRemoveClicked(file)
                 }
                 FileState.Completed -> {
-                    fragment.onMenuClicked(it, file, position)
+                    fragment.onMenuClicked(it, file)
                 }
 //            FileState.Canceled -> {
 //                binding.seekbar.visibility = View.GONE
@@ -241,7 +238,5 @@ class ReceiveAdapter(val fragment: ReceiveFragment): Adapter<ReceiveAdapter.Rece
         }
     }
 
-    class ReceiveViewHolder(val binding: ItemReceiveFileBinding): ViewHolder(binding.root) {
-
-    }
+    class ReceiveViewHolder(val binding: ItemReceiveFileBinding): ViewHolder(binding.root)
 }

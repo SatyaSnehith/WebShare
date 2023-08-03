@@ -45,31 +45,35 @@ class Api {
 
     addReadyStateChange(xhr, url, onRes) {
         xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                log("api: " + url + " -> " + xhr.status);
-                switch (xhr.status) {
-                    case 200:
+            this.handleResponse(xhr, url, onRes)
+        }
+    }
+
+    handleResponse(xhr, url, onRes) {
+        if (xhr.readyState === 4) {
+            log("api: " + url + " -> " + xhr.status);
+            switch (xhr.status) {
+                case 200:
+                    var res = JSON.parse(xhr.responseText)
+                    if (res.showError && res.error) {
+                        utils.showSnack(res.error)
+                    } else {
+                        onRes(res)
+                    }
+                    break
+                case 401:
+                    this.onUnauthorized()
+                    break;
+                default:
+                    try {
                         var res = JSON.parse(xhr.responseText)
-                        if (res.showError && res.error) {
+                        if (res.showError) {
                             utils.showSnack(res.error)
-                        } else {
-                            onRes(res)
                         }
-                        break
-                    case 401:
-                        this.onUnauthorized()
-                        break;
-                    default:
-                        try {
-                            var res = JSON.parse(xhr.responseText)
-                            if (res.showError) {
-                                utils.showSnack(res.error)
-                            }
-                        } catch(err) {
+                    } catch(err) {
 
-                        }
+                    }
 
-                }
             }
         }
     }
@@ -265,10 +269,17 @@ class Api {
         if (this.isTest) {
             this.apiDelay(() => onSuccess({
                 isUploadAvailable: true,
-                availableCount: 0
+                availableCount: 20
             }))
             return;
         }
-        this.xhrAuthGet(ApiUploadInfo, (res) => onSuccess(res));
+        // used async false to fix the issue on ios browsers (by trial and error)
+        // with async true the file chooser is not opening
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", ApiUploadInfo, false);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
+        xhr.addEventListener('error', this.onError);
+        xhr.send();
+        this.handleResponse(xhr, ApiUploadInfo, (res) => onSuccess(res));
     }
 }

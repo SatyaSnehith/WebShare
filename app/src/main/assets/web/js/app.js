@@ -1109,6 +1109,14 @@ class FileNode {
 }
 // File: ui/screens/home/files/file-chooser.js
 class FileChooser {
+    static inst = null
+
+    static getInstance() {
+        if (this.inst == null) {
+            this.inst = new this()
+        }
+        return this.inst
+    }
     constructor() {
         this.inputFileElement = element('INPUT')
         this.inputFileElement.onchange = () => {
@@ -2342,7 +2350,6 @@ class FileTab {
         this.fileCountSpan = $('fileCountSpan')
         this.home = $('home')
         this.filesContentDiv = $('filesContentDiv')
-        this.fileChooser = new FileChooser()
 
         this.fileTypeChips = new FileTypeChips()
         this.searchNode = new SearchNode()
@@ -2394,7 +2401,7 @@ class FileTab {
                 if (res.availableCount <= 0) {
                     InfoDialog.getInstance().show(LimitReachedTitle, LimitReachedDescription)
                 } else {
-                    this.fileChooser.open()
+                    FileChooser.getInstance().open()
                     const sendDialog = SendFileDialog.getInstance()
                     if (!sendDialog.isShowing())
                         sendDialog.show()
@@ -3092,31 +3099,35 @@ class Api {
 
     addReadyStateChange(xhr, url, onRes) {
         xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                log("api: " + url + " -> " + xhr.status);
-                switch (xhr.status) {
-                    case 200:
+            this.handleResponse(xhr, url, onRes)
+        }
+    }
+
+    handleResponse(xhr, url, onRes) {
+        if (xhr.readyState === 4) {
+            log("api: " + url + " -> " + xhr.status);
+            switch (xhr.status) {
+                case 200:
+                    var res = JSON.parse(xhr.responseText)
+                    if (res.showError && res.error) {
+                        utils.showSnack(res.error)
+                    } else {
+                        onRes(res)
+                    }
+                    break
+                case 401:
+                    this.onUnauthorized()
+                    break;
+                default:
+                    try {
                         var res = JSON.parse(xhr.responseText)
-                        if (res.showError && res.error) {
+                        if (res.showError) {
                             utils.showSnack(res.error)
-                        } else {
-                            onRes(res)
                         }
-                        break
-                    case 401:
-                        this.onUnauthorized()
-                        break;
-                    default:
-                        try {
-                            var res = JSON.parse(xhr.responseText)
-                            if (res.showError) {
-                                utils.showSnack(res.error)
-                            }
-                        } catch(err) {
+                    } catch(err) {
 
-                        }
+                    }
 
-                }
             }
         }
     }
@@ -3312,11 +3323,16 @@ class Api {
         if (this.isTest) {
             this.apiDelay(() => onSuccess({
                 isUploadAvailable: true,
-                availableCount: 0
+                availableCount: 20
             }))
             return;
         }
-        this.xhrAuthGet(ApiUploadInfo, (res) => onSuccess(res));
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", ApiUploadInfo, false);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
+        xhr.addEventListener('error', this.onError);
+        xhr.send();
+        this.handleResponse(xhr, ApiUploadInfo, (res) => onSuccess(res));
     }
 }
 // File: constants.js

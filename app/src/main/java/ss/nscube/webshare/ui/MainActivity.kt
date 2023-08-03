@@ -15,9 +15,8 @@ import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
-
 class MainActivity : AppCompatActivity() {
-    val webShareApp: WebShareApp
+    private val webShareApp: WebShareApp
         get() {
             return application as WebShareApp
         }

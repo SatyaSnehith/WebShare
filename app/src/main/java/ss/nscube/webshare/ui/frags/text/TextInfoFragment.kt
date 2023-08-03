@@ -98,12 +98,11 @@ class TextInfoFragment : BaseFragment() {
                 }
             }
         }
-
     }
 
     fun onSendTextClicked() {
         if (textEntity != null) {
-            server.textManager.add(server.mainUser, textEntity!!.text, true)
+            server.textManager.add(server.mainUser, textEntity!!.text, false)
             Util.toast(context, "Text sent successfully!")
             onBackClicked()
         }

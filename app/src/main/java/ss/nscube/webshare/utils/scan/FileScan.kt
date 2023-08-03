@@ -257,7 +257,7 @@ object FileScan {
             context.packageManager.queryIntentActivities(mainIntent, 0)
         }
 
-        var name: String? = null
+        var name: String?
 //            val jobs = ArrayList<Job>()
         // get size of ril and create a list
         for (ri in ril) {
@@ -287,7 +287,7 @@ object FileScan {
                 log("APP_ERROR $e ${e.message}")
             }
         }
-        dataList.sortWith(compareBy { it?.label ?: "" })
+        dataList.sortWith(compareBy { it.label })
         coroutineScope.launch(Dispatchers.Main) {
             scanCompletedListener.onScanned(dataList)
         }
@@ -297,7 +297,7 @@ object FileScan {
             return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
         }
 
-    val audioProjection = arrayOf(
+    private val audioProjection = arrayOf(
         MediaStore.Audio.Media._ID,
         MediaStore.Audio.Media.DISPLAY_NAME,
         MediaStore.Audio.Media.DURATION,
@@ -305,7 +305,7 @@ object FileScan {
         MediaStore.Audio.Media.DATE_MODIFIED
     )
 
-    val videoProjection = arrayOf(
+    private val videoProjection = arrayOf(
         MediaStore.Video.Media._ID,
         MediaStore.Video.Media.DISPLAY_NAME,
         MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
@@ -315,7 +315,7 @@ object FileScan {
         MediaStore.Video.Media.DATE_MODIFIED
     )
 
-    val imageProjection = arrayOf(
+    private val imageProjection = arrayOf(
         MediaStore.Images.Media._ID,
         MediaStore.Images.Media.DISPLAY_NAME,
         MediaStore.Images.Media.BUCKET_DISPLAY_NAME,

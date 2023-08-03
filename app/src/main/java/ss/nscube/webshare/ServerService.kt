@@ -12,9 +12,9 @@ import android.os.Build
 import ss.nscube.webshare.utils.log
 
 class ServerService : Service() {
-    private val binder: IBinder = LocalBinder()
-    val channelId = "WebShareServer"
-    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    private val binder: IBinder = Binder()
+    private val channelId = "WebShareServer"
+    private val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
     } else {
         PendingIntent.FLAG_CANCEL_CURRENT
@@ -69,18 +69,18 @@ class ServerService : Service() {
                     flag
                 )
             )
-            .addAction(0, "STOP", makePendingIntent(STOP_SERVER_ACTION))
+            .addAction(0, "STOP", makePendingIntent())
             .build()
         startForeground(1, notification)
     }
 
-    fun makePendingIntent(name: String?): PendingIntent {
-        val stopSelf = Intent(this, ServerService::class.java);
-        stopSelf.action = STOP_SERVER_ACTION;
+    private fun makePendingIntent(): PendingIntent {
+        val stopSelf = Intent(this, ServerService::class.java)
+        stopSelf.action = STOP_SERVER_ACTION
         return PendingIntent.getService(this, 0, stopSelf, flag)
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         return binder
     }
 
@@ -91,11 +91,6 @@ class ServerService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         log("SERVICE onDestroy")
-    }
-
-    inner class LocalBinder : Binder() {
-        val serverService: ServerService
-            get() = this@ServerService
     }
 
     companion object {

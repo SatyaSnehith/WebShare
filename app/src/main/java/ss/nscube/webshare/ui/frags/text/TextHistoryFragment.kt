@@ -202,12 +202,6 @@ class TextHistoryFragment : BaseFragment() {
         override fun onBindViewHolder(holder: TextViewHolder, position: Int) {
             val text = list[position]
             holder.timeTextView.text = Util.getDisplayTime(text.sentTime)
-//        val truncatedText = TextUtils.ellipsize(
-//            text.value,
-//            holder.dataTextView.paint,
-//            (width * 2).toFloat(),
-//            TextUtils.TruncateAt.END
-//        )
             updateSelectionBg(text, holder.itemView)
             holder.dataTextView.text = text.text.substring(0, 100.coerceAtMost(text.text.length))
             holder.rootLayout.setOnClickListener {

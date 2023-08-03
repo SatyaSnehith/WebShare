@@ -23,7 +23,6 @@ class FileTab {
         this.fileCountSpan = $('fileCountSpan')
         this.home = $('home')
         this.filesContentDiv = $('filesContentDiv')
-        this.fileChooser = new FileChooser()
 
         this.fileTypeChips = new FileTypeChips()
         this.searchNode = new SearchNode()
@@ -75,7 +74,7 @@ class FileTab {
                 if (res.availableCount <= 0) {
                     InfoDialog.getInstance().show(LimitReachedTitle, LimitReachedDescription)
                 } else {
-                    this.fileChooser.open()
+                    FileChooser.getInstance().open()
                     const sendDialog = SendFileDialog.getInstance()
                     if (!sendDialog.isShowing())
                         sendDialog.show()

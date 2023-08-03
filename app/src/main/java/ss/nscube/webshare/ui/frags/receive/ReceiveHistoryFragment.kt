@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.color.MaterialColors
-import kotlinx.coroutines.delay
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentReceiveHistoryBinding
 import ss.nscube.webshare.databinding.ItemReceiveHistoryFileBinding
@@ -23,9 +21,7 @@ import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.ui.MenuPopup
 import ss.nscube.webshare.ui.dialogs.DeleteConfirmationDialog
-import ss.nscube.webshare.ui.dialogs.FileRenameChangeDialog
 import ss.nscube.webshare.ui.frags.BaseFragment
-import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
@@ -36,7 +32,7 @@ import java.util.Locale
 
 class ReceiveHistoryFragment: BaseFragment() {
     var binding: FragmentReceiveHistoryBinding? = null
-    val tabAdapter = TabAdapter(
+    private val tabAdapter = TabAdapter(
         listOf(
             Pair("all", "All"),
             Pair(WebFileUtil.Image, "Image"),
@@ -45,7 +41,7 @@ class ReceiveHistoryFragment: BaseFragment() {
             Pair(WebFileUtil.Document, "Documents"),
             Pair(WebFileUtil.App, "Apps")
         ), ::onItemClick)
-    var fileAdapter: FileAdapter? = null
+    private var fileAdapter: FileAdapter? = null
     val ModeNormal = 0
     val ModeSearch = 1
     val ModeSelection = 2
@@ -80,7 +76,7 @@ class ReceiveHistoryFragment: BaseFragment() {
         updateContentVisibility()
     }
 
-    fun updateContentVisibility() {
+    private fun updateContentVisibility() {
         if (fileAdapter?.list?.isEmpty() == true) {
             binding?.noContentLl?.visibility = View.VISIBLE
             binding?.receiveRv?.visibility = View.GONE
@@ -119,7 +115,7 @@ class ReceiveHistoryFragment: BaseFragment() {
         Util.openFile(context, file.file)
     }
 
-    fun deleteSelected() {
+    private fun deleteSelected() {
         DeleteConfirmationDialog.show(this, "these files") {
             if (fileAdapter == null) return@show
             fileAdapter?.deleteSelected()
@@ -129,7 +125,7 @@ class ReceiveHistoryFragment: BaseFragment() {
         }
     }
 
-    fun deleteFile(file: AppFile, position: Int) {
+    private fun deleteFile(file: AppFile, position: Int) {
         fileAdapter?.delete(file, position)
         updateContentVisibility()
     }
@@ -180,12 +176,12 @@ class ReceiveHistoryFragment: BaseFragment() {
         }
     }
 
-    fun updateMenuVisibility(show: Boolean) {
+    private fun updateMenuVisibility(show: Boolean) {
         fileAdapter?.showMenu = show
         updateMenuToVisibleItems(show)
     }
 
-    fun updateMenuToVisibleItems(show: Boolean) {
+    private fun updateMenuToVisibleItems(show: Boolean) {
         val layoutManager = (binding?.receiveRv?.layoutManager as? LinearLayoutManager) ?: return
         for (i in layoutManager.findFirstVisibleItemPosition() .. layoutManager.findLastVisibleItemPosition()) {
             val viewHolder = (binding?.receiveRv?.findViewHolderForAdapterPosition(i) as? FileAdapter.FileViewHolder) ?: continue
@@ -248,9 +244,9 @@ class FileAdapter(val fragment: ReceiveHistoryFragment): Adapter<FileAdapter.Fil
             }
             filter(searchText)
         }
-    var searchText = ""
-    val manager = fragment.server.appFolderManager
-    var actualList = manager.getAllFileByDate()
+    private var searchText = ""
+    private val manager = fragment.server.appFolderManager
+    private var actualList = manager.getAllFileByDate()
     var selectedList: ArrayList<AppFile> = ArrayList()
 
     var list = ArrayList(actualList)
@@ -311,7 +307,7 @@ class FileAdapter(val fragment: ReceiveHistoryFragment): Adapter<FileAdapter.Fil
         holder.binding.menuFl.visibility = if (showMenu) View.VISIBLE else View.INVISIBLE
     }
 
-    fun select(file: AppFile, root: View) {
+    private fun select(file: AppFile, root: View) {
         if (file.inSelection) {
             file.inSelection = false
             selectedList.remove(file)
@@ -328,7 +324,7 @@ class FileAdapter(val fragment: ReceiveHistoryFragment): Adapter<FileAdapter.Fil
         fragment.binding?.actionBar?.setTitle(getSelectedCountText())
     }
 
-    fun updateSelectionBg(file: AppFile, root: View) {
+    private fun updateSelectionBg(file: AppFile, root: View) {
         if (file.inSelection) {
             root.setBackgroundColor(MaterialColors.getColor(root, R.attr.selectionBackgroundColor))
         } else {
@@ -344,7 +340,7 @@ class FileAdapter(val fragment: ReceiveHistoryFragment): Adapter<FileAdapter.Fil
         clearSelection(selectedList)
     }
 
-    fun clearSelection(list: ArrayList<AppFile>, notify: Boolean = false) {
+    private fun clearSelection(list: ArrayList<AppFile>, notify: Boolean = false) {
         for ((index, file) in list.withIndex()) {
             if (file.inSelection) {
                 file.inSelection = false

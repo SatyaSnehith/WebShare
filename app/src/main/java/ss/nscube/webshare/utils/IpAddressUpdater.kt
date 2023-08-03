@@ -20,11 +20,11 @@ import java.net.NetworkInterface
 import java.util.Timer
 import java.util.TimerTask
 
-class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
-    val LocalHost = "localhost"
+class IpAddressUpdater(private val lifecycleOwner: LifecycleOwner) {
+    private val LocalHost = "localhost"
     var isConnectedToNetwork = false
     val ipAddress: MutableLiveData<String> = MutableLiveData()
-    var timer: Timer? = null
+    private var timer: Timer? = null
 
     private val wifiStateChangeReceiver: WifiStateChangeReceiver = WifiStateChangeReceiver {
         log("NETWORK_CHANGE WIFI")
@@ -36,7 +36,7 @@ class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
     }
 
 
-    fun startTimer() {
+    private fun startTimer() {
         timer = Timer()
         timer?.scheduleAtFixedRate(object: TimerTask() {
             override fun run() {
@@ -45,7 +45,7 @@ class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
         }, 0, 7000)
     }
 
-    fun cancelTimer() {
+    private fun cancelTimer() {
         timer?.cancel()
     }
 
@@ -76,27 +76,26 @@ class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
     }
 
 
-    fun isApOn(context: Context): Boolean {
-        val wifimanager =
+    private fun isApOn(context: Context): Boolean {
+        val wifiManager =
             context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return try {
-            val method = wifimanager.javaClass.getDeclaredMethod("isWifiApEnabled")
+            val method = wifiManager.javaClass.getDeclaredMethod("isWifiApEnabled")
             method.isAccessible = true
-            method.invoke(wifimanager) as Boolean
+            method.invoke(wifiManager) as Boolean
         } catch (ignored: Exception) {
             false
         }
     }
 
-    fun isWifiOn(context: Context): Boolean {
+    private fun isWifiOn(context: Context): Boolean {
         var connected = false // Returns connection type. 0: none; 1: mobile data; 2: wifi; 3: vpn
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         cm?.run {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                connected = cm.getNetworkCapabilities(cm.activeNetwork)?.hasTransport(
-                    NetworkCapabilities.TRANSPORT_WIFI) == true
+            connected = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cm.getNetworkCapabilities(cm.activeNetwork)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
             } else {
-                connected = cm.activeNetworkInfo?.isConnected == true
+                cm.activeNetworkInfo?.isConnected == true
             }
         }
         log("NETWORK_CHANGE WIFI STATE ${cm == null} getConnectionType $connected")
@@ -105,7 +104,6 @@ class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
 
     fun scanIpAddress() {
         lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val startTime = System.currentTimeMillis()
             var wifiIp: String? = null
             var hotspotIp: String? = null
             var localIp: String? = null
@@ -144,12 +142,12 @@ class IpAddressUpdater(val lifecycleOwner: LifecycleOwner) {
 
 }
 
-class WifiStateChangeReceiver(var onWifiStateChanged: () -> Unit) : BroadcastReceiver() {
-    val handler = Handler(Looper.getMainLooper())
-    val delay = 500L
-    val runnable = Runnable(onWifiStateChanged)
+class WifiStateChangeReceiver(onWifiStateChanged: () -> Unit) : BroadcastReceiver() {
+    private val handler = Handler(Looper.getMainLooper())
+    private val delay = 500L
+    private val runnable = Runnable(onWifiStateChanged)
     override fun onReceive(context: Context, intent: Intent) {
-        val action = intent.action;
+        val action = intent.action
         handler.removeCallbacks(runnable)
         if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
             handler.postDelayed(runnable, delay)
@@ -157,10 +155,10 @@ class WifiStateChangeReceiver(var onWifiStateChanged: () -> Unit) : BroadcastRec
     }
 }
 
-class HotspotStateChangeReceiver(var onHotspotChanged: () -> Unit) : BroadcastReceiver() {
-    val handler = Handler(Looper.getMainLooper())
-    val delay = 500L
-    val runnable = Runnable(onHotspotChanged)
+class HotspotStateChangeReceiver(onHotspotChanged: () -> Unit) : BroadcastReceiver() {
+    private val handler = Handler(Looper.getMainLooper())
+    private val delay = 500L
+    private val runnable = Runnable(onHotspotChanged)
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action

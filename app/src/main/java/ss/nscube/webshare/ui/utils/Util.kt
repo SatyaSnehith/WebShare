@@ -32,24 +32,22 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.color.MaterialColors
 import com.google.zxing.EncodeHintType
-import com.google.zxing.WriterException
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import com.google.zxing.qrcode.encoder.Encoder
 import ss.nscube.webshare.R
 import ss.nscube.webshare.server.HTTPServer
 import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.file.WebFile
-import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
 import ss.nscube.webshare.utils.scan.models.*
 import java.io.File
+import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 object Util {
-    var todayDate = Calendar.getInstance().apply {
+    private var todayDate: Date = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0)
         set(Calendar.MINUTE, 0)
         set(Calendar.MILLISECOND, 0)
@@ -66,23 +64,15 @@ object Util {
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun closeSoftKeyboard(activity: Activity) {
-        var view = activity.currentFocus
-        if (view == null) {
-            view = View(activity);
-        }
-        val imm: InputMethodManager? = view.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
     fun openFile(context: Context?, file: File) {
         if (context == null) return
+        log("FILE MIME ${URLConnection.guessContentTypeFromName(file.name)}")
         try {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.setDataAndType(
                 FileProvider.getUriForFile(context, context.packageName + ".provider", file),
-                FileUtil.getMimeTypeFromName(file.name)
+                URLConnection.guessContentTypeFromName(file.name)
             )
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
@@ -116,7 +106,7 @@ object Util {
     fun copyToClipboard(text: CharSequence, activity: Activity) {
         val clip = ClipData.newPlainText("WebShare Text", text)
         (activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
-        Util.toast(activity, "Text copied to clipboard!")
+        toast(activity, "Text copied to clipboard!")
     }
 
     fun textFromClipBoard(context: Context): CharSequence? {
@@ -131,55 +121,6 @@ object Util {
             pasteData = HtmlCompat.fromHtml(clipboard.primaryClip?.getItemAt(0)?.htmlText ?: return null, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
         return pasteData
-    }
-
-
-
-    fun generateQR(url: String, color: Int): Bitmap? {
-        try {
-            val encodingHints: HashMap<EncodeHintType, Any?> = HashMap()
-            encodingHints[EncodeHintType.CHARACTER_SET] = "UTF-8"
-            val code = Encoder.encode(url, ErrorCorrectionLevel.L, encodingHints)
-            val byteMatrix = code.matrix
-            val diameter: Int
-            val cWidth: Int = byteMatrix.width
-            val cHeight: Int = byteMatrix.height
-            val radius: Int = 5
-            diameter = 2 * radius
-            val gap: Int = 0
-            val cPaint = Paint()
-            cPaint.style = Paint.Style.FILL
-            cPaint.isAntiAlias = true
-            cPaint.color = color
-            val x = diameter + gap
-            val y = diameter + gap
-            val bitmap =
-                Bitmap.createBitmap((x + 1) * cWidth, (y + 1) * cHeight, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas()
-            canvas.setBitmap(bitmap)
-            var b: Byte
-            var cx: Int
-            var cy: Int
-            for (i in 0 until cWidth) {
-                for (j in 0 until cHeight) {
-                    if (byteMatrix[i, j].also { b = it }.toInt() == 1) {
-                        cx = (i + 1) * x
-                        cy = (j + 1) * y
-                        canvas.drawRect(
-                            RectF(
-                                cx.toFloat(), cy.toFloat(),
-                                (cx + diameter).toFloat(), (cy + diameter).toFloat()
-                            ),  cPaint
-                        )
-                        //                        canvas.drawCircle(cx, cy, radius, cPaint);
-                    }
-                }
-            }
-            return bitmap
-        } catch (e: WriterException) {
-            e.printStackTrace()
-        }
-        return null
     }
 
     fun getQrBitmap(context: Context, link: String): Bitmap? {
@@ -257,7 +198,7 @@ object Util {
         }
         if (result) data.isSelected = !data.isSelected
         else {
-            Util.toast(server.application, "You have reached the maximum number of files allowed")
+            toast(server.application, "You have reached the maximum number of files allowed")
         }
         return result
     }
@@ -267,7 +208,7 @@ object Util {
     }
 
     fun setImage(root: FrameLayout, imageView: ImageView, iconView: ImageView, appFile: AppFile) {
-        log("APPFILE type: ${appFile.type == null}, name: ${appFile.name == null}, file: ${appFile.file == null}, uri: ${appFile.uri == null}, appIconDrawable: ${appFile.appIconDrawable == null},")
+        log("APP_FILE type: ${appFile.type}, name: ${appFile.name}, file: ${appFile.file}, uri: ${appFile.uri}, appIconDrawable: ${appFile.appIconDrawable == null},")
         setImage(root, imageView, iconView, appFile.type, appFile.name, appFile.file, null, appFile.appIconDrawable)
     }
 
@@ -275,7 +216,7 @@ object Util {
         setImage(root, imageView, iconView, WebFileUtil.Audio)
     }
 
-    fun setImage(
+    private fun setImage(
         root: FrameLayout,
         imageView: ImageView,
         iconView: ImageView,
@@ -307,7 +248,7 @@ object Util {
                 if (drawable != null) {
                     imageView.visibility = View.VISIBLE
                     iconView.visibility = View.GONE
-                    Glide.with(imageView).load(drawable).into(imageView);
+                    Glide.with(imageView).load(drawable).into(imageView)
                 } else {
                     imageView.visibility = View.GONE
                     iconView.visibility = View.VISIBLE
@@ -321,7 +262,7 @@ object Util {
         }
     }
 
-    fun getIconResource(type: String): Int {
+    private fun getIconResource(type: String): Int {
         return when(type) {
             WebFileUtil.Image -> R.drawable.icon_image
             WebFileUtil.Audio -> R.drawable.icon_audio
@@ -359,14 +300,6 @@ fun ImageView.loadImage(name: String?, uri: Uri) {
     if (name != null && name.endsWith(".svg")) loadSvg(uri)
     else glideIcon(uri)
 }
-
-//fun ImageView.loadSvg(uri: Uri) {
-//    scaleType = ImageView.ScaleType.CENTER_CROP
-//    load(uri) {
-//        crossfade(true)
-//        decoderFactory { result, options, _ -> SvgDecoder(result.source, options) }
-//    }
-//}
 
 fun ImageView.loadSvg(any: Any) {
     scaleType = ImageView.ScaleType.CENTER_CROP

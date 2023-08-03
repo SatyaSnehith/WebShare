@@ -22,7 +22,7 @@ class ActionBar(context: Context, attributeSet: AttributeSet?, style: Int): Line
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(context: Context) : this(context, null, 0)
     var uiUtil: UiUtil = UiUtil.getInstance()
-    val buttonSize = resources.getDimension(R.dimen.action_button_size).toInt()
+    private val buttonSize = resources.getDimension(R.dimen.action_button_size).toInt()
     var titleTextView = TextView(context)
     var searchEditText = EditText(context)
 
@@ -31,7 +31,7 @@ class ActionBar(context: Context, attributeSet: AttributeSet?, style: Int): Line
         gravity = Gravity.CENTER_VERTICAL
     }
 
-    fun getIcon(iconRes: Int, name: String, size: Int = uiUtil._20dp): FrameLayout {
+    private fun getIcon(iconRes: Int, name: String, size: Int = uiUtil._20dp): FrameLayout {
         val frameLayout = FrameLayout(context)
         frameLayout.setBackgroundResource(R.drawable.round_primary_ripple_25)
         frameLayout.setOnLongClickListener {
@@ -77,7 +77,7 @@ class ActionBar(context: Context, attributeSet: AttributeSet?, style: Int): Line
         addView(endIcon, createIconLayoutParams())
     }
 
-    fun createIconLayoutParams() = LayoutParams(buttonSize, buttonSize).apply {
+    private fun createIconLayoutParams() = LayoutParams(buttonSize, buttonSize).apply {
         setMargins(uiUtil._5dp, 0, uiUtil._5dp, 0)
     }
 
@@ -127,8 +127,4 @@ class ActionBar(context: Context, attributeSet: AttributeSet?, style: Int): Line
         removeAllViews()
         updateActionBar()
     }
-}
-
-abstract class ActionMode(val actionBar: ActionBar) {
-    abstract fun createView()
 }

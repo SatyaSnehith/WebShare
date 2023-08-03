@@ -82,11 +82,11 @@ class ServerSettingsFragment: BaseFragment() {
         }
     }
 
-    fun getServerInactiveDescription() = "Stops the server after ${server.getMaxInactiveTime()} of inactivity"
+    private fun getServerInactiveDescription() = "Stops the server after ${server.getMaxInactiveTime()} of inactivity"
 
-    fun getIncorrectAttemptsDescription() = "Block User After ${server.maxPinAttempts} Incorrect Attempts"
+    private fun getIncorrectAttemptsDescription() = "Block User After ${server.maxPinAttempts} Incorrect Attempts"
 
-    fun updateDescription(position: Int) {
+    private fun updateDescription(position: Int) {
         adapter?.let {
             when(position) {
                 NameDescription -> it.list[0].description = server.mainUser.name
@@ -125,12 +125,12 @@ class ServerSettingsFragment: BaseFragment() {
     }
 
     companion object {
-        val UpdateDescription = "updateDescription"
-        val ItemId = "itemId"
-        val NameDescription = 0
-        val InactiveDescription = 1
-        val AttemptDescription = 2
-        val MemoryDescription = 3
+        const val UpdateDescription = "updateDescription"
+        const val ItemId = "itemId"
+        const val NameDescription = 0
+        const val InactiveDescription = 1
+        const val AttemptDescription = 2
+        const val MemoryDescription = 3
     }
 }
 
@@ -183,22 +183,22 @@ class SettingsAdapter: RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount() = list.size
 
     companion object {
-        val ItemSimple = 0
-        val ItemSwitch = 1
+        const val ItemSimple = 0
+        const val ItemSwitch = 1
     }
 }
 
 class SimpleItemViewHolder(view: View): ViewHolder(view) {
-    val iconImageView = view.findViewById<ImageView>(R.id.item_icon_iv)
-    val titleTextView = view.findViewById<TextView>(R.id.item_title_tv)
-    val descriptionTextView = view.findViewById<TextView>(R.id.item_description_tv)
+    val iconImageView: ImageView = view.findViewById(R.id.item_icon_iv)
+    val titleTextView: TextView = view.findViewById(R.id.item_title_tv)
+    val descriptionTextView: TextView = view.findViewById(R.id.item_description_tv)
 }
 
 class SwitchItemViewHolder(view: View): ViewHolder(view) {
-    val iconImageView = view.findViewById<ImageView>(R.id.item_icon_iv)
-    val titleTextView = view.findViewById<TextView>(R.id.item_title_tv)
-    val descriptionTextView = view.findViewById<TextView>(R.id.item_description_tv)
-    val switch = view.findViewById<SwitchMaterial>(R.id.item_switch)
+    val iconImageView: ImageView = view.findViewById(R.id.item_icon_iv)
+    val titleTextView: TextView = view.findViewById(R.id.item_title_tv)
+    val descriptionTextView: TextView = view.findViewById(R.id.item_description_tv)
+    val switch: SwitchMaterial = view.findViewById(R.id.item_switch)
 
     fun updateSwitchStyle() {
         val on = switch.isChecked

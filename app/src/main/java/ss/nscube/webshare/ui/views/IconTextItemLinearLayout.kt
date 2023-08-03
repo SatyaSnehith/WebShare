@@ -3,7 +3,6 @@ package ss.nscube.webshare.ui.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,19 +15,15 @@ import ss.nscube.webshare.ui.utils.UiUtil
 
 class IconTextItemLinearLayout(context: Context, attr: AttributeSet?, style: Int) : LinearLayout(context, attr, style) {
     var onItemClick: (Int) -> Unit = {}
-    var itemComponentName: String = "rippleBg"
-    var imageComponentName: String = "image"
-    var textComponentName: String = "text"
     var isTopAndBottomRound = false
     val uiUtil = UiUtil.getInstance()
 
-    var imageSize = uiUtil.dp(24).toInt()
+    private var imageSize = uiUtil.dp(24).toInt()
 
-    var itemHeight = uiUtil.dp(50).toInt()
+    private var itemHeight = uiUtil.dp(50).toInt()
 
     val itemLayoutList = HashMap<Int, LinearLayout>()
-    val primaryTextColor = MaterialColors.getColor(this, android.R.attr.textColorPrimary)
-    val secondaryTextColor = MaterialColors.getColor(this, android.R.attr.textColorSecondary)
+    private val primaryTextColor = MaterialColors.getColor(this, android.R.attr.textColorPrimary)
 
     init {
         orientation = VERTICAL
@@ -45,29 +40,7 @@ class IconTextItemLinearLayout(context: Context, attr: AttributeSet?, style: Int
             onItemClick(id)
         }
         itemLayoutList[id] = linearLayout
-        return linearLayout;
-    }
-
-    fun addFeatureItem(imageSrc: Int, text: String) {
-        val itemLinearLayout = LinearLayout(context)
-        itemLinearLayout.orientation = HORIZONTAL
-        itemLinearLayout.gravity = Gravity.CENTER_VERTICAL
-
-        val image = ImageView(context)
-        image.setImageResource(imageSrc)
-        itemLinearLayout.addView(image, LinearParams(uiUtil._40dp, uiUtil._40dp).apply {
-            setMargins(0, 0, uiUtil._10dp, 0)
-        })
-
-        val textView = TextView(context)
-        textView.text = text
-        textView.textSize = 14f
-        textView.setTextColor(secondaryTextColor)
-        itemLinearLayout.addView(textView, LinearParams(LinearParams.WRAP_CONTENT, LinearParams.WRAP_CONTENT).apply {
-            weight = 1f
-        })
-
-        addView(itemLinearLayout, LinearParams(LinearParams.MATCH_PARENT, itemHeight))
+        return linearLayout
     }
 
     fun addMenuItem(id: Int, imageSrc: Int, text: String, isDisabled: Boolean = false) {

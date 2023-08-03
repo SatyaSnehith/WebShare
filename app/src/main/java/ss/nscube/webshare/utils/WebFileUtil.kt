@@ -9,26 +9,17 @@ import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
-import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import ss.nscube.webshare.R
 import ss.nscube.webshare.server.file.AppFile
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.utils.scan.models.*
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.security.AccessController.getContext
 
 
 object WebFileUtil {
@@ -60,7 +51,6 @@ object WebFileUtil {
 
     fun getFile(context: Context, uri: Uri): Data? {
         val file = try { uri.toFile() } catch (e: Exception) { null }
-        var fileData: Data? = null
         var name: String? = file?.name
         var size: Long? = file?.length()
         if (name == null || size == null) context.contentResolver.query(
@@ -76,17 +66,16 @@ object WebFileUtil {
         if (name == null || size == null) return null
         log("URI getFile $name $size")
 //        val documentFile = DocumentFile.fromSingleUri(context, uri) ?: return null
-        fileData = when(FileUtil.getFileType(name!!)) {
+        return when(FileUtil.getFileType(name!!)) {
             Image -> Image(name!!, size!!, uri, "", 0L)
             Video -> Video(name!!, size!!, 0, uri, 0L)
             Audio -> Audio(name!!, size!!, 0, uri, 0L)
             App -> getAppFromUri(context, uri, name!!, size!!)
             else -> Document(name!!, size!!, uri)
         }
-        return fileData
     }
 
-    fun getAppFromUri(context: Context, uri: Uri, fileName: String, size: Long): App? {
+    private fun getAppFromUri(context: Context, uri: Uri, fileName: String, size: Long): App? {
         var app: App? = null
         var name = fileName
         if (name.endsWith(".apk", ignoreCase = true)) {
@@ -155,7 +144,6 @@ object WebFileUtil {
     }
 
     fun getAppIconFromFile(context: Context, path: String): Drawable? {
-        val start = System.currentTimeMillis()
         val pm: PackageManager = context.packageManager
         val pi = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) pm.getPackageArchiveInfo(path, 0) else pm.getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(0))
         if (pi != null) {
@@ -167,21 +155,26 @@ object WebFileUtil {
     }
 
     fun getBitmap(drawable: Drawable?): Bitmap? {
+        if (drawable == null) return null
         var imageBitmap: Bitmap? = null
         if (drawable is BitmapDrawable) {
-            imageBitmap = (drawable as? BitmapDrawable)?.bitmap
+            imageBitmap = drawable.bitmap
         }
         if (imageBitmap == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val icon = drawable as? AdaptiveIconDrawable
+            val icon = drawable as? AdaptiveIconDrawable ?: return null
 
             val drr = arrayOfNulls<Drawable>(2)
-            drr[0] = icon?.background
-            drr[1] = icon?.foreground
+            drr[0] = icon.background
+            drr[1] = icon.foreground
 
             val layerDrawable = LayerDrawable(drr)
-            val bitmap = Bitmap.createBitmap(Math.max(icon?.intrinsicWidth ?: 1, 1), Math.max(icon?.intrinsicHeight ?: 1, 1), Bitmap.Config.ARGB_8888)
+            val bitmap = Bitmap.createBitmap(
+                icon.intrinsicWidth.coerceAtLeast(1),
+                icon.intrinsicHeight.coerceAtLeast(1),
+                Bitmap.Config.ARGB_8888
+            )
 
-            val canvas = Canvas(bitmap!!)
+            val canvas = Canvas(bitmap)
 
             layerDrawable.setBounds(0, 0, canvas.width, canvas.height)
             layerDrawable.draw(canvas)
