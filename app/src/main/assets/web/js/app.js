@@ -1661,8 +1661,8 @@ class FileInfoNode {
         details.innerHTML = 'Details'
         this.fileInfoDiv.appendChild(details)
         this.fileInfoDiv.appendChild(this.getFileInfoTable())
-        this.fileInfoDiv.appendChild(new Button(NewTabIcon, 'Open in new tab', () => utils.openFile(this.fileData.id, true)).div)
-        this.fileInfoDiv.appendChild(new Button(DownloadIcon, 'Download', () => utils.openFile(this.fileData.id, false)).div)
+        this.fileInfoDiv.appendChild(new Button(NewTabIcon, 'Open in new tab', () => utils.openFile(this.fileData.name, this.fileData.id, true)).div)
+        this.fileInfoDiv.appendChild(new Button(DownloadIcon, 'Download', () => utils.openFile(this.fileData.name, this.fileData.id, false)).div)
         this.fileInfoDiv.appendChild(new SelectButton(this.fileNode).div)
         if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
     }
@@ -2918,19 +2918,21 @@ const utils = {
         return c >= '0' && c <= '9'
     },
 
-    openUrl: function(url, open) {
+    openUrl: function(name, url, open) {
         let a = element('a')
         a.href = url
         if (open)
             a.target = '_blank'
-        else 
-            a.download = true
+        else {
+            if (name != null) a.download = name
+            else a.download = true
+        }
         a.click()
     },
 
-    openFile: function(id, open) {
+    openFile: function(name, id, open) {
         api.getFileUrl(id, (res) => {
-            utils.openUrl(res, open)
+            utils.openUrl(name, res, open)
         })
     },
 
@@ -3253,7 +3255,13 @@ class Api {
     }
 
     getFileUrl(fileId, onRes) {
-        this.xhrAuthGet(ApiSignedUrlFile + "/" + fileId, (response) => onRes(ApiFile + "/" + response.name));
+        var url = ApiSignedUrlFile + "/" + fileId
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url, false);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
+        xhr.addEventListener('error', this.onError);
+        xhr.send();
+        this.handleResponse(xhr, url, (res) => onRes(ApiFile + "/" + res.name));
     }
 
     getZipUrl(ids, onRes) {
@@ -3327,6 +3335,8 @@ class Api {
             }))
             return;
         }
+        // used async false to fix the issue on ios browsers (by trial and error)
+        // with async true the file chooser is not opening
         let xhr = new XMLHttpRequest();
         xhr.open("GET", ApiUploadInfo, false);
         xhr.setRequestHeader("Authorization", "Basic " + this.userId);

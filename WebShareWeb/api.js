@@ -199,7 +199,13 @@ class Api {
     }
 
     getFileUrl(fileId, onRes) {
-        this.xhrAuthGet(ApiSignedUrlFile + "/" + fileId, (response) => onRes(ApiFile + "/" + response.name));
+        var url = ApiSignedUrlFile + "/" + fileId
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url, false);
+        xhr.setRequestHeader("Authorization", "Basic " + this.userId);
+        xhr.addEventListener('error', this.onError);
+        xhr.send();
+        this.handleResponse(xhr, url, (res) => onRes(ApiFile + "/" + res.name));
     }
 
     getZipUrl(ids, onRes) {

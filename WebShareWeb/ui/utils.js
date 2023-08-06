@@ -115,19 +115,21 @@ const utils = {
         return c >= '0' && c <= '9'
     },
 
-    openUrl: function(url, open) {
+    openUrl: function(name, url, open) {
         let a = element('a')
         a.href = url
         if (open)
             a.target = '_blank'
-        else 
-            a.download = true
+        else {
+            if (name != null) a.download = name
+            else a.download = true
+        }
         a.click()
     },
 
-    openFile: function(id, open) {
+    openFile: function(name, id, open) {
         api.getFileUrl(id, (res) => {
-            utils.openUrl(res, open)
+            utils.openUrl(name, res, open)
         })
     },
 
