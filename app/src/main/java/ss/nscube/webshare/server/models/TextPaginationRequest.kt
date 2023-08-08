@@ -1,11 +1,13 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class TextPaginationRequest (
-    @SerializedName("fromId")
+    @Json(name = "fromId")
     var fromId: Int,
 
-    @SerializedName("count")
+    @Json(name = "count")
     val count: Int
 )

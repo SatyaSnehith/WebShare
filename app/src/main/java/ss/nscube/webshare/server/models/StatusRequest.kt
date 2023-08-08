@@ -1,10 +1,12 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class StatusRequest (
-    @SerializedName("userId")
+    @Json(name = "userId")
     val userId: String?,
-    @SerializedName("os")
+    @Json(name = "os")
     val os: String
 )

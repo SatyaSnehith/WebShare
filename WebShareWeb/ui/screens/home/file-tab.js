@@ -89,6 +89,7 @@ class FileTab {
     onFiles(filesResponse) {
         let list = filesResponse.files;
         if (list.length > 0) this.lastId = list[list.length - 1].id;
+        for (let item of list) item.name = Base64.decode(item.name)
         this.fileView.update(list)
         this.allFiles.scrollTop = 0;
         this.updateContentVisibility()
@@ -100,6 +101,10 @@ class FileTab {
     onMoreFiles(filesResponse) {
         let list = filesResponse.files
         if (list.length > 0) this.lastId = list[list.length - 1].id
+        for (let item of list) {
+            item.name = Base64.decode(item.name)
+            log(item)
+        }
         this.fileView.addFiles(list)
         this.totalFileCount = filesResponse.totalCount
         this.updateFileCount()

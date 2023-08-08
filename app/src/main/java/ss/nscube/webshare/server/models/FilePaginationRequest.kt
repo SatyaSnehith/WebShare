@@ -1,17 +1,19 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class FilePaginationRequest (
-    @SerializedName("fromId")
+    @Json(name = "fromId")
     var fromId: Int,
 
-    @SerializedName("count")
+    @Json(name = "count")
     val count: Int,
 
-    @SerializedName("filters")
+    @Json(name = "filters")
     val filters: List<String>?,
 
-    @SerializedName("search")
+    @Json(name = "search")
     val search: String?,
 )

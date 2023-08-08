@@ -1,11 +1,13 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class FileListResponse (
-    @SerializedName("totalCount")
+    @Json(name = "totalCount")
     val totalCount: Int,
 
-    @SerializedName("files")
+    @Json(name = "files")
     val files: List<FileResponse>
 )

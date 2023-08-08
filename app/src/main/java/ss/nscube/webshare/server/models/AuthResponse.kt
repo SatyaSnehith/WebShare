@@ -1,10 +1,12 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class AuthResponse (
-    @SerializedName("isValid")
+    @Json(name = "isValid")
     val isValid: Boolean,
-    @SerializedName("error")
+    @Json(name = "error")
     val error: String?,
 )

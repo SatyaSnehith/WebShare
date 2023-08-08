@@ -1,12 +1,14 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class AddTextResponse (
-    @SerializedName("isUpdated")
+    @Json(name = "isUpdated")
     val isUpdated: Boolean,
-    @SerializedName("error")
+    @Json(name = "error")
     val error: String?,
-    @SerializedName("text")
+    @Json(name = "text")
     val text: Text
 )

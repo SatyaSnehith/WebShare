@@ -1,6 +1,7 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 
 /**
@@ -10,15 +11,16 @@ import com.google.gson.annotations.SerializedName
  * 2 -> secured and authorized
  * 3 -> blocked
  */
+@JsonClass(generateAdapter = true)
 class StatusResponse (
-    @SerializedName("name")
+    @Json(name = "name")
     val name: String,
-    @SerializedName("id")
+    @Json(name = "id")
     val userId: String,
-    @SerializedName("isAuthorized")
+    @Json(name = "isAuthorized")
     val isAuthorized: Boolean,
-    @SerializedName("isSecurityEnabled")
+    @Json(name = "isSecurityEnabled")
     val isSecurityEnabled: Boolean,
-    @SerializedName("isBlocked")
+    @Json(name = "isBlocked")
     val isBlocked: Boolean,
 )

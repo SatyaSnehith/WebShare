@@ -1,14 +1,16 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class FileUploadResponse (
-    @SerializedName("isSuccess")
+    @Json(name = "isSuccess")
     val isSuccess: Boolean,
-    @SerializedName("file")
+    @Json(name = "file")
     val file: FileResponse?,
-    @SerializedName("error")
+    @Json(name = "error")
     val error: String?,
-    @SerializedName("showError")
+    @Json(name = "showError")
     val showError: Boolean,
 )

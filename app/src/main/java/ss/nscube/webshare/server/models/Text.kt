@@ -1,16 +1,18 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Text (
-    @SerializedName("from")
+    @Json(name = "from")
     val from: String,
-    @SerializedName("data")
+    @Json(name = "data")
     val data: String,
-    @SerializedName("time")
+    @Json(name = "time")
     val time: Long,
-    @SerializedName("id")
+    @Json(name = "id")
     val id: Int,
-    @SerializedName("isDeletable")
+    @Json(name = "isDeletable")
     val isDeletable: Boolean,
 )

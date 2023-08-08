@@ -4,13 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Base64
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.server.user.User
 import ss.nscube.webshare.server.utils.FileUtil
-import ss.nscube.webshare.server.utils.PathUtil
 import ss.nscube.webshare.utils.FileState
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
@@ -32,16 +32,16 @@ class WebFile() {
             val extension = if (lastDotIndex == -1) null else value.substring(lastDotIndex + 1).lowercase(Locale.getDefault())
             mime = FileUtil.getMimeTypeFromExtension(extension)
             type = FileUtil.getFileType(extension, mime)
-            encoded = PathUtil.encode(value)
+            base64Name = Base64.encodeToString(value.toByteArray(), Base64.NO_WRAP)
         }
+
+    var base64Name: String = ""
 
     var type: String = WebFileUtil.Document
 
     var fileType: Int = WebFileUtil.TypeNone
 
     var mime: String = FileUtil.OctetStream
-
-    var encoded: String = ""
 
     var length: Long = -1
 

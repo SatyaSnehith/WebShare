@@ -359,11 +359,13 @@ class SendFileDialog extends MaxDialog {
     }
  
     onFiles(res) {
+        for (let item of res) item.name = Base64.decode(item.name)
         this.addMyFiles(res);
         this.updateContentVisibility();
     }
 
     onMoreFiles(res) {
+        for (let item of res) item.name = Base64.decode(item.name)
         this.addMyFiles(res);
     }
 
@@ -1180,7 +1182,7 @@ class SelectionMode {
 
     openSlectedFiles() {
         for (const fileNode of this.selectedFiles) {
-            utils.openFile(fileNode.fileData.id, false);
+            utils.openFile(fileNode.fileData.name, fileNode.fileData.id, false);
         }
     }
 
@@ -1190,7 +1192,7 @@ class SelectionMode {
             idList.push(fileNode.fileData.id);
         }
         api.getZipUrl(idList, (res) => {
-            utils.openUrl(res, false);
+            utils.openUrl(null, res, false);
         })
     }
 
@@ -1923,7 +1925,7 @@ class SampleData {
             if (i >= this.sampleTotalFileCount) break;
             sFileList.push({
                 id: i,
-                name: utils.getSampleText() + i + ".txt",
+                name: Base64.encode(utils.getSampleText() + i + ".txt"),
                 type: types[utils.ran() % types.length],
                 duration: utils.ran() * 123000,
                 size: utils.ran() * 46500,
@@ -2416,6 +2418,7 @@ class FileTab {
     onFiles(filesResponse) {
         let list = filesResponse.files;
         if (list.length > 0) this.lastId = list[list.length - 1].id;
+        for (let item of list) item.name = Base64.decode(item.name)
         this.fileView.update(list)
         this.allFiles.scrollTop = 0;
         this.updateContentVisibility()
@@ -2427,6 +2430,10 @@ class FileTab {
     onMoreFiles(filesResponse) {
         let list = filesResponse.files
         if (list.length > 0) this.lastId = list[list.length - 1].id
+        for (let item of list) {
+            item.name = Base64.decode(item.name)
+            log(item)
+        }
         this.fileView.addFiles(list)
         this.totalFileCount = filesResponse.totalCount
         this.updateFileCount()

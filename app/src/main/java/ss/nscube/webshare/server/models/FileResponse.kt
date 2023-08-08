@@ -1,24 +1,26 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class FileResponse (
-    @SerializedName("name")
+    @Json(name = "name")
     val name: String,
-    @SerializedName("id")
+    @Json(name = "id")
     val id: Int,
-    @SerializedName("type")
+    @Json(name = "type")
     val type: String,
-    @SerializedName("size")
+    @Json(name = "size")
     val size: Long,
-    @SerializedName("created")
+    @Json(name = "created")
     val created: Long,
-    @SerializedName("uploader")
+    @Json(name = "uploader")
     val uploader: String,
-    @SerializedName("isDeletable")
+    @Json(name = "isDeletable")
     val isDeletable: Boolean,
-    @SerializedName("duration")
+    @Json(name = "duration")
     val duration: Int?,
-    @SerializedName("resolution")
+    @Json(name = "resolution")
     val resolution: String?,
 )

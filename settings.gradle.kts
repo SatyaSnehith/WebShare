@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "WebShare"
-include ':app'
+include(":app")

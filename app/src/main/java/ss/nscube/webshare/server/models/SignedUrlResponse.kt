@@ -1,8 +1,10 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class SignedUrlResponse (
-    @SerializedName("name")
+    @Json(name = "name")
     val name: String
 )

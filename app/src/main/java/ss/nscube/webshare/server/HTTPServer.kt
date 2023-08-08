@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.*
 import ss.nscube.webshare.ServerService
 import ss.nscube.webshare.WebShareApp
@@ -36,6 +38,7 @@ import java.net.Socket
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -85,6 +88,9 @@ class HTTPServer(val application: WebShareApp) {
             .asBitmap()
             .apply(RequestOptions().centerCrop().override(140, 140))
     val assetLengthMap: HashMap<String, Long> = HashMap()
+    val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
 
     companion object {
         private const val VERSION = "HTTP/1.0"
@@ -428,10 +434,18 @@ class HTTPServer(val application: WebShareApp) {
         private fun respond() {
             log("PATH ${path.path}")
             if (path.length == 0) {
-                sendAsset("web/index.html", false)
+                sendAsset("web/index.html")
             } else {
                 if(path[0] == Path.Api) handleApi()
-                else sendAsset("web${path.path}")
+                else {
+                    val qIndex = path.path.indexOf('?')
+                    val fileName = if (qIndex > 0) {
+                         path.path.substring(0, qIndex)
+                    } else {
+                        path.path
+                    }
+                    sendAsset("web$fileName")
+                }
             }
         }
 
@@ -535,7 +549,7 @@ class HTTPServer(val application: WebShareApp) {
         }
 
         @Throws(Exception::class)
-        fun sendAsset(name: String, addCache: Boolean = true) {
+        fun sendAsset(name: String) {
             val inputStream = assetManager.open(name)
             var length = if (assetLengthMap.containsKey(name)) {
                 assetLengthMap[name]
@@ -545,21 +559,28 @@ class HTTPServer(val application: WebShareApp) {
             }
             headers.setContentType(FileUtil.getMimeTypeFromName(name))
             if (length != null) headers.setContentLength(length!!)
-//            if (addCache) headers.setCacheControl(Headers.HourAgeCache)
             sendResponseHeader()
             sendAssetFile(inputStream)
         }
 
-        fun<T> getRequestJson(cls: Class<T>): T {
-            return Gson().fromJson(request.jsonString, cls)
+        private inline fun<reified T> getJson(): T {
+            return moshi.adapter(T::class.java).fromJson(request.jsonString!!)!!
         }
 
-        fun<T> sendJson(t: T) {
-            val json = Gson().toJson(t)
-//            headers.addHeader("Access-Control-Allow-Origin: *")
+        private inline fun<reified T> sendJson(t: T) {
+            val json = moshi.adapter(T::class.java).toJson(t)
+            sendJsonText(json)
+        }
+
+        private inline fun<reified T> sendListJson(t: List<T>) {
+            val json = moshi.adapter<List<T>>(Types.newParameterizedType(java.util.List::class.java, T::class.java)).toJson(t)
+            sendJsonText(json)
+        }
+
+        private fun sendJsonText(json: String) {
             headers.setContentType(FileUtil.JsonMimeType)
             headers.setContentLength(json.length.toLong())
-//            httpResponse(json)
+            httpResponse(json)
             log("JSON RESPONSE SIZE: ${json.length}")
             sendResponseHeader()
             sendResponseBodyText(json)
@@ -572,7 +593,7 @@ class HTTPServer(val application: WebShareApp) {
                 Path.Status -> {
                     assertMethod(Post)
                     assertJson()
-                    val statusRequest = getRequestJson(StatusRequest::class.java)
+                    val statusRequest: StatusRequest = getJson()
                     val ip = socket.inetAddress.hostAddress ?: throw BadRequestException("no ip address")
 
                     val user = if (statusRequest.userId != null) userManager[statusRequest.userId] ?: createUser(ip) else createUser(ip)
@@ -588,7 +609,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertMethod(Post)
                     assertJson()
                     val user = assertUser()
-                    val authRequest = getRequestJson(AuthRequest::class.java)
+                    val authRequest: AuthRequest = getJson()
                     user.pin = authRequest.pin
                     user.authAttemptCount++
                     val isCorrectPin = user.pin == pin
@@ -613,7 +634,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertMethod(Post)
                     val user = assertUser()
                     assertAuth(user)
-                    val zipRequest = getRequestJson(ZipRequest::class.java)
+                    val zipRequest: ZipRequest = getJson()
                     val url = signedUrlList.addZip(
                         ss.nscube.webshare.server.utils.Util.getZipDateName(),
                         zipRequest.ids ?: throw BadRequestException("id list not found"),
@@ -660,7 +681,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertJson()
                     val user = assertUser()
                     assertAuth(user)
-                    val tpr: TextPaginationRequest = getRequestJson(TextPaginationRequest::class.java)
+                    val tpr: TextPaginationRequest = getJson()
                     if (tpr.fromId == -1 && textManager.isNotEmpty()) {
                         tpr.fromId = textManager.last().id + 1
                     }
@@ -673,7 +694,7 @@ class HTTPServer(val application: WebShareApp) {
                             textArray.add(Text(text.fromUser.name, text.valueBase64, text.time, text.id, text.fromUser.id == user.id))
                         }
                     }
-                    sendJson(textArray)
+                    sendListJson(textArray)
                 }
                 Path.AddText -> {
                     assertMethod(Post)
@@ -698,7 +719,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertJson()
                     val user = assertUser()
                     assertAuth(user)
-                    val fpr: FilePaginationRequest = getRequestJson(FilePaginationRequest::class.java)
+                    val fpr: FilePaginationRequest = getJson()
                     val files = fileManager.files
                     log("FILE_API fromId ${fpr.fromId}")
                     if (fpr.fromId == -1 && files.isNotEmpty()) {
@@ -716,7 +737,7 @@ class HTTPServer(val application: WebShareApp) {
                             (fpr.search == null || file.name.contains(fpr.search, true))) {
                             log("FILE_API file add id:${file.id}")
                             fileResponseArray.add(FileResponse(
-                                    file.name,
+                                    file.base64Name,
                                     file.id,
                                     file.type,
                                     file.length,
@@ -735,7 +756,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertJson()
                     val user = assertUser()
                     assertAuth(user)
-                    val mfpr = getRequestJson(MyFilesPaginationRequest::class.java)
+                    val mfpr: MyFilesPaginationRequest = getJson()
                     val files = fileManager.files
                     if (mfpr.fromId == -1 && files.isNotEmpty()) {
                         mfpr.fromId = files.last().id + 1
@@ -748,7 +769,7 @@ class HTTPServer(val application: WebShareApp) {
                         if (user.id == file.user?.id && file.id < mfpr.fromId) {
                             fileResponseArray.add(
                                 FileResponse(
-                                    file.name,
+                                    file.base64Name,
                                     file.id,
                                     file.type,
                                     file.length,
@@ -761,7 +782,7 @@ class HTTPServer(val application: WebShareApp) {
                             )
                         }
                     }
-                    sendJson(fileResponseArray)
+                    sendListJson(fileResponseArray)
                 }
                 Path.Image -> {
                     assertMethod(Get)
@@ -859,7 +880,8 @@ class HTTPServer(val application: WebShareApp) {
                     assertJson()
                     val user = assertUser()
                     assertAuth(user)
-                    val ids = getRequestJson(DeleteMultiRequest::class.java).ids ?: throw BadRequestException("id list not found")
+                    val req: DeleteMultiRequest = getJson()
+                    val ids = req.ids ?: throw BadRequestException("id list not found")
                     var isDeleted = true
                     for (id in ids) {
                         val file = getFile(id)
@@ -874,7 +896,7 @@ class HTTPServer(val application: WebShareApp) {
                     assertJson()
                     val user = assertUser()
                     assertAuth(user)
-                    val changeNameRequest = getRequestJson(ChangeNameRequest::class.java)
+                    val changeNameRequest: ChangeNameRequest = getJson()
                     val message = userManager.validateName(changeNameRequest.name)
                     if (message == null) user.updateName(changeNameRequest.name)
                     sendJson(UpdatedResponse(message == null, message))

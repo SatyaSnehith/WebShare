@@ -105,11 +105,13 @@ class SendFileDialog extends MaxDialog {
     }
  
     onFiles(res) {
+        for (let item of res) item.name = Base64.decode(item.name)
         this.addMyFiles(res);
         this.updateContentVisibility();
     }
 
     onMoreFiles(res) {
+        for (let item of res) item.name = Base64.decode(item.name)
         this.addMyFiles(res);
     }
 

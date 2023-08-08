@@ -57,7 +57,7 @@ class SignedUrlList {
         }
     }
 
-    fun addZip(fileName: String, idList: ArrayList<Int>, user: User): SignedUrl {
+    fun addZip(fileName: String, idList: List<Int>, user: User): SignedUrl {
         synchronized(mutex) {
             var signedUrl = signedUrls.find {
                 (if (it is SignedUrlZip) it.idList == idList else false) && it.user == user
@@ -115,7 +115,7 @@ class SignedUrlFile(
 
 class SignedUrlZip(
     val fileName: String,
-    val idList: ArrayList<Int>,
+    val idList: List<Int>,
     override val user: User,
     override val hash: String,
     override var expiredAt: Long

@@ -47,7 +47,7 @@ class SelectionMode {
 
     openSlectedFiles() {
         for (const fileNode of this.selectedFiles) {
-            utils.openFile(fileNode.fileData.id, false);
+            utils.openFile(fileNode.fileData.name, fileNode.fileData.id, false);
         }
     }
 
@@ -57,7 +57,7 @@ class SelectionMode {
             idList.push(fileNode.fileData.id);
         }
         api.getZipUrl(idList, (res) => {
-            utils.openUrl(res, false);
+            utils.openUrl(null, res, false);
         })
     }
 

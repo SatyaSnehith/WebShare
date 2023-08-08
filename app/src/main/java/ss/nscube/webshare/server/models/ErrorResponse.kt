@@ -1,11 +1,13 @@
 package ss.nscube.webshare.server.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class ErrorResponse (
-    @SerializedName("errorType")
+    @Json(name = "errorType")
     val errorType: Int?,
-    @SerializedName("error")
+    @Json(name = "error")
     var error: String?,
 ) {
     companion object {

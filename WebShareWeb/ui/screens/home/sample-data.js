@@ -28,7 +28,7 @@ class SampleData {
             if (i >= this.sampleTotalFileCount) break;
             sFileList.push({
                 id: i,
-                name: utils.getSampleText() + i + ".txt",
+                name: Base64.encode(utils.getSampleText() + i + ".txt"),
                 type: types[utils.ran() % types.length],
                 duration: utils.ran() * 123000,
                 size: utils.ran() * 46500,

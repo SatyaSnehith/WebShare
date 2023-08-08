@@ -30,19 +30,6 @@
 </div>
 
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#directory-trees">Directory trees</a></li>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -60,11 +47,21 @@ Key Features:
 
 * User Management: Manage and control access privileges, such as blocking or granting user access.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Download it here:
+### Download it here:
 
 <a href='https://play.google.com/store/apps/details?id=ss.nscube.webshare'><img width='200' alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+
+## Tech stack & Open-source libraries
+- [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous.
+- Jetpack
+  - Navigation: Helps you implement navigation, With a navigation graph.
+  - Lifecycle: Observe Android lifecycles and handle UI states upon the lifecycle changes.
+  - Room: Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
+- [Moshi](https://github.com/square/moshi/): A modern JSON library for Kotlin and Java.
+- [Material-Components](https://github.com/material-components/material-components-android): Material design components for TabLayout, Switch.
+- [Glide](https://github.com/bumptech/glide): Loading images.
+- [Coil](https://coil-kt.github.io/coil/): For loading svg files.
 
 ## Directory Trees
 
@@ -350,7 +347,6 @@ Download it here:
 
 Distributed under the GNU General Public License v3.0. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
