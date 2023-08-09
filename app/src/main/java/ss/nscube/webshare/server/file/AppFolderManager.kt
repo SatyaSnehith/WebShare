@@ -17,8 +17,8 @@ import java.io.File
 class AppFolderManager(val server: HTTPServer) {
     val context: Context = server.application
     //path of main directory
-    val webShareFolderPath = Environment.getExternalStorageDirectory().absolutePath + "/" + HTTPServer.SERVER_NAME
-    var webShareFolder: File = File(webShareFolderPath)
+    private val webShareFolderPath = Environment.getExternalStorageDirectory().absolutePath + "/" + HTTPServer.SERVER_NAME
+    private var webShareFolder: File = File(webShareFolderPath)
     lateinit var imagesFolder: File
     lateinit var videosFolder: File
     lateinit var documentsFolder: File
@@ -31,7 +31,7 @@ class AppFolderManager(val server: HTTPServer) {
     val appList: ArrayList<AppFile> = ArrayList()
     val documentList: ArrayList<AppFile> = ArrayList()
 
-    val listenerList: ArrayList<AppFolderScanListener> = ArrayList()
+    private val listenerList: ArrayList<AppFolderScanListener> = ArrayList()
 
     fun addListener(listener: AppFolderScanListener) {
         listenerList.add(listener)
@@ -46,9 +46,8 @@ class AppFolderManager(val server: HTTPServer) {
         return StatFs(webShareFolderPath).availableBytes
     }
 
-    var scanCompleted = false
+    private var scanCompleted = false
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun initFolders() {
         MainScope().launch(Dispatchers.IO) {
             createFolder(webShareFolder)
@@ -94,7 +93,7 @@ class AppFolderManager(val server: HTTPServer) {
     }
 
     fun deleteFile(file: AppFile): Boolean {
-        if (file.isDownloaded) { // check if the file is downloaded in current webshare session
+        if (file.isDownloaded) { // check if the file is downloaded in current WebShare session
             for (webFile in server.downloadManager.files) {
                 if (webFile.file == file.file) {
                     log("DELETE FILE ${webFile.name}")
@@ -111,7 +110,7 @@ class AppFolderManager(val server: HTTPServer) {
         return false
     }
 
-    fun createFolder(file: File) {
+    private fun createFolder(file: File) {
         if (file.isFile) {
             file.delete()
         }
@@ -120,7 +119,7 @@ class AppFolderManager(val server: HTTPServer) {
         }
     }
 
-    fun startScan(coroutineScope: CoroutineScope) = listOf(
+    private fun startScan(coroutineScope: CoroutineScope) = listOf(
         scanAndAdd(coroutineScope, imageList, imagesFolder, WebFileUtil.Image),
         scanAndAdd(coroutineScope, videoList, videosFolder, WebFileUtil.Video),
         scanAndAdd(coroutineScope, audioList, audioFolder, WebFileUtil.Audio),
@@ -128,7 +127,7 @@ class AppFolderManager(val server: HTTPServer) {
         scanAndAdd(coroutineScope, documentList, documentsFolder, WebFileUtil.Document)
     )
 
-    fun scanAndAdd(coroutineScope: CoroutineScope, files: ArrayList<AppFile>, folder: File, folderType: String) = coroutineScope.async(Dispatchers.IO) {
+    private fun scanAndAdd(coroutineScope: CoroutineScope, files: ArrayList<AppFile>, folder: File, folderType: String) = coroutineScope.async(Dispatchers.IO) {
         TimeCal.start("FolderScan")
         files.clear()
         val fileList = folder.listFiles()
@@ -175,14 +174,14 @@ class AppFolderManager(val server: HTTPServer) {
         val updatedName = validateFileName(name, file.type)
         file.name = updatedName
         val folder = folderFromType(file.type)
-        if (folder?.exists() == false) createFolder(folder)
+        if (!folder.exists()) createFolder(folder)
         return File(
             folder,
             updatedName
         )
     }
 
-    fun validateFileName(fileName: String, type: String): String {
+    private fun validateFileName(fileName: String, type: String): String {
         val extension = FileUtil.getExtension(fileName)
         val name = if (extension != null) fileName.removeSuffix(".$extension") else fileName
         val list = listFromType(type)

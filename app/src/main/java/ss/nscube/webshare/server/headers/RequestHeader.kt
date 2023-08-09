@@ -1,43 +1,35 @@
 package ss.nscube.webshare.server.headers
 
-import android.util.Base64
 import ss.nscube.webshare.server.BadRequestException
-import ss.nscube.webshare.server.utils.ServerUtil
 import ss.nscube.webshare.server.utils.Util
-import ss.nscube.webshare.utils.log
 import kotlin.collections.ArrayList
 
 class RequestHeader: Headers() {
-    val ranges: ArrayList<Range> = ArrayList()
+    private val ranges: ArrayList<Range> = ArrayList()
     var contentType: ContentTypes? = null
     var contentLength: Long? = null
     var boundary: String? = null
-    var cookies: Cookies? = null
+    private var cookies: Cookies? = null
     var hasAuth: Boolean = false
     var contentDisposition: ContentDisposition? = null
-    var hasPin: Boolean = false
     var auth: String? = null
     var pin: String? = null
 
     @Throws(Exception::class)
     override fun addHeader(header: Header) {
         super.add(header)
-        evaluateHeader(header)
-    }
-
-    private fun evaluateHeader(header: Header) {
         when(header.name) {
-            Range -> evaluateRange(header.value)
-            ContentType -> evaluateContentType(header.value)
-            Cookie -> evaluateCookie(header.value)
-            ContentLength -> evaluateContentLength(header.value)
-            Authorization -> evaluateAuthorization(header.value)
-            ContentDisposition -> evaluateContentDisposition(header.value)
+            Range -> addRange(header.value)
+            ContentType -> addContentType(header.value)
+            Cookie -> addCookie(header.value)
+            ContentLength -> addContentLength(header.value)
+            Authorization -> addAuthorization(header.value)
+            ContentDisposition -> addContentDisposition(header.value)
         }
     }
 
     @Throws(Exception::class)
-    private fun evaluateAuthorization(value: String) {
+    private fun addAuthorization(value: String) {
         val authParams = value.split(' ').filter { it.isNotEmpty() }
         if (authParams.size != 2) throw BadRequestException("Authorization header value not in format of {<auth-scheme> <credentials>} $value ")
         if (!authParams[0].equals("basic", true)) throw BadRequestException("Authorization header auth-scheme is not basic - $value ")
@@ -45,18 +37,18 @@ class RequestHeader: Headers() {
         auth = authParams[1]
     }
 
-    private fun evaluateContentDisposition(value: String) {
+    private fun addContentDisposition(value: String) {
         contentDisposition = getContentDisposition(value) ?:
-        throw BadRequestException("file post request must contain contentDisposition")
+            throw BadRequestException("file post request must contain contentDisposition")
         if (Util.hasNull(contentDisposition!!.fileName, contentDisposition!!.dataLength))
             throw BadRequestException("file post request must contain contentDisposition, filename and length")
     }
 
-    private fun evaluateContentLength(value: String) {
+    private fun addContentLength(value: String) {
         contentLength = Util.getLong(value)
     }
 
-    private fun evaluateRange(value: String) {
+    private fun addRange(value: String) {
         var start: Long = -1
         var end: Long = -1
         val rangeStr = value.substring(6)
@@ -75,7 +67,7 @@ class RequestHeader: Headers() {
 
     fun getFirstRange() = if (ranges.size > 0) ranges[0] else null
 
-    private fun evaluateContentType(value: String) {
+    private fun addContentType(value: String) {
         val semiColonPos = value.indexOf(';')
         val type = if (semiColonPos == -1) {
            value
@@ -93,7 +85,7 @@ class RequestHeader: Headers() {
         boundary = "--" + contentType.substring(boundaryPos + 9)
     }
 
-    private fun evaluateCookie(value: String) {
+    private fun addCookie(value: String) {
         cookies = Cookies()
         if (value.contains(';')) {
             val cookieStrings = value.split(';')
