@@ -48,8 +48,6 @@ object FileUtil {
             mime.startsWith(WebFileUtil.Image) -> WebFileUtil.Image
             mime.startsWith(WebFileUtil.Video) -> WebFileUtil.Video
             mime.startsWith(WebFileUtil.Audio) -> WebFileUtil.Audio
-//            mime.startsWith("text") -> WebFileUtil.Document
-//            documentExtensions.binarySearch(extension) >= 0 -> WebFileUtil.Document
             extension.equals("apk", true) -> WebFileUtil.App
             else -> WebFileUtil.Document
         }

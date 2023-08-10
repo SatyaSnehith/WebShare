@@ -55,32 +55,4 @@ public class ServerUtil {
         log("", "Http log read " + new String(data, 0, len) );
         return len > 0 ? new String(data, 0, len) : "";
     }
-
-    public static RequestHeader readRequestHeader(InputStream inputStream) throws IOException {
-        RequestHeader headers = new RequestHeader();
-        String line;
-        while ((line = ServerUtil.readLine(inputStream)).length() > 0) {
-            headers.addHeader(line);
-        }
-        return headers;
-    }
-
-    public static String getIPAddress() {
-        String ips = "";
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (addr.isSiteLocalAddress()) {
-                        ips = addr.getHostAddress();
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return ips;
-    }
-
 }

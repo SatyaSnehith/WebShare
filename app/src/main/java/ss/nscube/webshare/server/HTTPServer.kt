@@ -21,12 +21,12 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.*
 import ss.nscube.webshare.ServerService
 import ss.nscube.webshare.WebShareApp
-import ss.nscube.webshare.server.user.*
 import ss.nscube.webshare.server.events.ServerStatusListener
 import ss.nscube.webshare.server.file.*
 import ss.nscube.webshare.server.headers.*
 import ss.nscube.webshare.server.models.*
 import ss.nscube.webshare.server.models.Text
+import ss.nscube.webshare.server.user.*
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.server.utils.ServerUtil
 import ss.nscube.webshare.server.utils.TimerTaskManager
@@ -38,7 +38,7 @@ import java.net.Socket
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
-import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -71,16 +71,16 @@ class HTTPServer(val application: WebShareApp) {
     var isSecured = preferencesUtil.isSecured
     var pin: Int? = preferencesUtil.securityPin
         private set
-    var lastInactiveTime: Long = System.currentTimeMillis()
+    private var lastInactiveTime: Long = System.currentTimeMillis()
     var maxInactiveTimeInMinutes: Int = preferencesUtil.serverInactiveTime ?: 30
         private set
     var maxPinAttempts = preferencesUtil.maxPinAttempts
         private set
-    val Port = 1111
+    private val PORT = 1111
     private var serverServiceIntent =  Intent(application, ServerService::class.java)
-    val timerTaskManager = TimerTaskManager()
-    val periodCallRemoveExpiredSignedUrl = 5 * 60 * 1000L
-    val periodServerInactivityCheck = 30 * 1000L
+    private val timerTaskManager = TimerTaskManager()
+    private val periodCallRemoveExpiredSignedUrl = 5 * 60 * 1000L
+    private val periodServerInactivityCheck = 30 * 1000L
     var disableFileUpload = false
     var disableUserCreation = false
     val requestBuilder = Glide
@@ -88,7 +88,7 @@ class HTTPServer(val application: WebShareApp) {
             .asBitmap()
             .apply(RequestOptions().centerCrop().override(140, 140))
     val assetLengthMap: HashMap<String, Long> = HashMap()
-    val moshi = Moshi.Builder()
+    val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
@@ -170,7 +170,7 @@ class HTTPServer(val application: WebShareApp) {
         }
     }
 
-    fun checkServerInactivity() {
+    private fun checkServerInactivity() {
         log("checkServerInactivity lastInactiveTime: ${Util.getDisplayTime(lastInactiveTime)}, " +
                 "maxInactiveTimeInMinutes: $maxInactiveTimeInMinutes, " +
                 "isInactive: ${(System.currentTimeMillis() - lastInactiveTime) >= (maxInactiveTimeInMinutes * 60 * 1000)}")
@@ -179,7 +179,7 @@ class HTTPServer(val application: WebShareApp) {
         }
     }
 
-    fun removeExpiredSignedUrls() {
+    private fun removeExpiredSignedUrls() {
         log("signedUrlList before remove ${Thread.currentThread().name} ${signedUrlList.signedUrls.size}")
         signedUrlList.removeExpiredUrls()
         log("signedUrlList after remove ${signedUrlList.signedUrls.size}")
@@ -203,7 +203,7 @@ class HTTPServer(val application: WebShareApp) {
                 try {
                     serverSocket =
                         withContext(Dispatchers.IO) {
-                            ServerSocket(Port)
+                            ServerSocket(PORT)
                         }
                     d("Http log started")
                     isRunning = true
@@ -247,7 +247,9 @@ class HTTPServer(val application: WebShareApp) {
                 notifyListenersForStopping()
                 userManager.clear()
                 stopAllDownloadsAndUploads()
-                serverSocket!!.close()
+                withContext(Dispatchers.IO) {
+                    serverSocket!!.close()
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             } catch (e: NullPointerException) {
@@ -279,7 +281,7 @@ class HTTPServer(val application: WebShareApp) {
 
     inner class Request(private val inputStream: InputStream) {
         var method: String? = null
-        var pathString: String? = null
+        private var pathString: String? = null
         var version: String? = null
         var header: RequestHeader = RequestHeader()
         var path: Path? = null
@@ -347,7 +349,7 @@ class HTTPServer(val application: WebShareApp) {
         }
 
 
-        fun checkAuth(): Boolean {
+        private fun checkAuth(): Boolean {
             val user = if (!header.hasAuth || header.auth == null) null
             else userManager[header.auth!!]
             if (user == null) return false
@@ -409,11 +411,11 @@ class HTTPServer(val application: WebShareApp) {
     inner class Response(private val socket: Socket) {
         private val inputStream: InputStream = socket.getInputStream()
         private val outputStream: OutputStream = socket.getOutputStream()
-        val responseHeader: ResponseHeader = ResponseHeader(VERSION, 200, statusMessages[200]!!)
+        private val responseHeader: ResponseHeader = ResponseHeader(VERSION, 200, statusMessages[200]!!)
         val headers = responseHeader.headers
         lateinit var path: Path
-        private lateinit var request: Request
-        lateinit var requestHeader: RequestHeader
+        lateinit var request: Request
+        private lateinit var requestHeader: RequestHeader
 
         init {
             try {
@@ -515,12 +517,8 @@ class HTTPServer(val application: WebShareApp) {
             outputStream.flush()
         }
 
-        fun updateRespondHeader(code: Int): ResponseHeader {
-            val message = try {
-                statusMessages[code]
-            } catch (e: Exception) {
-                null
-            } ?: throw Exception("$code not found in the status messages list")
+        private fun updateRespondHeader(code: Int): ResponseHeader {
+            val message = statusMessages.getOrNull(code) ?: throw IllegalArgumentException("$code not found in the status messages list")
             responseHeader.statusCode = code
             responseHeader.statusMessage = message
             return responseHeader

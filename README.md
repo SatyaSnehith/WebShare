@@ -135,8 +135,6 @@ Key Features:
 │   │   └── UserManager.kt
 │   └── utils
 │       ├── FileUtil.kt
-│       ├── PathUtil.java
-│       ├── ProgressList.kt
 │       ├── ServerUtil.java
 │       ├── TimerTaskManager.kt
 │       └── Util.kt
@@ -187,11 +185,8 @@ Key Features:
 │   ├── MainActivity.kt
 │   ├── MenuPopup.kt
 │   ├── utils
-│   │   ├── Colors.java
-│   │   ├── MatColors.java
 │   │   ├── PermissionRequestHelper.kt
 │   │   ├── QRCodeWriter.java
-│   │   ├── ThemeUtil.kt
 │   │   ├── TimeCal.kt
 │   │   ├── UiUtil.kt
 │   │   ├── Util.kt

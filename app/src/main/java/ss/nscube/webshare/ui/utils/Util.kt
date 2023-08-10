@@ -45,7 +45,6 @@ import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 object Util {
     private var todayDate: Date = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0)
@@ -164,16 +163,6 @@ object Util {
             selectImageView.setBackgroundResource(R.drawable.icon_not_selected)
             selectImageView.setImageResource(0)
             root?.setBackgroundColor(MaterialColors.getColor(root, com.google.android.material.R.attr.colorOnPrimary))
-//            if (animate) {
-//                val animator: ObjectAnimator = ObjectAnimator
-//                    .ofPropertyValuesHolder(
-//                        selectImageView,
-//                        PropertyValuesHolder.ofInt("imageAlpha", 255, 0)
-//                    )
-//                animator.target = selectImageView
-//                animator.duration = 200
-//                animator.start()
-//            }
         }
     }
 

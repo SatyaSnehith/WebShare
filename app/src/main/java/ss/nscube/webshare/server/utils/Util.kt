@@ -22,12 +22,6 @@ object Util {
         }
     }
 
-    fun bytesFromKB(kb: Long) = kb * 1024L
-
-    fun bytesFromMB(mb: Int) = bytesFromKB(mb * 1024L)
-
-    fun bytesFromGB(gb: Int) = bytesFromMB(gb * 1024)
-
     fun isValidInactiveMinutes(minutes: Int): Boolean {
         if (minutes in arrayOf(15, 30, 45) || (minutes % 60 == 0 && (minutes / 60 in 1..24))) return true
         return false
