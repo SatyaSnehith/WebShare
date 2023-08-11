@@ -3,8 +3,8 @@ package ss.nscube.webshare.server.user
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import ss.nscube.webshare.db.DatabaseHelper
-import ss.nscube.webshare.db.entities.TextEntity
+import ss.nscube.webshare.core.database.DatabaseHelper
+import ss.nscube.webshare.core.database.entities.TextEntity
 
 class TextManager: ArrayList<Text>() {
     private var currentId = 0

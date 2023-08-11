@@ -19,8 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentTextHistoryBinding
-import ss.nscube.webshare.db.DatabaseHelper
-import ss.nscube.webshare.db.entities.TextEntity
+import ss.nscube.webshare.core.database.DatabaseHelper
+import ss.nscube.webshare.core.database.entities.TextEntity
 import ss.nscube.webshare.ui.dialogs.DeleteConfirmationDialog
 import ss.nscube.webshare.ui.frags.BaseFragment
 import ss.nscube.webshare.ui.utils.Util

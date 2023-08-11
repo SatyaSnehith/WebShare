@@ -12,7 +12,6 @@ import ss.nscube.webshare.R
 import ss.nscube.webshare.ui.utils.LinearParams
 import ss.nscube.webshare.ui.utils.UiUtil
 
-
 class IconTextItemLinearLayout(context: Context, attr: AttributeSet?, style: Int) : LinearLayout(context, attr, style) {
     var onItemClick: (Int) -> Unit = {}
     var isTopAndBottomRound = false

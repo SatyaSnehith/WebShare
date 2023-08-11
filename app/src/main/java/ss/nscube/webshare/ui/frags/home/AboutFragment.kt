@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.mikepenz.aboutlibraries.LibsBuilder
 import ss.nscube.webshare.BuildConfig
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentAboutBinding
@@ -62,7 +62,11 @@ class AboutFragment: BaseFragment() {
     }
 
     private fun openSourceLicenses() {
-        context?.startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
+        LibsBuilder()
+            .withAboutIconShown(true)
+            .withAboutVersionShown(true)
+            .withAboutDescription("<b>Open Source licences</b>")
+            .start(requireContext())
     }
 
     fun shareApp() {

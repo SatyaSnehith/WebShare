@@ -1,4 +1,4 @@
-package ss.nscube.webshare.db.entities
+package ss.nscube.webshare.core.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

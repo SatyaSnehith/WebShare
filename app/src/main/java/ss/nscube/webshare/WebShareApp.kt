@@ -2,7 +2,7 @@ package ss.nscube.webshare
 
 import android.app.Application
 
-import ss.nscube.webshare.db.DatabaseHelper
+import ss.nscube.webshare.core.database.DatabaseHelper
 import ss.nscube.webshare.server.HTTPServer
 import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil

@@ -1,9 +1,10 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("androidx.navigation.safeargs")
-    id("com.google.devtools.ksp")
-    id("com.google.android.gms.oss-licenses-plugin")
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
+    id(libs.plugins.ksp.get().pluginId)
+    id(libs.plugins.mikepenz.aboutlibraries.get().pluginId)
 }
 
 android {
@@ -14,8 +15,8 @@ android {
         applicationId = "ss.nscube.webshare"
         minSdk = 21
         targetSdk = 33
-        versionCode = 26
-        versionName = "2.0.6"
+        versionCode = 27
+        versionName = "2.0.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -46,39 +47,49 @@ android {
 }
 
 dependencies {
-    val navVersion = "2.6.0"
-    val fragmentVersion = "1.6.1"
-    val lifecycleVersion = "2.2.0"
+    implementation(projects.coreDatabase)
 
-    implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
-    implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
-    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
-    implementation( "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("androidx.cardview:cardview:1.0.0")
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.cardview)
 
-    val roomVersion = "2.5.2"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
+    //Viewing open source licences
+    implementation(libs.mikepenz.aboutlibraries)
 
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    //Database
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
-    implementation("com.google.zxing:core:3.2.1")
-    
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    implementation("io.coil-kt:coil:2.2.2")
-    implementation("io.coil-kt:coil-svg:2.2.2")
-    implementation("io.coil-kt:coil-video:2.2.2")
+    //Json parser
+    implementation(libs.moshi)
 
-    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    //Qr code
+    implementation(libs.zxing)
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
+    //Image loading
+    implementation(libs.glide)
+    implementation(libs.coil)
+    implementation(libs.coil.svg)
+    implementation(libs.coil.video)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+
+    implementation(libs.material)
+
+    //Local Unit Tests
+    implementation(libs.androidx.test.core)
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
+
+    //Instrumented Unit Tests
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.arch.core)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Base64
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -84,10 +83,6 @@ class WebFile() {
 
     fun updateId() {
         id = synchronized(counterMutex) { idCounter++ }
-    }
-
-    fun exists(): Boolean {
-        return file?.exists() ?: true
     }
 
     fun getInputStream(context: Context): InputStream? {

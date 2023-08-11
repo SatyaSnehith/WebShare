@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google()
@@ -14,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "WebShare"
 include(":app")
+include(":core-database")

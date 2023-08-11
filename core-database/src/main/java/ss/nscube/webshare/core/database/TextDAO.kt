@@ -1,10 +1,10 @@
-package ss.nscube.webshare.db.daos
+package ss.nscube.webshare.core.database
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import ss.nscube.webshare.db.entities.TextEntity
+import ss.nscube.webshare.core.database.entities.TextEntity
 
 @Dao
 interface TextDAO {
@@ -14,16 +14,16 @@ interface TextDAO {
 
     //READ
     @Query("SELECT * FROM texts WHERE id is :id")
-    fun get(id: Int): TextEntity
+    suspend fun get(id: Int): TextEntity
 
 //    @Query("SELECT * FROM texts ORDER BY id")
 //    fun getAll(): List<TextEntity>
 
     @Query("SELECT * FROM texts ORDER BY id DESC LIMIT :count")
-    fun getAllOrdered(count: Int): List<TextEntity>
+    suspend fun getAllOrdered(count: Int): List<TextEntity>
 
     @Query("SELECT * FROM texts WHERE id < :fromId ORDER BY id DESC LIMIT :count")
-    fun getOrderedFrom(fromId: Int, count: Int): List<TextEntity>
+    suspend fun getOrderedFrom(fromId: Int, count: Int): List<TextEntity>
 
     //DELETE
     @Query("DELETE FROM texts WHERE id = :id")
