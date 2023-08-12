@@ -93,16 +93,6 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
                         .setType(URLConnection.guessContentTypeFromName(file.name))
                         .startChooser()
                 }
-//                1 -> {
-//                    if (file.file == null) return@onItemClick
-//                    FileRenameChangeDialog.show(this, file.file!!.absolutePath) { newFile ->
-//                        if (newFile != null) {
-//                            file.name = newFile.name
-//                            file.file = newFile
-//                            adapter.notifyItemChanged(position)
-//                        }
-//                    }
-//                }
                 2 -> {
                     DeleteConfirmationDialog.show(this, "this file") {
                         server.downloadManager.remove(file)

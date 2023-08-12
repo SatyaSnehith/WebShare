@@ -17,7 +17,7 @@ import ss.nscube.webshare.ui.frags.BaseFragment
 import ss.nscube.webshare.ui.utils.Util
 
 class AboutFragment: BaseFragment() {
-    var binding: FragmentAboutBinding? = null
+    lateinit var binding: FragmentAboutBinding
 
     private val items = listOf(AboutItem("App Version", BuildConfig.VERSION_NAME),
         AboutItem("View Source Code", "Explore the source code of WebShare", ::openGithub),
@@ -32,24 +32,21 @@ class AboutFragment: BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAboutBinding.inflate(inflater)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.actionBar?.updateMode {
-            addBackIcon(this@AboutFragment)
-            addTitle("About")
+        binding.topAppBar.setNavigationOnClickListener {
+            onBackClicked()
         }
-
-        binding?.aboutRV?.layoutManager = LinearLayoutManager(requireContext())
-        binding?.aboutRV?.adapter = adapter
-
+        binding.aboutRV.layoutManager = LinearLayoutManager(requireContext())
+        binding.aboutRV.adapter = adapter
     }
 
-    fun openGithub() {
+    private fun openGithub() {
         Util.openBrowser("https://github.com/SatyaSnehith/WebShare", context)
     }
 
@@ -69,7 +66,7 @@ class AboutFragment: BaseFragment() {
             .start(requireContext())
     }
 
-    fun shareApp() {
+    private fun shareApp() {
         try {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
@@ -105,7 +102,7 @@ class AboutAdapter(val list: List<AboutItem>): Adapter<AboutAdapter.AboutViewHol
     }
 
     class AboutViewHolder(view: View): ViewHolder(view) {
-        val titleTV = view.findViewById<TextView>(R.id.titleTV)
-        val descriptionTV = view.findViewById<TextView>(R.id.descriptionTV)
+        val titleTV: TextView = view.findViewById(R.id.titleTV)
+        val descriptionTV: TextView = view.findViewById(R.id.descriptionTV)
     }
 }

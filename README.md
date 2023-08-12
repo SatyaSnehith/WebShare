@@ -146,7 +146,6 @@ Key Features:
 │   ├── dialogs
 │   │   ├── AlbumDialog.kt
 │   │   ├── DeleteConfirmationDialog.kt
-│   │   ├── FileRenameChangeDialog.kt
 │   │   ├── QrDialog.kt
 │   │   ├── RemoveAccessConfirmationDialog.kt
 │   │   ├── RequestPermissionDialog.kt

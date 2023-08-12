@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
     }
@@ -388,7 +388,7 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
         thirdView = ItemPagerThirdBinding.inflate(LayoutInflater.from(parent.context))
         onIpChanged(fragment.ipAddressUpdater.ipAddress.value)
         thirdView?.ipTV?.setOnClickListener {
-            if (fragment.server != null && fragment.server.isRunning) {
+            if (fragment.server.isRunning) {
                 Util.openBrowser(thirdView?.ipTV?.text?.toString(), thirdView?.root?.context)
             } else {
                 Toast.makeText(thirdView?.root?.context, "Start the server", Toast.LENGTH_SHORT).show()

@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DialogTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="DialogTheme" parent="ThemeOverlay.Material3.Dialog">
+        <item name="android:background">?colorSurface</item>
+        <item name="shapeAppearance">?shapeAppearanceCornerExtraLarge</item>
+    </style>
+
+    <style name="DialogTitle" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:fontFamily">@font/roboto_medium</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
 
-    <style name="DialogDescription" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="DialogDescription" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
 
-    <style name="NumberPicker">
-        <item name="android:textColorPrimary">?android:textColorPrimary</item>
+    <style name="SettingsTitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+
+    <style name="SettingsDescription" parent="TextAppearance.Material3.BodySmall">
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textSize">14sp</item>
-        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
 
-    <style name="CustomAboutLibrariesStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="CustomAboutLibrariesStyle" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- AboutLibraries specific values -->
         <item name="aboutLibrariesCardBackground">?colorOnPrimary</item>
         <item name="aboutLibrariesDescriptionTitle">?android:textColorPrimary</item>
