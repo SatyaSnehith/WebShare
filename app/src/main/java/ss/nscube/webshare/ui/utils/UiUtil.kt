@@ -1,6 +1,7 @@
 package ss.nscube.webshare.ui.utils
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.TypedValue
@@ -87,3 +88,6 @@ class UiUtil(context: Context) {
         }
     }
 }
+
+val Int.dp
+    get() = (Resources.getSystem().displayMetrics.density * this).toInt()

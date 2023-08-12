@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.switchmaterial.SwitchMaterial
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentServerSettingsBinding
@@ -21,7 +22,7 @@ import ss.nscube.webshare.ui.dialogs.*
 import ss.nscube.webshare.utils.log
 
 class ServerSettingsFragment: BaseFragment() {
-    var binding: FragmentServerSettingsBinding? = null
+    lateinit var binding: FragmentServerSettingsBinding
 
     var adapter: SettingsAdapter? = null
 
@@ -29,21 +30,19 @@ class ServerSettingsFragment: BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentServerSettingsBinding.inflate(inflater)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.actionBar?.updateMode {
-            addBackIcon(this@ServerSettingsFragment)
-            addTitle("Server settings")
-        }
-        binding?.rv?.layoutManager = LinearLayoutManager(requireContext())
-        (binding?.rv?.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        binding.topAppBar.setNavigationOnClickListener { onBackClicked() }
+
+        binding.rv.layoutManager = LinearLayoutManager(requireContext())
+        (binding.rv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         adapter = SettingsAdapter()
-        binding?.rv?.adapter = adapter
+        binding.rv.adapter = adapter
 
 
         adapter?.list = arrayListOf(
@@ -76,7 +75,7 @@ class ServerSettingsFragment: BaseFragment() {
             )
         )
 
-        setFragmentResultListener(UpdateDescription) { requestKey, bundle ->
+        setFragmentResultListener(UpdateDescription) { _, bundle ->
             log("setFragmentResultListener ${bundle.getInt(ItemId)}")
             updateDescription(bundle.getInt(ItemId))
         }
@@ -198,7 +197,7 @@ class SwitchItemViewHolder(view: View): ViewHolder(view) {
     val iconImageView: ImageView = view.findViewById(R.id.item_icon_iv)
     val titleTextView: TextView = view.findViewById(R.id.item_title_tv)
     val descriptionTextView: TextView = view.findViewById(R.id.item_description_tv)
-    val switch: SwitchMaterial = view.findViewById(R.id.item_switch)
+    val switch: MaterialSwitch = view.findViewById(R.id.item_switch)
 
     fun updateSwitchStyle() {
         val on = switch.isChecked

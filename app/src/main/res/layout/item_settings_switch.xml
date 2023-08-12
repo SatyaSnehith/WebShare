@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="10dp"
+    android:paddingVertical="15dp"
     android:gravity="center_vertical"
     android:background="@drawable/round_bg_ripple">
 
@@ -26,24 +26,22 @@
             android:id="@+id/item_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/DialogTitle"/>
+            android:includeFontPadding="false"
+            android:textAppearance="@style/SettingsTitle"/>
         <TextView
             android:id="@+id/item_description_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/DialogDescription"/>
+            android:includeFontPadding="false"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/SettingsDescription"/>
     </LinearLayout>
 
-    <FrameLayout
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/item_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:layout_marginHorizontal="15dp"
-        >
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/item_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            />
-    </FrameLayout>
+        />
 </LinearLayout>

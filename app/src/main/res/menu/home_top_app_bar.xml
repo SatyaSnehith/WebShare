@@ -6,13 +6,13 @@
         android:title="Theme"
         android:icon="@drawable/icon_theme"
         android:contentDescription="Change Theme"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/about"
         android:title="About"
         android:icon="@drawable/icon_about"
         android:contentDescription="About WebShare"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>

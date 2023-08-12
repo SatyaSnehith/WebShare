@@ -11,8 +11,8 @@ import ss.nscube.webshare.ui.adapters.AlbumAdapter
 import ss.nscube.webshare.utils.scan.models.Album
 import ss.nscube.webshare.utils.scan.models.Data
 
-class AlbumDialog<D: Data>(): DialogFragment() {
-    val albumAdapter = AlbumAdapter(::onAlbumClicked)
+class AlbumDialog<D: Data>: DialogFragment() {
+    private val albumAdapter = AlbumAdapter(::onAlbumClicked)
     var onItemClicked: (Album<D>) -> Unit = {}
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -33,12 +33,12 @@ class AlbumDialog<D: Data>(): DialogFragment() {
         show(fragmentManager, Tag)
     }
 
-    fun onAlbumClicked(album: Album<D>) {
+    private fun onAlbumClicked(album: Album<D>) {
         dismiss()
         onItemClicked(album)
     }
 
     companion object {
-        val Tag = AlbumDialog::class.java.simpleName
+        val Tag: String = AlbumDialog::class.java.simpleName
     }
 }

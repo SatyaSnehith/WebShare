@@ -13,12 +13,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayout
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentHomeBinding
@@ -454,7 +456,7 @@ class IconButtonAdapter(val width: Int, var itemList: List<IconButtonItem>, var 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconButtonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_icon_button, parent, false)
-//        view.layoutParams.width = width
+        view.layoutParams.width = width.coerceAtMost(110.dp)
         return IconButtonViewHolder(view)
     }
 

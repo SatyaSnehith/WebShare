@@ -31,6 +31,7 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="actionBarColor">#282828</item>
         <item name="dialogColor">?actionBarColor</item>

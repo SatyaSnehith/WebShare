@@ -1,6 +1,7 @@
 package ss.nscube.webshare
 
 import android.app.Application
+import com.google.android.material.color.DynamicColors
 
 import ss.nscube.webshare.core.database.DatabaseHelper
 import ss.nscube.webshare.server.HTTPServer
@@ -14,7 +15,7 @@ class WebShareApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        TimeCal.test()
+        DynamicColors.applyToActivitiesIfAvailable(this)
         TimeCal.start(TimeCal.AppStart)
         preferencesUtil = PreferencesUtil(this)
         UiUtil.init(this)

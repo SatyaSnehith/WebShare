@@ -32,6 +32,7 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="actionBarColor">@color/primary</item>
         <item name="dialogColor">@color/white</item>
@@ -67,5 +68,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_drawable</item>
     </style>
+
+
 
 </resources>

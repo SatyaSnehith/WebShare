@@ -1,52 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/round_6"
-    android:backgroundTint="?dialogColor"
-    android:padding="15dp">
-
-    <TextView
-        android:id="@+id/title_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Are you sure you want to delete this item?"
-        android:textAppearance="@style/DialogTitle"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This action cannot be undone. Please confirm your decision to proceed with the deletion."
-        android:textAppearance="@style/DialogDescription"
-        android:layout_marginVertical="10dp"/>
-
+    style="?attr/materialCardViewElevatedStyle"
+    app:cardCornerRadius="28dp">
     <LinearLayout
-        android:layout_width="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end">
-        <Button
-            android:id="@+id/cancel_btn"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete confirmation"
+            android:textAppearance="@style/DialogTitle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This action cannot be undone. Please confirm your decision to proceed with the deletion."
+            android:textAppearance="@style/DialogDescription"
+            android:layout_marginVertical="10dp"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Cancel"
-            android:background="@drawable/round_primary_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="?android:textColorPrimary"/>
-        <Button
-            android:id="@+id/delete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Delete"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/round_red_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="@color/red"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:layout_marginStart="10dp"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
