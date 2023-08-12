@@ -19,7 +19,7 @@ import ss.nscube.webshare.ui.MainActivity
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.utils.log
 
-open class BaseFragment: Fragment() {
+abstract class BaseFragment: Fragment() {
     private var isNavigationInProgress = false
 
     val mainActivity: MainActivity?

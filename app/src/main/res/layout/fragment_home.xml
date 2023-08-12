@@ -1,89 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="?attr/homeCardBg">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ss.nscube.webshare.ui.views.actionbar.ActionBar
-        android:id="@+id/action_bar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"/>
+        android:layout_height="wrap_content">
 
-    <FrameLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?homeCard"
-        android:layout_marginVertical="20dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/buttons_recycler_view"
-            android:layout_width="@dimen/layout_width"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:layout_gravity="center_horizontal"/>
-    </FrameLayout>
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/app_name"
+        app:menu="@menu/home_top_app_bar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="10dp">
-        <TextView
-            android:id="@+id/connectTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Connect"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="─"
-            android:layout_marginHorizontal="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/startTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="─"
-            android:layout_marginHorizontal="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/shareTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Share"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="16sp"/>
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/buttons_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/connectTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="─"
+                android:layout_marginHorizontal="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/startTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="─"
+                android:layout_marginHorizontal="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/shareTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp"/>
+        </LinearLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="15dp"
-            android:layout_marginBottom="20dp"/>
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="10dp"/>
     </LinearLayout>
-</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,66 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/round_6"
-    android:backgroundTint="?homeCard">
+    style="?attr/materialCardViewElevatedStyle"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal">
-        <ImageView
-            android:id="@+id/ipIV"
-            android:layout_width="200dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/ipIV"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/qr_size"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_qr"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/qr_size"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_qr"/>
-    </FrameLayout>
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="?android:textColorPrimary"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Open URL on devices connected to the same Wi-Fi"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="?android:textColorPrimary"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:text="Open URL on devices connected to the same Wi-Fi"/>
+        <TextView
+            android:id="@+id/ipTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="?android:textColorPrimary"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            tools:text="http://192.168.1.1:1111"
+            android:background="@drawable/round_6"
+            android:backgroundTint="?homeCardBg"
+            android:textIsSelectable="true"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:includeFontPadding="false"/>
 
-    <TextView
-        android:id="@+id/ipTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="?android:textColorPrimary"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        tools:text="http://192.168.1.1:1111"
-        android:background="@drawable/round_6"
-        android:backgroundTint="?homeCardBg"
-        android:textIsSelectable="true"
-        android:paddingVertical="5dp"
-        android:paddingHorizontal="10dp"
-        android:includeFontPadding="false"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/stopBtn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_size"
-        android:text="Stop WebShare"
-        android:textAllCaps="false"
-        android:letterSpacing="0"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/white"
-        android:background="@drawable/round_stop_ripple_6"
-        android:textSize="16sp"
-        android:layout_marginTop="15dp"/>
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/stopBtn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_size"
+            android:text="Stop WebShare"
+            style="@style/Widget.Material3.Button.TonalButton"
+            app:backgroundTint="?colorErrorContainer"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="16sp"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

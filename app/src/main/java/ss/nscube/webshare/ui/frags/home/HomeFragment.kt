@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
 import ss.nscube.webshare.R
 import ss.nscube.webshare.databinding.FragmentHomeBinding
@@ -42,49 +43,56 @@ import ss.nscube.webshare.utils.d
 import ss.nscube.webshare.utils.log
 
 class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStatusListener {
-    var binding: FragmentHomeBinding? = null
+    lateinit var binding: FragmentHomeBinding
     var ipAddressUpdater = IpAddressUpdater(this)
 
-    var iconButtonAdapter: IconButtonAdapter? = null
-    var menuPopup: MenuPopup? = null
-    var pagerAdapter = StepPagerAdapter(this)
-    val permissionRequestHelper = PermissionRequestHelper(this)
+    private var iconButtonAdapter: IconButtonAdapter? = null
+    private var menuPopup: MenuPopup? = null
+    private var pagerAdapter = StepPagerAdapter(this)
+    private val permissionRequestHelper = PermissionRequestHelper(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         TimeCal.start(TimeCal.AppStart)
         super.onViewCreated(view, savedInstanceState)
-        binding?.actionBar?.updateMode {
-                val title = "WebShare"
-                addTitle(title)
-                titleTextView.setPadding(uiUtil._20dp, 0, uiUtil._5dp, 0)
-                addMenuIcon(this@HomeFragment)
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.theme -> {
+                    ThemeDialog.show(parentFragmentManager)
+                    true
+                }
+                R.id.about -> {
+                    navigate(HomeFragmentDirections.actionHomeFragmentToAboutFragment())
+                    true
+                }
+                else -> false
             }
+        }
 
         val iconButtonList = listOf(
-            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#AFBB66"), "Users", getIndicatorText(server.userManager.size(), "user")),
-            IconButtonItem(1, R.drawable.icon_settings, Color.parseColor("#BB6666"), "Settings"),
-            IconButtonItem(2, R.drawable.icon_lock, Color.parseColor("#666FBB"), "Security", getSecurityIndicator()),
-            IconButtonItem(3, R.drawable.icon_download, Color.parseColor("#BB66B2"), "Receive", getIndicatorText(server.downloadManager.files.size, "file")),
-            IconButtonItem(4, R.drawable.icon_msg, Color.parseColor("#1DE9B6"), "Text", getIndicatorText(server.textManager.size, "text")),
-            IconButtonItem(5, R.drawable.icon_upload, Color.parseColor("#66BB6A"), "Send", getIndicatorText(server.fileManager.selectedFiles.size, "file"))
+            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#33AFBB66"), "Users", getIndicatorText(server.userManager.size(), "user")),
+            IconButtonItem(1, R.drawable.icon_settings, Color.parseColor("#33BB6666"), "Settings"),
+            IconButtonItem(2, R.drawable.icon_lock, Color.parseColor("#33666FBB"), "Security", getSecurityIndicator()),
+            IconButtonItem(3, R.drawable.icon_download, Color.parseColor("#33BB66B2"), "Receive", getIndicatorText(server.downloadManager.files.size, "file")),
+            IconButtonItem(4, R.drawable.icon_msg, Color.parseColor("#331DE9B6"), "Text", getIndicatorText(server.textManager.size, "text")),
+            IconButtonItem(5, R.drawable.icon_upload, Color.parseColor("#3366BB6A"), "Send", getIndicatorText(server.fileManager.selectedFiles.size, "file"))
         )
 
-        binding?.buttonsRecyclerView?.layoutManager = GridLayoutManager(requireContext(), 3)
-        (binding?.buttonsRecyclerView?.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        binding.buttonsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        (binding.buttonsRecyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         iconButtonAdapter = IconButtonAdapter(
             (requireContext().resources.getDimension(R.dimen.layout_width)).toInt() / 3,
             iconButtonList,
             ::onIconButtonClicked
         )
-        binding?.buttonsRecyclerView?.adapter = iconButtonAdapter
+        binding.buttonsRecyclerView.adapter = iconButtonAdapter
 
         setUpViewPager()
 
@@ -94,33 +102,28 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         server.serverStatusListeners.add(this)
         if (server.isRunning) onStarted() else onStopped()
 
-        menuPopup = MenuPopup(requireContext())
-        menuPopup?.addMenuItem(1, R.drawable.icon_theme, "Theme")
-        menuPopup?.addMenuItem(2, R.drawable.icon_about, "About")
-        menuPopup?.onItemClick(::onMenuItemClicked)
-
         TimeCal.stop(this, TimeCal.AppStart)
     }
 
-    val userUpdateObserver = object: UserUpdateObserver {
+    private val userUpdateObserver = object: UserUpdateObserver {
         override fun onAdded() { updateUserIndicator() }
         override fun onUpdate(index: Int) {}
         override fun onRemoved(index: Int) { updateUserIndicator() }
         override fun onClear() { updateUserIndicator() }
     }
 
-    val fileTransferObserver = object: FileTransferObserver {
+    private val fileTransferObserver = object: FileTransferObserver {
         override fun onFileAdded() { updateReceiveIndicator() }
         override fun onFileRemoved(file: WebFile, removedIndex: Int) { updateReceiveIndicator() }
         override fun onStatusChanged(fileIndex: Int) {}
     }
 
-    val textObserver = object: TextObserver {
+    private val textObserver = object: TextObserver {
         override fun onAdded() { updateTextIndicator() }
         override fun onRemoved(index: Int) { updateTextIndicator() }
     }
 
-    val selectionUpdateObserver = object: SelectionUpdateObserver {
+    private val selectionUpdateObserver = object: SelectionUpdateObserver {
         override fun onUpdate() { updateSendIndicator() }
         override fun onRemoved(file: WebFile) {}
         override fun onRemovedAll() {}
@@ -129,15 +132,15 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
     var textIndicators: Array<TextView?> = Array(3) { null }
     var selectedIndicator = 0
 
-    fun setUpViewPager() {
+    private fun setUpViewPager() {
         selectedIndicator = 0
-        textIndicators[0] = binding?.connectTV
-        textIndicators[1] = binding?.startTV
-        textIndicators[2] = binding?.shareTV
+        textIndicators[0] = binding.connectTV
+        textIndicators[1] = binding.startTV
+        textIndicators[2] = binding.shareTV
 
-        binding?.viewPager?.pageMargin = uiUtil.dp(15).toInt()
-        binding?.viewPager?.clipToPadding = false
-        binding?.viewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        binding.viewPager.pageMargin = uiUtil.dp(15).toInt()
+        binding.viewPager.clipToPadding = false
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -152,14 +155,14 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
             }
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        binding?.viewPager?.adapter = pagerAdapter
-        binding?.viewPager?.postDelayed({
-            binding?.viewPager?.setCurrentItem(expectedCurrentPage(), true)
+        binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.postDelayed({
+            binding.viewPager.setCurrentItem(expectedCurrentPage(), true)
             pagerAdapter.updateButtons()
         }, 500)
     }
 
-    fun expectedCurrentPage(): Int {
+    private fun expectedCurrentPage(): Int {
         return if (ipAddressUpdater.isConnectedToNetwork) {
             if (server.isRunning) 2
             else 1
@@ -173,14 +176,14 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         server.fileManager.observers.add(selectionUpdateObserver)
     }
 
-    fun removeIndicatorObservers() {
+    private fun removeIndicatorObservers() {
         server.downloadManager.observerList.remove(fileTransferObserver)
         server.textManager.observerList.remove(textObserver)
         server.fileManager.observers.remove(selectionUpdateObserver)
     }
 
 
-    fun getSecurityIndicator(): String {
+    private fun getSecurityIndicator(): String {
         return if (server.isSecured) "On" else "Off"
     }
 
@@ -213,16 +216,16 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         }
     }
 
-    fun updateIndicator(position: Int, count: Int, text: String?) {
+    private fun updateIndicator(position: Int, count: Int, text: String?) {
         updateIndicatorText(position, if (count == 0) null else if (count == 1) "$count $text" else "$count ${text}s")
     }
 
-    fun updateIndicatorText(position: Int, text: String?) {
+    private fun updateIndicatorText(position: Int, text: String?) {
         iconButtonAdapter?.itemList?.get(position)?.indicatorText = text
         iconButtonAdapter?.notifyItemChanged(position)
     }
 
-    fun getIndicatorText(count: Int, text: String?): String? {
+    private fun getIndicatorText(count: Int, text: String?): String? {
         return if (count == 0) null else if (count == 1) "$count $text" else "$count ${text}s"
     }
 
@@ -230,16 +233,6 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         menuPopup?.showAtLocation(view)
     }
 
-    fun onMenuItemClicked(id: Int) {
-        when(id) {
-            1 -> {
-                ThemeDialog.show(parentFragmentManager)
-            }
-            2 -> {
-                navigate(HomeFragmentDirections.actionHomeFragmentToAboutFragment())
-            }
-        }
-    }
 
     private fun checkPermissions() {
         if (permissionRequestHelper.isStoragePermissionNotAccepted() && mainActivity?.isRequestPermissionDialogShowed == false) {
@@ -332,9 +325,9 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
 }
 
 class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
-    var firstView: ItemPagerFirstBinding? = null
-    var secondView: ItemPagerSecondBinding? = null
-    var thirdView: ItemPagerThirdBinding? = null
+    private var firstView: ItemPagerFirstBinding? = null
+    private var secondView: ItemPagerSecondBinding? = null
+    private var thirdView: ItemPagerThirdBinding? = null
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = getView(position, container)
@@ -349,7 +342,7 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
 
     override fun isViewFromObject(view: View, o: Any) = o==view
 
-    fun getView(position: Int, container: ViewGroup) = when(position) {
+    private fun getView(position: Int, container: ViewGroup) = when(position) {
         0 -> {
             if (firstView == null) initiateFirstView(container)
             firstView?.root!!
@@ -364,7 +357,7 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
         }
     }
 
-    fun initiateFirstView(parent: ViewGroup) {
+    private fun initiateFirstView(parent: ViewGroup) {
         firstView = ItemPagerFirstBinding.inflate(LayoutInflater.from(parent.context))
         firstView?.wifiBtn?.setOnClickListener {
             fragment.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
@@ -378,20 +371,20 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
             fragment.startActivity(intent)
         }
         firstView?.arrowFL?.setOnClickListener {
-            fragment.binding?.viewPager?.setCurrentItem(1, true)
+            fragment.binding.viewPager.setCurrentItem(1, true)
         }
     }
 
-    fun initiateSecondView(parent: ViewGroup) {
+    private fun initiateSecondView(parent: ViewGroup) {
         secondView = ItemPagerSecondBinding.inflate(LayoutInflater.from(parent.context))
         secondView?.startBtn?.setOnClickListener {
             fragment.server.start()
-            fragment.binding?.viewPager?.setCurrentItem(2, true)
+            fragment.binding.viewPager.setCurrentItem(2, true)
         }
 
     }
 
-    fun initiateThirdView(parent: ViewGroup) {
+    private fun initiateThirdView(parent: ViewGroup) {
         thirdView = ItemPagerThirdBinding.inflate(LayoutInflater.from(parent.context))
         onIpChanged(fragment.ipAddressUpdater.ipAddress.value)
         thirdView?.ipTV?.setOnClickListener {
@@ -408,11 +401,11 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
         }
         thirdView?.stopBtn?.setOnClickListener {
             fragment.server.stop()
-            fragment.binding?.viewPager?.setCurrentItem(1, true)
+            fragment.binding.viewPager.setCurrentItem(1, true)
         }
     }
 
-    fun updateSteps(isConnectedToWifi: Boolean) {
+    private fun updateSteps(isConnectedToWifi: Boolean) {
         firstView?.arrowFL?.visibility = if (isConnectedToWifi) View.VISIBLE else View.GONE
     }
 
@@ -456,21 +449,22 @@ class StepPagerAdapter(val fragment: HomeFragment): PagerAdapter() {
 
 class IconButtonItem(val id: Int, val iconRes: Int, val color: Int, val title: String, var indicatorText: String? = null)
 
-class IconButtonAdapter(val width: Int, var itemList: List<IconButtonItem>, var onItemClick: (Int) -> Unit): RecyclerView.Adapter<IconButtonAdapter.IconButtonViewHolder>() {
+class IconButtonAdapter(val width: Int, var itemList: List<IconButtonItem>, var onItemClick: (Int) -> Unit)
+    : RecyclerView.Adapter<IconButtonAdapter.IconButtonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconButtonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_icon_button, parent, false)
-        view.layoutParams.width = width
+//        view.layoutParams.width = width
         return IconButtonViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: IconButtonViewHolder, position: Int) {
         val item = itemList[position]
         holder.iconImageView.setImageResource(item.iconRes)
-        holder.iconImageView.backgroundTintList = ColorStateList.valueOf(item.color)
+        holder.rootCard.backgroundTintList = ColorStateList.valueOf(item.color)
         holder.titleTextView.text = item.title
         if (item.indicatorText == null) {
-            holder.indicatorTextView.visibility = View.GONE
+            holder.indicatorTextView.visibility = View.INVISIBLE
         } else {
             holder.indicatorTextView.visibility = View.VISIBLE
             holder.indicatorTextView.text = item.indicatorText
@@ -483,6 +477,7 @@ class IconButtonAdapter(val width: Int, var itemList: List<IconButtonItem>, var 
     override fun getItemCount() = itemList.size
 
     class IconButtonViewHolder(view: View): RecyclerView.ViewHolder(view){
+        val rootCard: MaterialCardView = view.findViewById(R.id.root_mcv)
         val iconImageView: ImageView = view.findViewById(R.id.icon_iv)
         val titleTextView: TextView = view.findViewById(R.id.title_tv)
         val indicatorTextView: TextView = view.findViewById(R.id.indicator_tv)
