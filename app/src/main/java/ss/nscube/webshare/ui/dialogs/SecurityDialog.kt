@@ -12,11 +12,10 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.materialswitch.MaterialSwitch
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.server.HTTPServer
@@ -24,19 +23,19 @@ import ss.nscube.webshare.ui.utils.UiUtil
 
 class SecurityDialog: DialogFragment() {
     val uiUtil = UiUtil.getInstance()
-    var switch: SwitchMaterial? = null
-    var securityLayout: LinearLayout? = null
-    var pinEditText: EditText? = null
-    var errorTextView: TextView? = null
-    var showPwdImageView: ImageView? = null
-    var generateButton: Button? = null
-    var noSecurityLayout: LinearLayout? = null
-    var switchLayout: LinearLayout? = null
+    private var switch: MaterialSwitch? = null
+    private var securityLayout: LinearLayout? = null
+    private var pinEditText: EditText? = null
+    private var errorTextView: TextView? = null
+    private var showPwdImageView: ImageView? = null
+    private var generateButton: Button? = null
+    private var noSecurityLayout: LinearLayout? = null
+    private var switchLayout: LinearLayout? = null
     val server: HTTPServer
         get() {
             return (requireActivity().application as WebShareApp).server
         }
-    var isPwdVisible = false
+    private var isPwdVisible = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -113,20 +112,20 @@ class SecurityDialog: DialogFragment() {
         dialog.dismiss()
     }
 
-    fun enableSecurity(enable: Boolean) {
+    private fun enableSecurity(enable: Boolean) {
         updateSwitchStyle()
         updateSecurityLayoutVisibility(enable)
         pinEditText?.setText(if (server.pin == null) generateRandomPin() else String.format("%06d", server.pin))
     }
 
-    fun generateRandomPin() = String.format("%06d", (Math.random() * 999999).toInt())
+    private fun generateRandomPin() = String.format("%06d", (Math.random() * 999999).toInt())
 
-    fun updateSecurityLayoutVisibility(show: Boolean) {
+    private fun updateSecurityLayoutVisibility(show: Boolean) {
         securityLayout?.visibility = if (show) View.VISIBLE else View.GONE
         noSecurityLayout?.visibility = if (show) View.GONE else View.VISIBLE
     }
 
-    fun updateSwitchStyle() {
+    private fun updateSwitchStyle() {
         switch?.let { switch ->
             val on = switch.isChecked
             switch.thumbTintList = ColorStateList.valueOf(MaterialColors.getColor(switch, if (on) android.R.attr.colorPrimary else R.attr.switchOffThumbColor))
@@ -135,9 +134,9 @@ class SecurityDialog: DialogFragment() {
     }
 
     companion object {
-        val Tag = SecurityDialog::class.java.simpleName
-        val OnDismissRequestKey = "OnDismissRequestKey"
-        val Dismiss = "Dismiss"
+        val Tag: String = SecurityDialog::class.java.simpleName
+        const val OnDismissRequestKey = "OnDismissRequestKey"
+        const val Dismiss = "Dismiss"
         fun show(fragment: Fragment, onDismiss: () -> Unit) {
             val securityDialog = SecurityDialog()
             fragment.setFragmentResultListener(OnDismissRequestKey) { _, bundle ->

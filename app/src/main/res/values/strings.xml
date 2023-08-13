@@ -1,9 +1,22 @@
 <resources>
     <string name="app_name">WebShare</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dark">Dark</string>
-    <string name="light">Light</string>
+
+    <!--Dialog buttons-->
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
+
+    <!--Theme dialog-->
     <string name="choose_theme">Choose theme</string>
     <string name="system_default">System default</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+
+    <!--Security dialog-->
+    <string name="enable_security">Enable Security</string>
+    <string name="generate_random_pin">Generate Random Pin</string>
+    <string name="updating_the_security_pin_removes_access_to_all_users">Updating the security pin removes access to all users</string>
+    <string name="set_a_6_digit_security_pin">Set a 6-digit security pin.</string>
+    <string name="show_or_hide_pin">Show or hide pin</string>
+    <string name="security_disabled">Security disabled</string>
+
 </resources>
