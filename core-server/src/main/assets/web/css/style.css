@@ -1,0 +1,1078 @@
+#pageLoad {
+    position: fixed;
+    margin: auto;
+    z-index: 4;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: var(--bg-color);
+}
+#pageLoad img {
+    width: 150px;
+    height: 150px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    margin: auto;
+}
+#pageLoad div {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    margin: auto;
+    width: 150px;
+    height: 150px;
+}
+#pageLoader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+#authContent {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#authContent::-webkit-scrollbar {
+    display: none;
+}
+#authHead {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px 0px 20px 0px;
+}
+#headLogo {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+#headAppName {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+#headTitle {
+    color: var(--text-color);
+    font-size: 2em;
+    font-weight: 200;
+}
+#headDescription {
+    color: var(--text-color);
+    font-size: 1em;
+    font-weight: 200;
+}
+.authLabel {
+    width: 280px;
+    color: var(--text-color);
+    font-size: 0.9em;
+    font-weight: 200;
+}
+.authError {
+    color: #F44336;
+    font-size: 0.9em;
+    font-weight: 200;
+    width: 280px;
+}
+.authInput {
+    width: 280px;
+    margin: 6px 0px 2px 0px;
+    display: inline-block;
+    height: 40px;
+    border: none;
+    font-weight: normal;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--text-color);
+    border-radius: 6px;
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: var(--secondaryBg-color) ;
+}
+.authInput:focus {
+    outline: none;
+}
+#authThemeChange {
+    width: 21px;
+    height: 21px;
+    padding: 12px;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+#submitButton {
+    width: 280px;
+    height: 45px;
+    background-color: var(--primary-color);
+    margin: 15px 0px;
+    border-radius: 6px;
+    color: var(--icon-color);
+    font-weight: 500;
+    line-height: 45px;
+    text-align: center;
+}
+
+#refresh {
+    width: 21px;
+    height: 21px;
+    padding: 12px;
+    margin-left: auto;
+}
+#refresh img {
+    width: 21px;
+    height: 21px;
+}
+#settingsButton {
+    width: 21px;
+    height: 21px;
+    padding: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.rotateAnime {
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+
+@keyframes rotate {
+  0%   {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+.scaleAnime {
+    animation-name: scale;
+    animation-duration: 200ms;
+    animation-iteration-count: 1;
+}
+
+@keyframes scale {
+    0%   {transform: scale(1);}
+    50%   {transform: scale(1.2);}
+    100% {transform: scale(1);}
+  }
+
+#searchDiv {
+    position: absolute;
+    display: flex;
+    height: 45px;
+    align-items: flex-end;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+}
+#searchImg {
+    width: 15px;
+    height: 15px;
+    padding: 10px;
+    background-color:  var(--secondaryBg-color);
+    border-radius: 6px;
+}
+
+#searchForm {
+    position: relative;
+    width: calc(100% - 50px);
+    display: flex;
+    height: 35px;
+    margin-left: 10px;
+    background-color: var(--secondaryBg-color);
+    border-radius: 6px;
+}
+
+#searchInput {
+    position: relative;
+    width: calc(100% - 80px);
+    display: inline-block;
+    height: auto;
+    border: none;
+    font-weight: normal;
+    font-family: "roboto";
+    font-size: 1em;
+    font-weight: 300;
+    color: var(--text-color);
+    background-color: var(--secondaryBg-color);
+}
+
+#clearSearch {
+    position: relative;
+    display: flex;
+    width: 35px;
+    height: 35px;
+    background-color:  var(--secondaryBg-color);
+    align-items: center;
+    justify-content: center;
+}
+#clearSearch svg {
+    width: 12px;
+    height: 12px;
+}
+
+#search {
+    position: relative;
+    display: flex;
+    width: 35px;
+    height: 35px;
+    padding: 7.5px;
+    background-color: var(--primary-color);
+    border-radius: 0px 6px 6px 0px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+}
+
+#viewMenu {
+    position: relative;
+    display: flex;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    margin: 0px 10px;
+    border-radius: 20px;
+    background-color: var(--secondaryBg-color);
+    align-items: center;
+    justify-content: center;
+}
+#viewMenu svg {
+    width: 15px;
+    height: 15px;
+}
+
+#searchInput:focus {
+    outline: none;
+}
+#typeFilers {
+    height: 40px;
+    position: absolute;
+    margin-top: 45px;
+    padding: 2px;
+    line-height: 20px;
+    display: flex;
+}
+#fileCount {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 10px;
+    color: var(--text-color);
+}
+.searchWidth {
+    width: calc(100% - 5px - var(--fileInfo-width));
+}
+.fileDiv {
+    position: absolute;
+    overflow-y: auto;
+    padding: 10px;
+    margin-top: 86px;
+    height: calc(100% - 210px);
+    width: calc(100% - 21px - var(--fileInfo-width));
+}
+#allFiles {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+#dropToAdd {
+    background-color: var(--primary-20);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+    outline: 2px dashed var(--primary-color);
+    outline-offset: -2px;
+    border-radius: 6px;
+}
+#dropToAddClose {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    filter: drop-shadow(0px 0px 4px #000000);
+}
+#dropFilesImage {
+    margin-bottom: 10px;
+    filter: drop-shadow(0px 0px 4px #000000);
+}
+#dropFilesText {
+    color: white;
+    text-shadow: 0px 0px 6px #000000;
+}
+.noContentDiv {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+.noContentDiv img {
+    width: 150px;
+}
+.noContentDiv a {
+    width: 150px;
+    color: #949494;
+    font-weight: 300;
+    margin-top: 20px;
+    text-align: center;
+}
+.loaderWrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+.loader {
+  border: 5px solid var(--secondaryBg-color); /* Light grey */
+  border-top: 5px solid var(--primary-color); /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#fileInfoSelect {
+    display: flex;
+    align-items: center;
+    padding-top: 90px;
+}
+#fileInfoSelect img {
+    width: 120px;
+}
+#fileInfoSelect a {
+    color: #949494;
+    text-align: center;
+    margin-top: 10px;
+    /* color: var(--text-color); */
+}
+
+.fileInfoStyle {
+    display: flex;
+    flex-flow: column;
+    overflow-y: auto;
+    padding: 15px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.fileInfoSelectionWrap {
+    position: absolute;
+    display: flex;
+    right: 0;
+    flex-direction: column;
+    height: calc(100% - 100px);
+    border-left: 1px solid var(--border-color);
+    width: var(--fileInfo-width);
+}
+#fileInfoWrap {
+    position: relative;
+    flex-grow: 1;
+}
+#fileInfoSelection {
+    display: flex;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border-color);
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+}
+.downloadSide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--border-color);
+    border-radius: 6px;
+    margin: 0px 10px 5px 10px;
+}
+.downloadSide svg {
+    width: 16px;
+    height: 16px;
+    margin: 10px 16px;
+}
+#selectedCountTextSide {
+    color: var(--text-color);
+    font-weight: 300;
+    flex-grow: 1;
+}
+#selectedSideWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 0px;
+    box-sizing: border-box;
+    margin: 0px 10px;
+}
+#cancelSelectionButtonSide {
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    margin-right: 3px;
+    margin-left: 10px;
+    border-radius: 22.5px;
+    background-color: var(--secondaryBg-color);
+}
+#cancelSelectionButtonSide svg {
+    padding: 10px;
+    width: 15px;
+    height: 15px;
+}
+#textDiv {
+    left: 0;
+    right: 0;
+    width: calc(100% - 20px);
+    height: calc(100% - 100px);
+    display: flex;
+    margin-right: 3px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px 0px 0px 6px;
+    background-color: var(--secondaryBg-color);
+}
+#textInput {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 1.3em;
+    resize: none;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    color: var(--text-color);
+    background-color: rgb(0, 0, 0, 0);
+}
+#textInput:focus {
+    outline: none;
+}
+#uploadText {
+    color: var(--icon-color);
+    font-weight: 500;
+    margin: 12.5px;
+}
+#viewTextDiv {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    max-height: calc(100% - 100px);
+}
+#viewTextButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px;
+    height: auto;
+}
+#deleteTextIcon {
+    background-color: #F44336;
+    padding: 10px;
+    border-radius: 6px;
+}
+#copyTextIcon {
+    background-color: var(--secondaryBg-color);
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 6px;
+}
+#sendButton {
+    width: calc(100% - 70px);
+    height: 45px;
+    right: 45px;
+    display: flex;
+    justify-content: center;
+    background-color: var(--primary-color);
+    margin-right: 3px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px 0px 0px 6px;
+    color: var(--bg-color);
+}
+#openUploadDialog {
+    display: block;
+    width: 45px;
+    border-radius: 0px 6px 6px 0px;
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+#openUploadDialog img {
+    margin: 13px;
+    width: 18px;
+    height: 18px;
+}
+#cancelSelectionButton {
+    height: 45px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    margin-right: 3px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px 0px 0px 6px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+#cancelSelectionButton img {
+    padding: 14px;
+    width: 17px;
+    height: 17px;
+}
+#selectModeLeft {
+    width: calc(100% - 70px);
+    height: 45px;
+    border-radius: 0px 6px 6px 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+#selectedCountText {
+    color: white;
+    font-weight: 500;
+    margin-left: 15px
+}
+#selectionMenu {
+    height: 50px;
+}
+#selectionMenu img {
+    padding: 15px;
+    width: 20px;
+    height: 20px;
+}
+#sendText {
+    width: auto;
+    height: 45px;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 0px 20px;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+#sendText img {
+    margin: auto;
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    stroke: var(--bg-color);
+}
+#sendText a {
+    color: var(--icon-color);
+    margin-left: 20px;
+}
+#uploadProgressList {
+    position: relative;
+}
+#selectMenuItemList {
+    background-color: var(--dialog-color);
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    position: absolute;
+    display: flex;
+    bottom: 60px;
+    right: 0px;
+    flex-direction: column;
+    margin-right: 15px;
+    padding: 6px 0px;
+    z-index: 3;
+    animation-name: slideUp;
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+    transition: all 450ms cubic-bezier(0.32,1,0.23,1) 100ms;
+}
+.selectMenuItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.selectMenuIcon {
+    width: 16px;
+    height: 16px;
+    margin: 12px 18px;
+}
+.selectMenuText {
+    color: var(--text-color);
+    margin-right: 20px;
+    font-weight: 200;
+}
+#textContentDiv {
+    overflow-y: auto;
+    display: flex;
+    align-content: flex-start;
+    flex-direction: column;
+    scroll-behavior: smooth;
+}
+
+.textContentSize {
+    position: absolute;
+    padding: 10px 10px 0px 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 110px);
+}
+
+#settingsContent {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+}
+.settingsItem {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.titleSettings {
+    color: var(--text-color);
+    font-weight: 300;
+}
+
+.descriptionSettings {
+    color: var(--description-color);
+    font-weight: 300;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+#pageBack {
+    padding: 14px;
+}
+#pageBack:focus,
+#pageBack:hover {
+    cursor: pointer;
+}
+#pageBack img {
+    width: 17px;
+    height: 17px;
+}
+
+.overlayDialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 400px;
+    max-height: 500px;
+    background-color: var(--dialog-color);
+    border-radius: 6px;
+    display: flex;
+    flex-flow: column;
+    box-sizing: border-box;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.22), 0px 14px 56px rgba(0, 0, 0, 0.25);
+    animation-name: slideUp;
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+    transition: all 450ms cubic-bezier(0.32,1,0.23,1) 100ms;
+}
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, 50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+  }
+.windowIcons {
+    display: flex;
+}
+.dialogTopBar {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.dialogTopBar a {
+    width: calc(100% - 45px);
+    color: var(--text-color);
+}
+.minMaximizer {
+    display: flex;
+}
+.dialogTopBar svg {
+    height: 15px;
+    width: 15px;
+    padding: 12.5px;
+}
+.dialogDescription {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 200;
+    color: var(--description-color);
+}
+.actionButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px;
+}
+.transparentButton {
+    color: var(--text-color);
+    padding: 10px 15px;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+    background-color: transparent;
+}
+.blueButton {
+    padding: 10px 15px;
+    color: var(--primary-color);
+    margin-left: 10px;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+    background-color: transparent;
+}
+.redButton {
+    padding: 10px 15px;
+    color: #F44336;
+    margin-left: 10px;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+    background-color: transparent;
+}
+.transparentButton:hover, .blueButton:hover, .redButton:hover {
+    background-color: var(--border-color);
+    border-radius: 6px; 
+}
+#nameInput {
+    position: relative;
+    width: calc(100% - 20px);
+    display: inline-block;
+    margin: 10px;
+    height: auto;
+    padding: 10px;
+    border: none;
+    font-weight: normal;
+    font-family: "roboto";
+    font-size: 1em;
+    font-weight: 300;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--secondaryBg-color);
+    border-radius: 6px;
+}
+#nameInput:focus {
+    outline: none;
+}
+#nameConditions {
+    color: var(--description-color);
+    font-size: 0.9em;
+    margin: 0px;
+    margin-right: 10px;
+}
+#nameErrorMessage {
+    color: #F44336;
+    font-weight: 300;
+    display: none;
+    margin: 0px 10px;
+}
+#availableFiles {
+    color: var(--description-color);
+    font-weight: 200;
+    font-size: 0.8em;
+}
+#sendDialogTitle {
+    width: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+}
+#sendDivWrap {
+    height: calc(100% - 100px);
+    overflow: hidden;
+}
+.sendSizeDiv {
+    width: auto;
+    overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#shareDialogBody {
+    padding: 10px;
+}
+
+#socialMediaList {
+    display: flex;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#linkTitle {
+    color: var(--text-color);
+}
+
+#shareLinkWrap {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-grow: 1;   
+}
+
+#shareLink {
+    color: var(--text-color);
+    flex-grow: 1;
+    margin: auto;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.addButton {
+    height: 40px;
+    margin: 7.5px;
+    color: white;
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogWrap {
+    display: none;
+    backdrop-filter: blur(2px);
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: var(--secondaryBg-color);
+}
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    overflow: auto;
+    width: 280px;
+    max-height: 360px;
+    height: min-content;
+    background-color: var(--dialog-color);
+    padding: 20px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    z-index: 3;
+    transition: all 450ms cubic-bezier(0.32,1,0.23,1) 100ms;
+}
+
+.dialogTitle {
+    text-decoration: none;
+    font-weight: 400;
+    color: var(--text-color);
+    font-size: 1.2em;
+}
+
+.dialog img {
+    width: 150px;
+    margin-top: 10px;
+}
+
+.dialogText {
+    text-decoration: none;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 10px
+}
+
+#tryAgainButton {
+    color: white;
+    background-color: #EF5350;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+@media (min-width: 1200px) {
+    .page {
+        position: fixed;
+        overflow: hidden;
+        display: flex;
+        flex-flow: column;
+        width: 1200px;
+        height: 100%;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    #selectMenuItemList {
+        right: calc((100% - 1200px) / 2);
+    }
+    #modeDialog {
+        right: calc((100% - 1200px) / 2);
+    }
+    .dialog {
+        width: 350px;
+    }
+    .pageFooter {
+        width: 1200px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .fileDiv {
+        width: calc(100% - 21px - var(--fileInfo-width));
+    }
+    .searchWidth {
+        width: calc(100% - 5px - var(--fileInfo-width));
+    }
+}
+
+@media (max-width: 630px) {
+    .page {
+        position: fixed;
+        overflow: auto;
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 100%;
+    }
+}
+@media (max-width: 760px) {
+    .page {
+        position: fixed;
+        overflow: auto;
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 100%;
+    }
+    .fileDiv {
+        width: calc(100% - 20px);
+    }
+    .searchWidth {
+        width: 100%;
+    }
+    .fileInfoSelectionWrap {
+        display: none;
+    }
+    .overlay {
+        display: block;
+    }
+    .overlayDialog {
+        width: 300px;
+        max-height: 400px;
+    }
+}
+
+.overlay {
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+    background-color: var(--overlay-color);
+    transition: all 450ms cubic-bezier(0.32,1,0.23,1) 0ms;
+    display: block;
+    position: fixed;
+    top: 0;
+}
+.overlay:target .overlayDialog {
+    transform: translate(0, 0);
+    z-index: 2;
+}
+.overlay:target #fileInfoBottomSheet{
+    transform: translate(0, 0);
+    z-index: 2;
+}
+.overlay:target #selectMenuItemList{
+    transform: translate(0, 0);
+    z-index: 2;
+}
+.overlay:target #modeDialog{
+    transform: translate(0, 0);
+    z-index: 3;
+}
+.overlay:target .btn-close {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    outline: 0 none;
+    transform: scale(1,1);
+}
+
+#fileInfoBottomSheet {
+	bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: calc(100% - 40px);
+    max-width: 500px;
+    position: absolute;
+    padding: 15px;
+    height: auto;
+    max-height: calc(100% - 200px);
+    min-height: 200px;
+    display: flex;
+    flex-flow: column;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+	background-color: var(--dialog-color);
+    border-radius: 10px 10px 0px 0px;
+	box-sizing: border-box;
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.22), 0px 14px 56px rgba(0, 0, 0, 0.25);
+    animation-name: slideUp;
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+	transition: all 450ms cubic-bezier(0.32,1,0.23,1) 100ms;
+}
+
+#fileInfoBottomSheet::-webkit-scrollbar {
+    display: none;
+}

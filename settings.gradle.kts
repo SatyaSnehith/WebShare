@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "WebShare"
 include(":app")
 include(":core-database")
+include(":core-server")

@@ -11,6 +11,12 @@ android {
     namespace = "ss.nscube.webshare"
     compileSdk = 33
 
+    packaging {
+        resources.excludes.add("META-INF/*")
+        resources.excludes.add("META-INF/licenses/*")
+        resources.excludes.add("**/attach_hotspot_windows.dll")
+    }
+
     defaultConfig {
         applicationId = "ss.nscube.webshare"
         minSdk = 21
@@ -48,6 +54,7 @@ android {
 
 dependencies {
     implementation(projects.coreDatabase)
+    implementation(projects.coreServer)
 
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.navigation.fragment)

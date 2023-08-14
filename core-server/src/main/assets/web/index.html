@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="stylesheet" href="css/commons.css">
+        <link rel="stylesheet" href="css/style.css">
+        <title>WebShare</title>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('pageLoad').style.display = 'none'
+            });
+        </script>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+    </head>
+    <body class="darkTheme">
+        <div id="pageLoad">
+            <img src="images/bluew.svg"/>
+            <div class="loader"></div>
+        </div>
+
+        <div class="page" id="loader" style="display:none">
+            <div id="pageLoader" class="loader"></div>
+        </div>
+
+        <div class="page" id="auth" style="display:none">
+            <div class="topBar">
+                <a class="topBarTitle">Authenticate</a>
+                <img id="authThemeChange"/>
+            </div>
+            <div id="authContent">
+                <div id="authHead">
+                    <img id="headLogo" src="images/bluew.svg"/>
+                    <div id="headAppName">
+                        <a id="headTitle">WebShare</a>
+                        <a id="headDescription">Local File Sharing</a>
+                    </div>
+                </div>
+                <a class="authLabel">Pin</a>
+                <input class="authInput" id="authPin" type="number" max="999999"/>
+                <a id="pinError" class="authError"></a>
+                <div id="submitButton" class="pointer">SUBMIT</div>
+            </div>
+        </div>
+
+        <div class="page" id="home" style="display:none" >
+            <div class="topBar" style="border-radius: 0px;">
+                <a class="topBarTitle">WebShare</a>
+                <div id="refresh" class="rotateAnime pointer">
+                  <img src="images/refresh.svg"/>
+                </div>
+                <img id="settingsButton" class="pointer" src="images/settings.svg"/>
+            </div>
+
+            <div id="homeContent">
+                <div id="categories"></div>
+                <div id="filesContent">
+                    <div id="searchDiv" class="searchWidth pointer">
+                        <form id="searchForm">
+                            <svg id="searchImg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 19L14.65 14.65" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <input id="searchInput" aria-label="Search" type="text" placeholder="search"/>
+                            <div id="clearSearch">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                  <path d="M13 1L1 13" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M1 1L13 13" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <input type="image" alt="Submit" src="images/go.svg" id="search"/>
+                        </form>
+                        <div id="viewMenu"></div>
+                    </div>
+                    <div id="typeFilers" class="searchWidth">
+                        <div id="fileCount">
+                            <a style="font-size: 0.8em; font-weight: 500;">Files</a>
+                            <a id="fileCountSpan" style="font-size: 0.9em;">0/10</a>
+                        </div>
+                        <div id="fileTypeChips"></div>
+                    </div>
+                    <div id="filesContentDiv">
+                        <div id="allFiles" class="fileDiv"></div>
+                        <div id="noFilesDiv" class="fileDiv noContentDiv" style="display:none;">
+                            <img src="images/no_content.png"/>
+                            <a id="noContentText"></a>
+                        </div>
+                        <div id="fileLoaderWrap" class="fileDiv loaderWrap" style="display:none;">
+                            <div class="loader"></div>
+                        </div>
+                        <div id="dropToAdd" class="fileDiv" style="display:none;">
+                            <svg class="pointer" id="dropToAddClose" onclick="files.dropDiv(false)" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                            </svg>
+                            <img id="dropFilesImage" src="images/drop.svg"/>
+                            <a id="dropFilesText">Drop files to upload</a>
+                        </div>
+                    </div>
+                    <div class="fileInfoSelectionWrap" >
+                        <div id="fileInfoSelection" style="display: none;">
+                            <div id="selectedSideWrap">
+                                <a id="selectedCountTextSide"></a>
+                                <div id="cancelSelectionButtonSide" class="pointer">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                        <path d="M13 1L1 13" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M1 1L13 13" stroke="var(--text-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>
+                                </div>
+                            </div>
+                            <div id="downloadAllSide" class="downloadSide pointer">
+                                <svg class="selectMenuIcon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.2 10.4V13.6C15.2 14.0244 15.0314 14.4313 14.7314 14.7314C14.4313 15.0315 14.0243 15.2 13.6 15.2H2.39999C1.97564 15.2 1.56868 15.0315 1.26862 14.7314C0.968559 14.4313 0.799988 14.0244 0.799988 13.6V10.4" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4 6.40002L8 10.4L12 6.40002" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 10.4V0.799988" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <a class="selectMenuText">Download at once</a>
+                            </div>
+                            <div id="downloadZipSide" class="downloadSide pointer">
+                                <svg class="selectMenuIcon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M15.2 8.40002V13.6C15.2 14.0244 15.0314 14.4313 14.7314 14.7314C14.4313 15.0315 14.0243 15.2 13.6 15.2H2.39999C1.97564 15.2 1.56868 15.0315 1.26862 14.7314C0.968559 14.4313 0.799988 14.0244 0.799988 13.6V8.40002" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.5 7.5H8H8.5C8.77614 7.5 9 7.72386 9 8V8.93845C9 8.97933 9.00501 9.02005 9.01493 9.05971L9.41454 10.6582C9.46579 10.8632 9.38264 11.0782 9.20682 11.1955L8.27735 11.8151C8.1094 11.9271 7.8906 11.9271 7.72265 11.8151L6.79318 11.1955C6.61736 11.0782 6.53421 10.8632 6.58546 10.6582L6.98507 9.05972C6.99499 9.02005 7 8.97933 7 8.93845V8C7 7.72386 7.22386 7.5 7.5 7.5Z" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M7 5.5H8.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M6 4H7.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M7 2.5H8.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M6 1H7.5" stroke="var(--text-color)" stroke-width="1"/>
+                                </svg>
+                                <a class="selectMenuText">Download ZIP file</a>
+                            </div>
+                        </div>
+                        <div id="fileInfoWrap">
+                            <div id="fileInfo" class="fileInfoStyle" style="display:none"></div>
+                            <div id="fileInfoSelect" class="fileInfoStyle">
+                                <img src="images/details.png"/>
+                                <a>Select a file to see the details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pageFooter" id="normalModeDiv">
+                        <div id="sendButton" class="pointer">
+                            <a id="uploadText">SEND</a>
+                        </div>
+                        <div id="openUploadDialog" class="pointer">
+                          <img src="images/open.svg"/>
+                        </div>
+                    </div>
+                    <div id="selectMenuDialog" tabindex="-1" class="overlay" style="background-color: transparent; display:none;">
+                        <div id="selectMenuItemList" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                            <div id="downloadAllBottom" class="selectMenuItem pointer">
+                                <svg class="selectMenuIcon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.2 10.4V13.6C15.2 14.0244 15.0314 14.4313 14.7314 14.7314C14.4313 15.0315 14.0243 15.2 13.6 15.2H2.39999C1.97564 15.2 1.56868 15.0315 1.26862 14.7314C0.968559 14.4313 0.799988 14.0244 0.799988 13.6V10.4" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4 6.40002L8 10.4L12 6.40002" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 10.4V0.799988" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <a class="selectMenuText">Download at once</a>
+                            </div>
+                            <div id="downloadZipBottom" class="selectMenuItem pointer">
+                                <svg class="selectMenuIcon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M15.2 8.40002V13.6C15.2 14.0244 15.0314 14.4313 14.7314 14.7314C14.4313 15.0315 14.0243 15.2 13.6 15.2H2.39999C1.97564 15.2 1.56868 15.0315 1.26862 14.7314C0.968559 14.4313 0.799988 14.0244 0.799988 13.6V8.40002" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.5 7.5H8H8.5C8.77614 7.5 9 7.72386 9 8V8.93845C9 8.97933 9.00501 9.02005 9.01493 9.05971L9.41454 10.6582C9.46579 10.8632 9.38264 11.0782 9.20682 11.1955L8.27735 11.8151C8.1094 11.9271 7.8906 11.9271 7.72265 11.8151L6.79318 11.1955C6.61736 11.0782 6.53421 10.8632 6.58546 10.6582L6.98507 9.05972C6.99499 9.02005 7 8.97933 7 8.93845V8C7 7.72386 7.22386 7.5 7.5 7.5Z" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M7 5.5H8.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M6 4H7.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M7 2.5H8.5" stroke="var(--text-color)" stroke-width="1"/>
+                                    <path d="M6 1H7.5" stroke="var(--text-color)" stroke-width="1"/>
+                                </svg>
+                                <a class="selectMenuText">Download ZIP file</a>
+                            </div>
+                        </div>
+                        <a href="#" class="btn-close" aria-hidden="true"></a>
+                    </div>
+                    <div class="pageFooter" id="selectionModeDiv" style="display:none;">
+                        <div id="cancelSelectionButton" class="pointer">
+                            <img src="images/cancel.svg"/>
+                        </div>
+                        <div id="selectModeLeft">
+                            <a id="selectedCountText">1 item selected</a>
+                            <div id="selectionMenu" class="pointer">
+                              <img src="images/menu.svg"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="textContent" style="display:none">
+                    <div id="textContentDiv" class="textContentSize"></div>
+                    <div id="noTextDiv" class="noContentDiv textContentSize" style="display:none;">
+                        <img src="images/no_content.png"/>
+                        <a>No text here</a>
+                    </div>
+                    <div id="textLoaderWrap" class="loaderWrap textContentSize" style="display:none;">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="pageFooter">
+
+                        <div id="sendText" class="pointer">
+                          <img src="images/cancel.svg"/>
+                          <a>Text</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings" class="page" style="display:none">
+            <div class="topBar">
+                <div id="pageBack">
+                    <img src="images/back.svg"/>
+                </div>
+                <a class="topBarTitle">Settings</a>
+            </div>
+            <div id="settingsContent">
+                <div id="settingsName" class="settingsItem">
+                    <a class="titleSettings">Name</a>
+                    <a id="nameSettingsText" class="descriptionSettings"></a>
+                </div>
+                <div class="settingsItem">
+                    <a class="titleSettings">Theme</a>
+                    <div id="themeSelection"></div>
+                </div>
+                <div id="settingsShare" class="settingsItem">
+                    <a class="titleSettings">Share</a>
+                    <a class="descriptionSettings">Share WebShare with friends</a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="tryAgainDialog" class="dialogWrap">
+            <div class="dialog thinScrollBar">
+                <a id="tryAgainTitle" class="dialogTitle"></a>
+                <img id="tryAgainImg"/>
+                <a id="tryAgainDesc" class="dialogText"></a>
+                <a id="tryAgainButton">Try agiain</a>
+            </div>
+        </div>
+
+
+        <div id="fileInfoBottomSheetDialog" tabindex="-1" class="overlay" style="display:none">
+			<div id="fileInfoBottomSheet" role="dialog" aria-labelledby="modal-label" aria-hidden="true"></div>
+        	<a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="sendDialogWrap" tabindex="-1" class="overlay" style="display:none">
+			<div id="sendDialog" class="overlayDialog">
+                <div class="dialogTopBar">
+                    <div id="sendDialogTitle">
+                        <a>Send</a>
+                        <a id="availableFiles">Available files: 150</a>
+                    </div>
+                    <div class="windowIcons">
+                        <div class="pointer minMaximizer" id="sendDialogMaximizeIcon"></div>
+                        <svg class="pointer" id="sendDialogClose" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="sendDivWrap">
+                    <div id="myFilesWrap" class="sendSizeDiv thinScrollBar">
+                        <div id="currentSentDiv"></div>
+                        <div id="sentDiv"></div>
+                    </div>
+                    <div id="noSendFilesDiv" class="sendSizeDiv noContentDiv" style="display:none;">
+                        <img src="images/no_content.png"/>
+                        <a>Share files by clicking 'add'</a>
+                    </div>
+                    <div id="sendFileLoader" class="sendSizeDiv loaderWrap" style="display:none;">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+                <a id="sendDialogAddButton" class="addButton pointer">Add</a>
+            </div>
+        </div>
+
+        <div id="addTextDialogWrap" tabindex="-1" class="overlay" style="display:none">
+			<div id="addTextDialog" class="overlayDialog" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a>New Text</a>
+                    <div class="windowIcons">
+                        <div id="addTextMaximizeIcon" class="pointer minMaximizer"></div>
+                        <svg id="addTextcloseButton" class="pointer" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="textDiv">
+                    <textarea id="textInput" class="thinScrollBar" type="text"></textarea>
+                </div>
+                <a id="addTextButton" class="addButton pointer">Send</a>
+            </div>
+        	<a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="viewTextDialogWrap" tabindex="-1" class="overlay" style="display:none">
+			<div id="viewTextDialog" class="overlayDialog" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a>View Text</a>
+                    <div class="windowIcons">
+                        <div id="viewTextMaximizeIcon" class="pointer minMaximizer"></div>
+                        <svg id="viewTextcloseButton" class="pointer" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="viewTextDiv"></div>
+                <div id="viewTextButtons">
+                    <!-- <svg id="copyTextIcon" class="pointer" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M11.5461 2H4.79433C4.52955 2 4 2.15887 4 2.79433C4 3.42979 4 9.94326 4 13.1206" stroke="var(--text-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.70694 5.13298H14.5911C15.0543 5.13298 15.4298 5.50846 15.4298 5.97163V16.4114C15.4298 16.8745 15.0543 17.25 14.5911 17.25H7.70694C7.24376 17.25 6.86829 16.8745 6.86829 16.4113V5.97163C6.86829 5.50846 7.24376 5.13298 7.70694 5.13298Z" stroke="var(--text-color)" stroke-width="1.5"/>
+                    </svg> -->
+                    <img id="deleteTextIcon" class="pointer" src="images/remove.svg"/>
+                </div>
+            </div>
+        	<a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="deleteDialogWrap" tabindex="-1" class="overlay" style="display:none">
+            <div class="overlayDialog" style="height: max-content;" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a>Confirm delete</a>
+                </div>
+                <a class="dialogDescription">Are you sure you want to delete this item?</a>
+                <div class="actionButtons">
+                    <a id="deleteCancelButton" class="transparentButton pointer">Cancel</a>
+                    <a id="deleteDeleteButton" class="redButton pointer">Delete</a>
+                </div>
+            </div>
+            <a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="infoDialogWrap" tabindex="-1" class="overlay" style="display:none">
+            <div class="overlayDialog" style="height: max-content;" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a id="infoDialogTitle" style="width: auto;">title</a>
+                </div>
+                <a class="dialogDescription" id="infoDialogDescription">description</a>
+                <div class="actionButtons">
+                    <a id="infoOkayButton" class="blueButton pointer">Ok</a>
+                </div>
+            </div>
+            <a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+
+        <div id="nameDialogWrap" tabindex="-1" class="overlay" style="display:none">
+            <div id="nameDialog" class="overlayDialog" style="height: max-content;" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a id="nameDialogTitle">Change name</a>
+                </div>
+                <input id="nameInput" type="text"/>
+                <a id="nameErrorMessage"></a>
+                <ul id="nameConditions">
+                    <li>Must be between 5 and 25 character.</li>
+                    <li>Must start with a letter.</li>
+                    <li>Can only contain alphanumeric characters and underscores.</li>
+                </ul>
+                <div class="actionButtons">
+                    <a id="nameCloseButton" class="transparentButton pointer">Cancel</a>
+                    <a id="nameUpdateButton" class="blueButton pointer">Update</a>
+                </div>
+            </div>
+            <a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="shareDialogWrap" tabindex="-1" class="overlay" style="display:none">
+            <div class="overlayDialog" style="height: max-content;" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a>Share</a>
+                    <div class="windowIcons">
+                        <svg id="shareCloseButton" class="pointer" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="shareDialogBody">
+                    <div id="socialMediaList"></div>
+                    <a id="linkTitle">Link</a>
+                    <div id="shareLinkWrap">
+                        <a id="shareLink">https://webshare.page.link/share</a>
+                        <a id="shareLinkCopy" class="blueButton pointer">COPY</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="snackbar"></div>
+        <script src="js/base64.min.js"></script>
+        <script src="js/app.js?nocache"></script>
+    </body>
+</html>
