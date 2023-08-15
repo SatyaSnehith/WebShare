@@ -1,15 +1,12 @@
-package ss.nscube.webshare.server.models
+package ss.nscube.webshare.core.server.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import ss.nscube.webshare.core.server.models.Text
 
 @JsonClass(generateAdapter = true)
-class AddTextResponse (
+class UpdatedResponse (
     @Json(name = "isUpdated")
     val isUpdated: Boolean,
     @Json(name = "error")
     val error: String?,
-    @Json(name = "text")
-    val text: Text
 )

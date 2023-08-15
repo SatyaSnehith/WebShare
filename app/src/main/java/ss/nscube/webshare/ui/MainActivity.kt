@@ -9,7 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
-import ss.nscube.webshare.core.server.HttpServer
+import ss.nscube.webshare.core.server.WebShareServer
 import ss.nscube.webshare.ui.dialogs.SelectedDialog
 import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         handleShareIntent()
         TimeCal.stop(this, TimeCal.AppStart)
-        HttpServer(application).start()
+        WebShareServer(application).start()
     }
 
     private fun updateTheme() {

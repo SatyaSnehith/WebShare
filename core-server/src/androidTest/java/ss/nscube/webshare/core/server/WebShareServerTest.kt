@@ -14,11 +14,11 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import org.junit.Test
 import org.junit.runner.RunWith
-import ss.nscube.webshare.core.server.routes.addAssetRoutes
+import ss.nscube.webshare.core.server.routes.staticFiles
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class HttpServerTest {
+class WebShareServerTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
 
     @Test
@@ -214,7 +214,7 @@ class HttpServerTest {
         testApplication {
             application {
                 routing {
-                    addAssetRoutes(context.assets)
+                    staticFiles(context.assets)
                 }
             }
             block()

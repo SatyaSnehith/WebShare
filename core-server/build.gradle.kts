@@ -52,14 +52,15 @@ android {
 }
 
 dependencies {
+    //Json parser
+    implementation(libs.moshi)
 
     //ktor
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.partialContent)
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
 
     //Local unit tests
     implementation(libs.androidx.test.core)
@@ -72,4 +73,5 @@ dependencies {
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.arch.core)
     androidTestImplementation(libs.ktor.server.test.host)
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
 }
