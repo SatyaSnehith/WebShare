@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingHorizontal="15dp"
     android:clickable="true"
     android:focusable="true"
     android:background="@drawable/round_bg_ripple">
 
-    <RadioButton
+    <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/rb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

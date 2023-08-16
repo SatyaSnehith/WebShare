@@ -6,22 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.radiobutton.MaterialRadioButton
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.ui.frags.ServerSettingsFragment
 import ss.nscube.webshare.ui.utils.UiUtil
-import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.log
 
 class SettingsPinAttemptsDialog: DialogFragment() {
@@ -57,7 +54,7 @@ class SettingsPinAttemptsDialog: DialogFragment() {
     }
 
     companion object {
-        val Tag = SettingsPinAttemptsDialog::class.java.simpleName
+        val Tag: String = SettingsPinAttemptsDialog::class.java.simpleName
         fun show(fragmentManager: FragmentManager) {
             SettingsPinAttemptsDialog().show(fragmentManager, Tag)
         }
@@ -69,8 +66,8 @@ class AttemptRadioItem(var text: String, var value: Int)
 class AttemptRadioAdapter: RecyclerView.Adapter<AttemptRadioAdapter.RadioViewHolder>() {
     var list: List<AttemptRadioItem> = ArrayList()
     var lastSelected = -1
-    val TypeRadio = 0
-    val TypeCustom = 1
+    private val TypeRadio = 0
+    private val TypeCustom = 1
 
     fun selectedItem(): AttemptRadioItem {
         return list[lastSelected]
@@ -100,7 +97,7 @@ class AttemptRadioAdapter: RecyclerView.Adapter<AttemptRadioAdapter.RadioViewHol
     override fun getItemCount(): Int = list.size
 
     class RadioViewHolder(view: View): ViewHolder(view) {
-        val radioButton = view.findViewById<RadioButton>(R.id.rb)
-        val textView = view.findViewById<TextView>(R.id.tv)
+        val radioButton: MaterialRadioButton = view.findViewById(R.id.rb)
+        val textView: TextView = view.findViewById(R.id.tv)
     }
 }

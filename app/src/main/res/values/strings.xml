@@ -19,4 +19,9 @@
     <string name="show_or_hide_pin">Show or hide pin</string>
     <string name="security_disabled">Security disabled</string>
 
+    <!--Name change dialog-->
+    <string name="username">Username</string>
+    <string name="update_username">Update Username</string>
+    <string name="username_conditions">• Must be between 5 and 25 character.\n• Must start with a letter.\n• Can only contain alphanumeric characters and underscores.</string>
+
 </resources>

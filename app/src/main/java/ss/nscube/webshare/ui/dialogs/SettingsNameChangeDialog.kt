@@ -3,15 +3,14 @@ package ss.nscube.webshare.ui.dialogs
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.ui.frags.ServerSettingsFragment
@@ -28,19 +27,18 @@ class SettingsNameChangeDialog: DialogFragment() {
 
         val server = (requireActivity().application as WebShareApp).server
 
-        val nameEditText = dialog.findViewById<EditText>(R.id.name_et)
-        val errorTextView = dialog.findViewById<TextView>(R.id.error_tv)
+        val nameInputLayout = dialog.findViewById<TextInputLayout>(R.id.filledTextField)
+        val nameEditText = dialog.findViewById<TextInputEditText>(R.id.name_et)
 
         nameEditText.setText(server.mainUser.name)
 
         nameEditText.addTextChangedListener {
-            errorTextView.text = ""
-            errorTextView.visibility = View.GONE
+            nameInputLayout.error = null
         }
-        nameEditText.postDelayed(Runnable {
+        nameEditText.postDelayed({
             ss.nscube.webshare.ui.utils.Util.openSoftKeyboard(nameEditText)
         }, 100)
-        nameEditText.setSelection(nameEditText.text.length)
+        nameEditText.setSelection(nameEditText.text?.length ?: 0)
         dialog.findViewById<Button>(R.id.cancel_btn).setOnClickListener {
             dismiss()
         }
@@ -54,8 +52,7 @@ class SettingsNameChangeDialog: DialogFragment() {
                 setFragmentResult(ServerSettingsFragment.UpdateDescription, bundleOf(ServerSettingsFragment.ItemId to ServerSettingsFragment.NameDescription))
                 dismiss()
             } else {
-                errorTextView.visibility = View.VISIBLE
-                errorTextView.text = error
+                nameInputLayout.error = error
             }
         }
         return dialog

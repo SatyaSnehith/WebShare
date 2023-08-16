@@ -79,12 +79,12 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
         }
 
         val iconButtonList = listOf(
-            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#33AFBB66"), "Users", getIndicatorText(server.userManager.size(), "user")),
-            IconButtonItem(1, R.drawable.icon_settings, Color.parseColor("#33BB6666"), "Settings"),
-            IconButtonItem(2, R.drawable.icon_lock, Color.parseColor("#33666FBB"), "Security", getSecurityIndicator()),
-            IconButtonItem(3, R.drawable.icon_download, Color.parseColor("#33BB66B2"), "Receive", getIndicatorText(server.downloadManager.files.size, "file")),
-            IconButtonItem(4, R.drawable.icon_msg, Color.parseColor("#331DE9B6"), "Text", getIndicatorText(server.textManager.size, "text")),
-            IconButtonItem(5, R.drawable.icon_upload, Color.parseColor("#3366BB6A"), "Send", getIndicatorText(server.fileManager.selectedFiles.size, "file"))
+            IconButtonItem(0, R.drawable.icon_user, Color.parseColor("#4aAFBB66"), "Users", getIndicatorText(server.userManager.size(), "user")),
+            IconButtonItem(1, R.drawable.icon_settings, Color.parseColor("#4aBB6666"), "Settings"),
+            IconButtonItem(2, R.drawable.icon_lock, Color.parseColor("#4a666FBB"), "Security", getSecurityIndicator()),
+            IconButtonItem(3, R.drawable.icon_download, Color.parseColor("#4aBB66B2"), "Receive", getIndicatorText(server.downloadManager.files.size, "file")),
+            IconButtonItem(4, R.drawable.icon_msg, Color.parseColor("#4a1DE9B6"), "Text", getIndicatorText(server.textManager.size, "text")),
+            IconButtonItem(5, R.drawable.icon_upload, Color.parseColor("#4a66BB6A"), "Send", getIndicatorText(server.fileManager.selectedFiles.size, "file"))
         )
 
         binding.buttonsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)

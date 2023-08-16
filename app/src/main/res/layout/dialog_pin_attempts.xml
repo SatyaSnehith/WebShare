@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/round_6"
-    android:backgroundTint="?dialogColor">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="User Pin Attempts Limit"
-        style="@style/DialogTitle"
-        android:padding="10dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/radio_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+    style="?attr/materialCardViewElevatedStyle"
+    app:cardCornerRadius="28dp">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="15dp"
-        android:layout_gravity="end">
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Cancel"
-            android:background="@drawable/round_primary_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="?android:textColorPrimary"/>
-        <Button
-            android:id="@+id/update_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Update"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/round_primary_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="?colorPrimary"/>
-    </LinearLayout>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Pin Attempts Limit"
+            style="@style/DialogTitle"
+            android:padding="10dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/radio_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="end">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/update_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update"
+                android:layout_marginStart="10dp"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

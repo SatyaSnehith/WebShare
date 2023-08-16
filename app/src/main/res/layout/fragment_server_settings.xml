@@ -15,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Server Settings"
-            app:navigationIcon="@drawable/icon_back" />
+            android:background="?colorSurfaceContainer"
+            app:navigationIcon="@drawable/icon_back"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

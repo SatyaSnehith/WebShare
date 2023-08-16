@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -41,13 +41,12 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="?android:textColorPrimary"
+            android:textColor="?colorOnPrimaryContainer"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             tools:text="http://192.168.1.1:1111"
             android:background="@drawable/round_6"
-            android:backgroundTint="?homeCardBg"
             android:textIsSelectable="true"
             android:paddingVertical="5dp"
             android:paddingHorizontal="10dp"
@@ -58,10 +57,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_size"
             android:text="Stop WebShare"
-            style="@style/Widget.Material3.Button.TonalButton"
-            app:backgroundTint="?colorErrorContainer"
+            style="@style/Widget.Material3.Button"
+            app:backgroundTint="@color/red"
             android:fontFamily="@font/roboto_regular"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:layout_marginTop="15dp"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

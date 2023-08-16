@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="?attr/materialCardViewElevatedStyle"    >
+    style="?attr/materialCardViewElevatedStyle"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -39,7 +40,8 @@
             android:layout_height="wrap_content"
             android:text="Start WebShare"
             android:fontFamily="@font/roboto_regular"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.Material3.Button"
+            android:backgroundTint="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"/>
     </LinearLayout>

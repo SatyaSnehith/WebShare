@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@drawable/round_6"
-    android:backgroundTint="?dialogColor"
-    android:padding="15dp">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        style="@style/DialogTitle"/>
-
-    <EditText
-        android:id="@+id/name_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="14sp"
-        android:background="?backgroundColor"
-        android:fontFamily="@font/roboto_regular"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="?android:textColorPrimary">
-    </EditText>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="•  Must be between 5 and 25 character.\n•  Must start with a letter.\n•  Can only contain alphanumeric characters and underscores."
-        style="@style/DialogDescription"
-        android:layout_marginBottom="10dp"/>
-
-    <TextView
-        android:id="@+id/error_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/red"/>
-
+    style="?attr/materialCardViewElevatedStyle"
+    app:cardCornerRadius="28dp">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end">
-        <Button
-            android:id="@+id/cancel_btn"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/update_username"
+            style="@style/DialogTitle"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filledTextField"
+            style="?attr/textInputFilledDenseStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="@string/username_conditions"
+            style="@style/DialogDescription"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Cancel"
-            android:background="@drawable/round_primary_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="?android:textColorPrimary"/>
-        <Button
-            android:id="@+id/update_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dialog_button_size"
-            android:text="Update"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/round_primary_ripple_6"
-            android:fontFamily="@font/roboto_medium"
-            android:textStyle="normal"
-            android:textColor="?colorPrimary"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/update_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update"
+                android:layout_marginStart="16dp"
+                style="@style/Widget.Material3.Button.TextButton.Dialog"
+                />
+        </LinearLayout>
+
+
+
     </LinearLayout>
-
-
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

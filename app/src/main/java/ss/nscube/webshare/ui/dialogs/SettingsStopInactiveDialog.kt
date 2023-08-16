@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
@@ -17,6 +18,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.radiobutton.MaterialRadioButton
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.ui.frags.ServerSettingsFragment
@@ -56,19 +58,22 @@ class SettingsStopInactiveDialog: DialogFragment() {
         dialog.findViewById<Button>(R.id.update_btn).setOnClickListener {
             val selected = adapter.selectedItem()
             log("INACTIVE update ${adapter.lastSelected} ${selected.value} ${selected.text}")
-            (requireActivity().application as WebShareApp).server.setMaxInactiveTime(selected.value)
+            try {
+                (requireActivity().application as WebShareApp).server.setMaxInactiveTime(selected.value)
+            } catch (e: Exception) {
+                Toast.makeText(it.context, "Hours must be in the range of 0-24", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             setFragmentResult(ServerSettingsFragment.UpdateDescription, bundleOf(ServerSettingsFragment.ItemId to ServerSettingsFragment.InactiveDescription))
             dismiss()
         }
-
-
         return dialog
     }
 
 
 
     companion object {
-        val Tag = SettingsStopInactiveDialog::class.java.simpleName
+        val Tag: String = SettingsStopInactiveDialog::class.java.simpleName
         fun show(fragmentManager: FragmentManager) {
             SettingsStopInactiveDialog().show(fragmentManager, Tag)
         }
@@ -146,12 +151,12 @@ class InactiveRadioInputAdapter: RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount(): Int = list.size
 
     class RadioViewHolder(view: View): ViewHolder(view) {
-        val radioButton = view.findViewById<RadioButton>(R.id.rb)
-        val textView = view.findViewById<TextView>(R.id.tv)
+        val radioButton: MaterialRadioButton = view.findViewById(R.id.rb)
+        val textView: TextView = view.findViewById(R.id.tv)
     }
 
     class CustomRadioViewHolder(view: View): ViewHolder(view) {
-        val radioButton = view.findViewById<RadioButton>(R.id.rb)
-        val timeEditText = view.findViewById<EditText>(R.id.time_et)
+        val radioButton: MaterialRadioButton = view.findViewById(R.id.rb)
+        val timeEditText: EditText = view.findViewById(R.id.time_et)
     }
 }
