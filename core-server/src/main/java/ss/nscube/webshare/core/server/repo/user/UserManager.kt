@@ -1,4 +1,4 @@
-package ss.nscube.webshare.core.server.data
+package ss.nscube.webshare.core.server.repo.user
 
 import ss.nscube.webshare.core.server.log
 import kotlin.collections.ArrayList

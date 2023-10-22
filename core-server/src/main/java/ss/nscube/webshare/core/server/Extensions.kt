@@ -16,8 +16,8 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
-import ss.nscube.webshare.core.server.data.User
-import ss.nscube.webshare.core.server.data.UserManager
+import ss.nscube.webshare.core.server.models.ErrorResponse
+import ss.nscube.webshare.core.server.repo.user.User
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -40,7 +40,13 @@ fun InputStream.transfer(out: OutputStream): Long {
     return transferred
 }
 
-suspend fun PipelineContext<Unit, ApplicationCall>.assertUser(wss: WebShareServer): User? {
+/**
+ *
+ * returns user from userId found from auth header
+ * checks the auth header and responds with unauthorized code for any error
+ *
+ */
+suspend fun PipelineContext<Unit, ApplicationCall>.getUser(wss: WebShareServer, authenticate: Boolean = true): User? {
     val authorizationHeaderValue = call.request.headers[HttpHeaders.Authorization]
     if (authorizationHeaderValue == null) {
         call.respond(HttpStatusCode.Unauthorized, "authorization header not found")
@@ -54,6 +60,11 @@ suspend fun PipelineContext<Unit, ApplicationCall>.assertUser(wss: WebShareServe
     val user = wss.userManager[userId]
     if (user == null) {
         call.respond(HttpStatusCode.Unauthorized, "userId not found")
+        return null
+    }
+    if (authenticate && wss.isUnauthorized(user)) {
+        call.respondJson(ErrorResponse(ErrorResponse.TypeNoAccess, "do not have access"))
+        return null
     }
     return user
 }
@@ -69,7 +80,6 @@ fun Route.postApi(type: String, block: suspend PipelineContext<Unit, Application
         block()
     }
 }
-
 
 val moshi: Moshi = Moshi.Builder()
     .addLast(KotlinJsonAdapterFactory())

@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 class AuthRequest (
     @Json(name = "pin")
-    val pin: Int
+    val pin: Int?
 )

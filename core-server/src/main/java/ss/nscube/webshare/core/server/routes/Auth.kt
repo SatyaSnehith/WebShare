@@ -4,7 +4,7 @@ import io.ktor.server.application.call
 import io.ktor.server.routing.Route
 import ss.nscube.webshare.core.server.Api
 import ss.nscube.webshare.core.server.WebShareServer
-import ss.nscube.webshare.core.server.assertUser
+import ss.nscube.webshare.core.server.getUser
 import ss.nscube.webshare.core.server.models.AuthRequest
 import ss.nscube.webshare.core.server.models.AuthResponse
 import ss.nscube.webshare.core.server.postApi
@@ -13,7 +13,7 @@ import ss.nscube.webshare.core.server.respondJson
 
 fun Route.auth(wss: WebShareServer) {
     postApi(Api.Auth) {
-        val user = assertUser(wss) ?: return@postApi
+        val user = getUser(wss, false) ?: return@postApi
         val authRequest: AuthRequest = call.receiveJson()
         user.pin = authRequest.pin
         user.authAttemptCount++

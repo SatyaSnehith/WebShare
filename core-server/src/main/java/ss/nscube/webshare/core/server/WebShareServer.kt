@@ -7,8 +7,11 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.partialcontent.PartialContent
 import io.ktor.server.routing.routing
-import ss.nscube.webshare.core.server.data.User
-import ss.nscube.webshare.core.server.data.UserManager
+import ss.nscube.webshare.core.server.repo.FileManager
+import ss.nscube.webshare.core.server.repo.SignedUrlList
+import ss.nscube.webshare.core.server.repo.TextManager
+import ss.nscube.webshare.core.server.repo.user.User
+import ss.nscube.webshare.core.server.repo.user.UserManager
 import ss.nscube.webshare.core.server.routes.auth
 import ss.nscube.webshare.core.server.routes.staticFiles
 import ss.nscube.webshare.core.server.routes.status
@@ -26,6 +29,9 @@ class WebShareServer(context: Context) {
     var maxPinAttempts = 10
 //    preferencesUtil.maxPinAttempts
 //    private set
+    val textManager: TextManager = TextManager()
+    var fileManager: FileManager = FileManager(this)
+    val signedUrlList = SignedUrlList()
 
     private val engine by lazy {
         embeddedServer(Netty, port = port) {
@@ -45,6 +51,10 @@ class WebShareServer(context: Context) {
     fun createUser(ip: String): User? {
         return if (disableUserCreation) null
         else userManager.createUser(ip)
+    }
+
+    fun isUnauthorized(user: User): Boolean {
+        return !isAuthorized(user) || user.isBlocked
     }
 
     fun start() {

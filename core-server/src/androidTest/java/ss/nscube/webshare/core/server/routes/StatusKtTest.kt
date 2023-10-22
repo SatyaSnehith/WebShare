@@ -22,7 +22,7 @@ import ss.nscube.webshare.core.server.models.StatusResponse
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class StatusKtTest {
+object StatusKtTest {
 
     @Test
     fun statusApiCheckUserIdAndName() = testServer {
@@ -51,7 +51,7 @@ class StatusKtTest {
         assertThat(userIds.size).isEqualTo(times)
     }
 
-    private suspend fun ApplicationTestBuilder.getStatus(statusRequest: StatusRequest): StatusResponse {
+    suspend fun ApplicationTestBuilder.getStatus(statusRequest: StatusRequest): StatusResponse {
         val response = client.post("/api/status") {
             setBody(toJson(statusRequest))
         }
