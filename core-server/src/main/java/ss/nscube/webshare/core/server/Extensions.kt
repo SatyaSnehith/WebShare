@@ -5,19 +5,14 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
 import io.ktor.server.request.receiveText
-import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
-import ss.nscube.webshare.core.server.models.ErrorResponse
-import ss.nscube.webshare.core.server.repo.user.User
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -38,35 +33,6 @@ fun InputStream.transfer(out: OutputStream): Long {
         transferred += read.toLong()
     }
     return transferred
-}
-
-/**
- *
- * returns user from userId found from auth header
- * checks the auth header and responds with unauthorized code for any error
- *
- */
-suspend fun PipelineContext<Unit, ApplicationCall>.getUser(wss: WebShareServer, authenticate: Boolean = true): User? {
-    val authorizationHeaderValue = call.request.headers[HttpHeaders.Authorization]
-    if (authorizationHeaderValue == null) {
-        call.respond(HttpStatusCode.Unauthorized, "authorization header not found")
-        return null
-    }
-    if (!authorizationHeaderValue.startsWith("Basic ")) {
-        call.respond(HttpStatusCode.Unauthorized, "invalid authorization header")
-        return null
-    }
-    val userId = authorizationHeaderValue.substring(6)
-    val user = wss.userManager[userId]
-    if (user == null) {
-        call.respond(HttpStatusCode.Unauthorized, "userId not found")
-        return null
-    }
-    if (authenticate && wss.isUnauthorized(user)) {
-        call.respondJson(ErrorResponse(ErrorResponse.TypeNoAccess, "do not have access"))
-        return null
-    }
-    return user
 }
 
 fun Route.getApi(type: String, block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit) {

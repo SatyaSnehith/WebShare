@@ -25,7 +25,6 @@ import ss.nscube.webshare.server.events.ServerStatusListener
 import ss.nscube.webshare.server.file.*
 import ss.nscube.webshare.server.headers.*
 import ss.nscube.webshare.server.models.*
-import ss.nscube.webshare.core.server.models.Text
 import ss.nscube.webshare.server.user.*
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.server.utils.ServerUtil

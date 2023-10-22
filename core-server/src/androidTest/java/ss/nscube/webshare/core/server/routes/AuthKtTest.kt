@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import io.ktor.client.request.post
-import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpHeaders
@@ -17,11 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.nscube.webshare.core.server.WebShareServer
 import ss.nscube.webshare.core.server.fromJson
-import ss.nscube.webshare.core.server.log
-import ss.nscube.webshare.core.server.models.AuthRequest
-import ss.nscube.webshare.core.server.models.AuthResponse
-import ss.nscube.webshare.core.server.models.StatusRequest
-import ss.nscube.webshare.core.server.models.StatusResponse
 import ss.nscube.webshare.core.server.routes.StatusKtTest.getStatus
 import ss.nscube.webshare.core.server.toJson
 

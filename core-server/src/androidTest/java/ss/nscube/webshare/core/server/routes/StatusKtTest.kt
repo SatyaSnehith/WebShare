@@ -17,8 +17,6 @@ import org.junit.runner.RunWith
 import ss.nscube.webshare.core.server.WebShareServer
 import ss.nscube.webshare.core.server.fromJson
 import ss.nscube.webshare.core.server.toJson
-import ss.nscube.webshare.core.server.models.StatusRequest
-import ss.nscube.webshare.core.server.models.StatusResponse
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
