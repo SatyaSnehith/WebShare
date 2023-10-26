@@ -104,14 +104,6 @@ interface SelectionUpdateObserver {
     fun onRemovedAll()
 }
 
-
-
-
-
-
-
-
-
 //    fun updateBitmap(file: WebFile) {
 //        if (file.extension?.equals("apk") == true) {
 //            val appFile = file

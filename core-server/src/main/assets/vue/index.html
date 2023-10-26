@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/vuetify.min.css">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+
+    <title>WebShare</title>
+  </head>
+  <body>
+    <script type="module">
+      import { createVuetify } from './js/vuetify.esm.js'
+      import { createApp } from './js/vue.js'
+      import { md3 } from './lib/blueprints/md3.mjs'
+      import Home from './home.js'
+
+      const vuetify = createVuetify({
+        theme: {
+          defaultTheme: 'light',
+          //
+        },
+        blueprint: md3,
+      })
+
+      const app = createApp({
+        components: {
+          Home
+        },
+      })
+      app.use(vuetify).mount('#app')
+
+      </script>
+      
+      <div id="app">
+
+        <home/>
+      </div>
+  </body>
+</html>

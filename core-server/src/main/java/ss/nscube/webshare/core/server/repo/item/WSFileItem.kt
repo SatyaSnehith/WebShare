@@ -13,6 +13,7 @@ abstract class WSFileItem(
     val mime: String = MimeTypes[extension]
     val itemType: WSItemType = getFileType(extension, mime)
     val base64Name: String = Base64.encodeToString(name.toByteArray(), Base64.NO_WRAP)
+    val fromSelection = true
 
     companion object {
         fun getFileType(extension: String, mime: String): WSItemType {

@@ -1,0 +1,33 @@
+.v-date-card {
+  padding-bottom: 8px;
+}
+.v-date-card .v-card-actions {
+  justify-content: flex-end;
+}
+
+.v-date-card .v-date-picker-month {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.v-date-card .v-date-picker-month .v-date-picker-month__day {
+  height: 32px;
+  width: 32px;
+}
+.v-date-card .v-date-picker-month .v-date-picker-month__day .v-btn {
+  --v-btn-height: 16px;
+  --v-btn-size: 0.75rem;
+}
+.v-date-card .v-date-picker-years {
+  height: 248px;
+}
+.v-date-card .v-date-picker-years .v-date-picker-years__content {
+  grid-template-columns: repeat(4, 56px);
+  grid-gap: 0px;
+  grid-row-gap: 2px;
+  padding-right: 3px;
+}
+.v-date-card .v-date-picker-years .v-date-picker-years__content .v-btn {
+  --v-btn-height: 28px;
+  --v-btn-size: 0.75rem;
+  min-width: unset;
+}
