@@ -39,49 +39,49 @@ export default {
     }
   },
   template: `
-      <v-app>
-        <v-container>
-          <v-app-bar :elevation="2">
-            <v-img
-              :width="50"
-              :max-width="50"
-              aspect-ratio="1/1"
-              cover
-              src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-            ></v-img>
-            <v-text-field
-              clearable
-              hide-details
-              density="compact"
-              prepend-inner-icon="mdi-magnify"
-              single-line
-              label="search"
-              class="mx-2"
-              v-model="searchValue"
-              :focused="searchFocused"
-              @click:clear="onFocused()"
-              @update:focused="onFocused()"
-              @keydown.enter="onSearchSubmit()"
-            ></v-text-field>
+    <v-container>
+      <v-app-bar :elevation="2">
+        <v-img
+          :width="50"
+          :max-width="50"
+          aspect-ratio="1/1"
+          cover
+          src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        ></v-img>
+        <v-text-field
+          id="uniqueIdentifier"
+          ref="uniqueIdentifier"
+          clearable
+          hide-details
+          density="compact"
+          append-icon="mdi-magnify"
+          single-line
+          label="search"
+          class="mx-2"
+          v-model="searchValue"
+          :focused="searchFocused"
+          @update:focused="onFocused()"
+          @keydown.enter="$refs['uniqueIdentifier'].blur()"
+          type="search"
+        ></v-text-field>
 
-            <v-spacer></v-spacer>
+        <v-spacer v-show="showIcons"></v-spacer>
 
-            <v-btn v-show="showIcons" @click="emit('onIconClicked', 'download')" icon>
-              <v-badge :content="dCount">
-                <v-icon>mdi-download-multiple</v-icon>
-              </v-badge>
-            </v-btn>
+        <v-btn v-show="showIcons" @click="emit('onIconClicked', 'download')" icon>
+          <v-badge :content="dCount">
+            <v-icon>mdi-download-multiple</v-icon>
+          </v-badge>
+        </v-btn>
 
-            <v-btn v-show="showIcons" @click="emit('onIconClicked', 'select')" icon>
-            <v-icon>mdi-check-all</v-icon>
-            </v-btn>
+        <v-btn v-show="showIcons" @click="emit('onIconClicked', 'select')" icon>
+        <v-icon>mdi-check-all</v-icon>
+        </v-btn>
 
-            <v-btn v-show="showIcons" @click="emit('onIconClicked', 'settings')" icon>
-            <v-icon>mdi-cog</v-icon>
-            </v-btn>
-          </v-app-bar>
-        </v-container>
-      </v-app>
+        <v-btn v-show="showIcons" @click="emit('onIconClicked', 'settings')" icon>
+        <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </v-app-bar>
+    </v-container>
   `
-  }
+}
   
