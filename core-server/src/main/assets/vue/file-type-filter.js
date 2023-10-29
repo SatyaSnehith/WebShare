@@ -1,4 +1,5 @@
 import { ref, watch } from './js/vue.js'
+import { useDisplay } from './js/vuetify.esm.js'
 
 export default {
   emits: [
@@ -11,6 +12,7 @@ export default {
     function onUpdate(value) {
       emit('onChipSelected', value)
     }
+    const display = ref(useDisplay())
 
     const types = [
       {
@@ -48,15 +50,16 @@ export default {
     return {
       onUpdate,
       types,
+      display,
     }
   },
   template: `
-  <v-container fluid fill-width class="px-0 mx-0">
     <v-chip-group
     multiple
     column
     filter
     @update:modelValue="onUpdate"
+    :class="[display.smAndUp ? 'px-14' : 'px-4']"
     >
       <v-chip 
       v-for="type in types"
@@ -69,7 +72,6 @@ export default {
       :value="type.code"
       >{{ type.title }}</v-chip>
     </v-chip-group>
-  </v-container>
   `
 
 }

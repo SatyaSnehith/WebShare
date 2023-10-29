@@ -1,11 +1,13 @@
 import HomeAppBar from './home-app-bar.js'
 import FileTypeFilter from './file-type-filter.js'
+import FileList from './file-list.js'
 import { ref } from './js/vue.js'
 
 export default {
   components: {
     HomeAppBar,
-    FileTypeFilter
+    FileTypeFilter,
+    FileList
   },
   emits: ['delete'],
   props: {
@@ -49,19 +51,14 @@ export default {
   },
   template: `
     <v-app>
-      <v-container fill-height fluid >
-        <v-row align="center" justify="center">
-          <v-col>
-            <home-app-bar
-              :downloadCount="downloadCount"
-              v-on="homeAppBarOn"
-            />
-            <file-type-filter @onChipSelected="onChipSelected"/>
-          </v-col>
-        </v-row>
-      </v-container>
+      <home-app-bar
+        :downloadCount="downloadCount"
+        v-on="homeAppBarOn"
+      />
+      <v-main>
+        <file-type-filter @onChipSelected="onChipSelected"/>
+        <file-list/>
+      </v-main>
     </v-app>
-
-
   `
 }
