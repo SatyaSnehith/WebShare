@@ -16,32 +16,26 @@ export default {
 
     const types = [
       {
-        key: 0,
         title: "Text",
         code: "text",
       },
       {
-        key: 1,
         title: "Image",
         code: "image",
       },
       {
-        key: 2,
         title: "Video",
         code: "video",
       },
       {
-        key: 3,
         title: "Audio",
         code: "audio",
       },
       {
-        key: 4,
         title: "Document",
         code: "document",
       },
       {
-        key: 5,
         title: "App",
         code: "app",
       }
@@ -62,8 +56,8 @@ export default {
     :class="[display.smAndUp ? 'px-14' : 'px-4']"
     >
       <v-chip 
-      v-for="type in types"
-      :key="type.key"
+      v-for="(type, index) in types"
+      :key="index"
       color="primary"
       selected-class="{ background-color: primary}"
       variant="outlined"
