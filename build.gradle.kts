@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.mikepenz.aboutlibraries) apply false
+//    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20" apply false
 }
 
 buildscript {
@@ -17,5 +18,7 @@ buildscript {
     }
     dependencies {
         classpath(libs.androidx.navigation.argsPlugin)
+        classpath ("org.jetbrains.kotlin:kotlin-serialization:1.6.0")
+
     }
 }

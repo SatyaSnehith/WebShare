@@ -5,6 +5,7 @@ plugins {
     id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
     id(libs.plugins.ksp.get().pluginId)
     id(libs.plugins.mikepenz.aboutlibraries.get().pluginId)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -67,8 +68,11 @@ dependencies {
     //Viewing open source licences
     implementation(libs.mikepenz.aboutlibraries)
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
     //Database
     implementation(libs.androidx.room.runtime)
+    implementation(files("libs/com.nscube.webshareserver-0.0.1.jar"))
     ksp(libs.androidx.room.compiler)
 
     //Json parser

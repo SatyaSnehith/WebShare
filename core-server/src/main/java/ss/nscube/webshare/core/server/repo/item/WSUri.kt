@@ -3,8 +3,6 @@ package ss.nscube.webshare.core.server.repo.item
 import android.content.Context
 import android.net.Uri
 import ss.nscube.webshare.core.server.repo.user.User
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 

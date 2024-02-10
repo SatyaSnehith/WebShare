@@ -34,7 +34,10 @@ class MainActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         handleShareIntent()
         TimeCal.stop(this, TimeCal.AppStart)
-        WebShareServer(application).start()
+//        WebShareServer(application).start()
+        Thread {
+            com.nscube.webshareserver.main()
+        }.start()
     }
 
     private fun updateTheme() {
