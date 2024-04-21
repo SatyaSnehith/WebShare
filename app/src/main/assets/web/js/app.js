@@ -1666,7 +1666,7 @@ class FileInfoNode {
         this.fileInfoDiv.appendChild(new Button(NewTabIcon, 'Open in new tab', () => utils.openFile(this.fileData.name, this.fileData.id, true)).div)
         this.fileInfoDiv.appendChild(new Button(DownloadIcon, 'Download', () => utils.openFile(this.fileData.name, this.fileData.id, false)).div)
         this.fileInfoDiv.appendChild(new SelectButton(this.fileNode).div)
-        if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
+        // if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
     }
 
     getFileInfoTable() {
@@ -2801,8 +2801,9 @@ class Auth extends Page {
     }
 
     validate(pin) {
-        let pinInt = parseInt(pin);
-        if (pinInt.toString().length != 6) return "Pin must be 6 digits";
+        if (pin.length != 6) return "Pin must be 6 digits";
+        let isOnlyDigits = /^\d+$/.test(pin);
+        if (!isOnlyDigits) return "Pin must only contain digits"
         return null;
     }
 

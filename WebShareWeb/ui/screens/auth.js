@@ -40,8 +40,9 @@ class Auth extends Page {
     }
 
     validate(pin) {
-        let pinInt = parseInt(pin);
-        if (pinInt.toString().length != 6) return "Pin must be 6 digits";
+        if (pin.length != 6) return "Pin must be 6 digits";
+        let isOnlyDigits = /^\d+$/.test(pin);
+        if (!isOnlyDigits) return "Pin must only contain digits"
         return null;
     }
 

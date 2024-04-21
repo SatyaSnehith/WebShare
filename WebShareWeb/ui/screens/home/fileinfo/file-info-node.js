@@ -55,7 +55,7 @@ class FileInfoNode {
         this.fileInfoDiv.appendChild(new Button(NewTabIcon, 'Open in new tab', () => utils.openFile(this.fileData.name, this.fileData.id, true)).div)
         this.fileInfoDiv.appendChild(new Button(DownloadIcon, 'Download', () => utils.openFile(this.fileData.name, this.fileData.id, false)).div)
         this.fileInfoDiv.appendChild(new SelectButton(this.fileNode).div)
-        if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
+        // if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
     }
 
     getFileInfoTable() {
