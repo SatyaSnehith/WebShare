@@ -13,6 +13,7 @@ ui/dialogs/file-info-bottom-sheet.js
 ui/dialogs/info-dialog.js
 ui/dialogs/download-menu-dialog.js
 ui/dialogs/name-dialog.js
+ui/dialogs/link-dialog.js
 ui/dialogs/share-dialog.js
 ui/dialogs/view-text-dialog.js
 ui/screens/home/file-type-chips.js

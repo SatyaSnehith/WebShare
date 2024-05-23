@@ -16,7 +16,7 @@
     </head>
     <body class="darkTheme">
         <div id="pageLoad">
-            <img src="images/bluew.svg"/>
+            <img src="images/bluew.svg" alt="W"/>
             <div class="loader"></div>
         </div>
 
@@ -27,7 +27,7 @@
         <div class="page" id="auth" style="display:none">
             <div class="topBar">
                 <a class="topBarTitle">Authenticate</a>
-                <img id="authThemeChange"/>
+                <img id="authThemeChange" alt="Theme"/>
             </div>
             <div id="authContent">
                 <div id="authHead">
@@ -369,12 +369,34 @@
                         </svg>
                     </div>
                 </div>
-                <div id="shareDialogBody">
+                <div class="shareDialogBody">
                     <div id="socialMediaList"></div>
-                    <a id="linkTitle">Link</a>
+                    <a class="linkTitle">Link</a>
                     <div id="shareLinkWrap">
                         <a id="shareLink">https://webshare.page.link/share</a>
                         <a id="shareLinkCopy" class="blueButton pointer">COPY</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="btn-close" aria-hidden="true"></a>
+        </div>
+
+        <div id="fileLinkDialogWrap" tabindex="-1" class="overlay" style="display:none">
+            <div class="overlayDialog" style="height: max-content;" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="dialogTopBar">
+                    <a>File link</a>
+                    <div class="windowIcons">
+                        <svg id="fileLinkCloseButton" class="pointer" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14.14 15.56L7.78 9.19L1.42 15.56L0 14.14L6.37 7.78L0 1.42L1.42 0L7.78 6.37L14.14 0.0100002L15.55 1.42L9.19 7.78L15.55 14.14L14.14 15.56Z" fill="var(--text-color)"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="shareDialogBody">
+                    <a class="linkTitle">Link</a>
+                    <div id="fileLinkWrap">
+                        <a id="fileLink"></a>
+                        <a id="fileLinkA" style="color: var(--primary-color)" class="pointer">LINK</a>
+                        <a id="fileLinkCopy" class="blueButton pointer">COPY</a>
                     </div>
                 </div>
             </div>

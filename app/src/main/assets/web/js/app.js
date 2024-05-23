@@ -589,34 +589,34 @@ class SendFileDialog extends MaxDialog {
 
         if (state != fileStates.cancelled) {
             if (state == fileStates.completed) {
-                let deleteImage = element("IMG");
-                deleteImage.style.width = '40px';
-                deleteImage.style.height = '40px';
-                deleteImage.style.margin = '10px';
-                deleteImage.style.borderRadius = '20px';
-                deleteImage.style.display = 'flex';
-                deleteImage.style.justifyContent = 'center';
-                deleteImage.style.padding = "10px";
-                deleteImage.style.boxSizing = 'border-box';
-                deleteImage.style.backgroundColor = "#F443361A";
-                deleteImage.onclick = () => {
-                    const dialog =  DeleteDialog.getInstance()
-                    dialog.show(() => {
-                        api.deleteFile(file.id, (res) => {
-                            dialog.dismiss()
-                            if (res.isDeleted) {
-                                utils.showSnack("File deleted");
-                                div.remove();
-                                this.updateContentVisibility();
-                                this.updateMoreIfNotScrollable();
-                            } else {
-                                utils.showSnack("File deletion failed");
-                            }
-                        })
-                    })
-                };
-                deleteImage.src = 'images/remove_red.svg';
-                div.appendChild(deleteImage);
+                // let deleteImage = element("IMG");
+                // deleteImage.style.width = '40px';
+                // deleteImage.style.height = '40px';
+                // deleteImage.style.margin = '10px';
+                // deleteImage.style.borderRadius = '20px';
+                // deleteImage.style.display = 'flex';
+                // deleteImage.style.justifyContent = 'center';
+                // deleteImage.style.padding = "10px";
+                // deleteImage.style.boxSizing = 'border-box';
+                // deleteImage.style.backgroundColor = "#F443361A";
+                // deleteImage.onclick = () => {
+                //     const dialog =  DeleteDialog.getInstance()
+                //     dialog.show(() => {
+                //         api.deleteFile(file.id, (res) => {
+                //             dialog.dismiss()
+                //             if (res.isDeleted) {
+                //                 utils.showSnack("File deleted");
+                //                 div.remove();
+                //                 this.updateContentVisibility();
+                //                 this.updateMoreIfNotScrollable();
+                //             } else {
+                //                 utils.showSnack("File deletion failed");
+                //             }
+                //         })
+                //     })
+                // };
+                // deleteImage.src = 'images/remove_red.svg';
+                // div.appendChild(deleteImage);
             } else {
                 let cancelDiv = element("DIV");
                 cancelDiv.style.width = '40px';
@@ -837,6 +837,76 @@ class NameDialog extends Dialog {
         this.nameErrorMessage.style.display = 'none';
     }
 }
+// File: ui/dialogs/link-dialog.js
+class FileLinkDialog extends Dialog {
+    static inst = null
+
+    static getInstance(url) {
+        this.inst = new this(url)
+        return this.inst
+    }
+
+    constructor(url) {
+        super($('fileLinkDialogWrap'))
+        this.setCancellable()
+        $('fileLinkCloseButton').onclick = () => {
+            this.dismiss()
+        }
+        const fileLink = $('fileLink')
+        const fileLinkA = $('fileLinkA')
+        const fileLinkCopy = $('fileLinkCopy')
+        fileLink.innerHTML = url
+        fileLinkA.href = url
+        fileLinkA.target = '_blank'
+        if (!navigator.clipboard) {
+            utils.selectText(fileLink)
+            fileLinkCopy.style.display = 'none'
+        }
+        utils.copyToClipboard(url, () => {
+
+        })
+        fileLinkCopy.onclick = () => {
+            utils.copyToClipboard(url, () => {
+
+            })
+
+        }
+    }
+
+    getSocialMediaList() {
+        const url = this.fixedEncodeURIComponent("https://webshare.page.link/share");
+        const title = "WebShare"
+        const desc = "Local File Sharing"
+        
+        var text = title;
+        
+        if(desc) {
+            text += '%20%3A%20';	// This is just this, " : "
+            text += desc;
+        }
+        
+        return [
+            {name:'blogger', url: 'https://www.blogger.com/blog-this.g?u=' + url + '&n=' + title + '&t=' + desc },
+            {name:'evernote', url: 'https://www.evernote.com/clip.action?url=' + url + '&title=' + text },
+            {name:'facebook', url: 'http://www.facebook.com/sharer.php?u=' + url },
+            {name:'linkedin', url: 'https://www.linkedin.com/sharing/share-offsite/?url=' + url },
+            {name:'pinterest', url: 'http://pinterest.com/pin/create/button/?url=' + url  },
+            {name:'reddit', url: 'https://reddit.com/submit?url=' + url + '&title=' + title },
+            {name:'skype', url: 'https://web.skype.com/share?url=' + url + '&text=' + text },
+            {name:'telegram.me', url: 'https://t.me/share/url?url=' + url + '&text=' + text },
+            {name:'tumblr', url: 'https://www.tumblr.com/widgets/share/tool?canonicalUrl=' + url + '&title=' + title + '&caption=' + desc },
+            {name:'twitter', url: 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text },
+            {name:'vk', url: 'http://vk.com/share.php?url=' + url + '&title=' + title + '&comment=' + desc },
+            {name:'whatsapp', url: 'https://api.whatsapp.com/send?text=' + text + '%20' + url },
+        ];
+    }
+
+    fixedEncodeURIComponent(str) {
+        return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+            return '%' + c.charCodeAt(0).toString(16);
+        });
+    }
+}
 // File: ui/dialogs/share-dialog.js
 class ShareDialog extends Dialog {
     static inst = null
@@ -850,6 +920,7 @@ class ShareDialog extends Dialog {
 
     constructor() {
         super($('shareDialogWrap'))
+        this.setCancellable()
         $('shareCloseButton').onclick = () => {
             this.dismiss()
         }
@@ -1664,6 +1735,7 @@ class FileInfoNode {
         this.fileInfoDiv.appendChild(details)
         this.fileInfoDiv.appendChild(this.getFileInfoTable())
         this.fileInfoDiv.appendChild(new Button(NewTabIcon, 'Open in new tab', () => utils.openFile(this.fileData.name, this.fileData.id, true)).div)
+        this.fileInfoDiv.appendChild(new Button(CopyIcon, 'Get link', () => utils.copyUrl(this.fileData.id)).div)
         this.fileInfoDiv.appendChild(new Button(DownloadIcon, 'Download', () => utils.openFile(this.fileData.name, this.fileData.id, false)).div)
         this.fileInfoDiv.appendChild(new SelectButton(this.fileNode).div)
         // if (this.fileData.isDeletable) this.fileInfoDiv.appendChild(new Button(DeleteIcon, 'Delete', () => this.onDelete()).div)
@@ -2816,6 +2888,8 @@ const utils = {
     tera: Math.pow(1024, 4),
 
     selectText: function(node) {
+        // node.select();
+        // node.setSelectionRange(0, 99999);
         const win = window;
         const selection = win.getSelection();
 
@@ -2826,6 +2900,12 @@ const utils = {
     },
 
     copyToClipboard: function(text, onError) {
+        var input = document.createElement("input");
+        input.type = "text";
+        input.value = text
+        input.focus();
+        input.select();
+        input.setSelectionRange(0, 99999);
         if (!navigator.clipboard) {
             onError()
         } else {
@@ -2835,7 +2915,7 @@ const utils = {
                 },
                 () => {
                 }
-              );
+            );
         }
     },
 
@@ -2936,6 +3016,12 @@ const utils = {
             else a.download = true
         }
         a.click()
+    },
+
+    copyUrl: function(id) {
+        api.getFileUrl(id, (url) => {
+            FileLinkDialog.getInstance(window.location.origin + url).show()
+        })
     },
 
     openFile: function(name, id, open) {
@@ -3380,6 +3466,7 @@ const SelectIcon = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" 
 const UnselectIcon = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.69333 1.66675H2.66666C2.31304 1.66675 1.9739 1.80722 1.72385 2.05727C1.4738 2.30732 1.33333 2.64646 1.33333 3.00008V12.3334C1.33333 12.687 1.4738 13.0262 1.72385 13.2762C1.9739 13.5263 2.31304 13.6668 2.66666 13.6668H12C12.3536 13.6668 12.6928 13.5263 12.9428 13.2762C13.1928 13.0262 13.3333 12.687 13.3333 12.3334V7.30675" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 const DeleteIcon = '<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 4H2.33333H13" stroke="var(--text-color)" stroke-width="var(--text-color)" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.33333 3.99992V2.66659C4.33333 2.31296 4.4738 1.97382 4.72385 1.72378C4.9739 1.47373 5.31304 1.33325 5.66666 1.33325H8.33333C8.68695 1.33325 9.02609 1.47373 9.27614 1.72378C9.52619 1.97382 9.66666 2.31296 9.66666 2.66659V3.99992M11.6667 3.99992V13.3333C11.6667 13.6869 11.5262 14.026 11.2761 14.2761C11.0261 14.5261 10.687 14.6666 10.3333 14.6666H3.66666C3.31304 14.6666 2.9739 14.5261 2.72385 14.2761C2.4738 14.026 2.33333 13.6869 2.33333 13.3333V3.99992H11.6667Z" stroke="var(--text-color)" stroke-width="var(--text-color)" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.66667 7.33325V11.3333" stroke="var(--text-color)" stroke-width="var(--text-color)" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 7.33325V11.3333" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 const NewTabIcon = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.69333 2.66675H2.66666C2.31304 2.66675 1.9739 2.80722 1.72385 3.05727C1.4738 3.30732 1.33333 3.64646 1.33333 4.00008V13.3334C1.33333 13.687 1.4738 14.0262 1.72385 14.2762C1.9739 14.5263 2.31304 14.6668 2.66666 14.6668H12C12.3536 14.6668 12.6928 14.5263 12.9428 14.2762C13.1928 14.0262 13.3333 13.687 13.3333 13.3334V9.30675" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.6102 6.60075V1.17017H9.17961" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.08 1.8101L7.03999 8.8501" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+const CopyIcon = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.66675 8.66672C6.95305 9.04948 7.31832 9.36618 7.73778 9.59535C8.15724 9.82452 8.62109 9.9608 9.09785 9.99495C9.57461 10.0291 10.0531 9.9603 10.501 9.79325C10.9488 9.62619 11.3555 9.36477 11.6934 9.02672L13.6934 7.02672C14.3006 6.39805 14.6366 5.55604 14.629 4.68205C14.6214 3.80806 14.2708 2.97202 13.6528 2.354C13.0348 1.73597 12.1987 1.38541 11.3248 1.37781C10.4508 1.37022 9.60876 1.7062 8.98008 2.31339L7.83341 3.45339" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.33322 7.33332C9.04692 6.95057 8.68165 6.63387 8.26219 6.40469C7.84273 6.17552 7.37888 6.03924 6.90212 6.0051C6.42536 5.97095 5.94683 6.03974 5.49899 6.2068C5.05115 6.37386 4.64448 6.63527 4.30656 6.97332L2.30656 8.97332C1.69936 9.60199 1.36338 10.444 1.37098 11.318C1.37857 12.192 1.72913 13.028 2.34716 13.646C2.96519 14.2641 3.80123 14.6146 4.67522 14.6222C5.54921 14.6298 6.39121 14.2938 7.01989 13.6867L8.15989 12.5467" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 const DownloadIcon = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2 10.3999V13.5999C15.2 14.0242 15.0314 14.4312 14.7314 14.7313C14.4313 15.0313 14.0243 15.1999 13.6 15.1999H2.4C1.97566 15.1999 1.56869 15.0313 1.26863 14.7313C0.968574 14.4312 0.800003 14.0242 0.800003 13.5999V10.3999" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6.3999L8 10.3999L12 6.3999" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10.4V0.800049" stroke="var(--text-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 const ListIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 0.25C0.585786 0.25 0.25 0.585786 0.25 1V5C0.25 5.41421 0.585786 5.75 1 5.75H5H19C19.4142 5.75 19.75 5.41421 19.75 5V1C19.75 0.585786 19.4142 0.25 19 0.25H5H1ZM4.25 1.75V4.25H1.75V1.75H4.25ZM18.25 4.25H5.75V1.75H18.25V4.25ZM1 7.25C0.585786 7.25 0.25 7.58579 0.25 8V12C0.25 12.4142 0.585786 12.75 1 12.75H5H19C19.4142 12.75 19.75 12.4142 19.75 12V8C19.75 7.58579 19.4142 7.25 19 7.25H5H1ZM5.75 8.75V11.25H18.25V8.75H5.75ZM4.25 8.75H1.75V11.25H4.25V8.75ZM5.75 15.75V18.25H18.25V15.75H5.75ZM5 19.75H1C0.585786 19.75 0.25 19.4142 0.25 19V15C0.25 14.5858 0.585786 14.25 1 14.25H5H19C19.4142 14.25 19.75 14.5858 19.75 15V19C19.75 19.4142 19.4142 19.75 19 19.75H5ZM4.25 18.25V15.75H1.75V18.25H4.25Z" fill="var(--text-color)"/></svg>'
 const GridIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 0.25C1.0335 0.25 0.25 1.0335 0.25 2V7.41176C0.25 8.37826 1.0335 9.16176 2 9.16176H7.41176C8.37826 9.16176 9.16176 8.37826 9.16176 7.41176V2C9.16176 1.0335 8.37826 0.25 7.41176 0.25H2ZM1.75 2C1.75 1.86193 1.86193 1.75 2 1.75H7.41176C7.54984 1.75 7.66176 1.86193 7.66176 2V7.41176C7.66176 7.54984 7.54983 7.66176 7.41176 7.66176H2C1.86193 7.66176 1.75 7.54983 1.75 7.41176V2ZM12.5881 0.25C11.6216 0.25 10.8381 1.0335 10.8381 2V7.41176C10.8381 8.37826 11.6216 9.16176 12.5881 9.16176H17.9999C18.9664 9.16176 19.7499 8.37826 19.7499 7.41176V2C19.7499 1.0335 18.9664 0.25 17.9999 0.25H12.5881ZM12.3381 2C12.3381 1.86193 12.4501 1.75 12.5881 1.75H17.9999C18.138 1.75 18.2499 1.86193 18.2499 2V7.41176C18.2499 7.54984 18.138 7.66176 17.9999 7.66176H12.5881C12.4501 7.66176 12.3381 7.54983 12.3381 7.41176V2ZM10.8381 12.5883C10.8381 11.6218 11.6216 10.8383 12.5881 10.8383H17.9999C18.9664 10.8383 19.7499 11.6218 19.7499 12.5883V18C19.7499 18.9665 18.9664 19.75 17.9999 19.75H12.5881C11.6216 19.75 10.8381 18.9665 10.8381 18V12.5883ZM12.5881 12.3383C12.4501 12.3383 12.3381 12.4502 12.3381 12.5883V18C12.3381 18.1381 12.4501 18.25 12.5881 18.25H17.9999C18.138 18.25 18.2499 18.1381 18.2499 18V12.5883C18.2499 12.4502 18.138 12.3383 17.9999 12.3383H12.5881ZM2 10.8383C1.0335 10.8383 0.25 11.6218 0.25 12.5883V18C0.25 18.9665 1.0335 19.75 2 19.75H7.41176C8.37826 19.75 9.16176 18.9665 9.16176 18V12.5883C9.16176 11.6218 8.37826 10.8383 7.41176 10.8383H2ZM1.75 12.5883C1.75 12.4502 1.86193 12.3383 2 12.3383H7.41176C7.54984 12.3383 7.66176 12.4502 7.66176 12.5883V18C7.66176 18.1381 7.54983 18.25 7.41176 18.25H2C1.86193 18.25 1.75 18.1381 1.75 18V12.5883Z" fill="var(--text-color)"/></svg>'

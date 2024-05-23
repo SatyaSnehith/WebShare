@@ -827,7 +827,7 @@
     flex-direction: column;
 }
 
-#shareDialogBody {
+.shareDialogBody {
     padding: 10px;
 }
 
@@ -839,7 +839,7 @@
     justify-content: space-around;
 }
 
-#linkTitle {
+.linkTitle {
     color: var(--text-color);
 }
 
@@ -852,6 +852,23 @@
 }
 
 #shareLink {
+    color: var(--text-color);
+    flex-grow: 1;
+    margin: auto;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#fileLinkWrap {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-grow: 1;   
+}
+
+#fileLink {
     color: var(--text-color);
     flex-grow: 1;
     margin: auto;

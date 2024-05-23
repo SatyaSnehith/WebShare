@@ -5,6 +5,8 @@ const utils = {
     tera: Math.pow(1024, 4),
 
     selectText: function(node) {
+        // node.select();
+        // node.setSelectionRange(0, 99999);
         const win = window;
         const selection = win.getSelection();
 
@@ -15,6 +17,12 @@ const utils = {
     },
 
     copyToClipboard: function(text, onError) {
+        var input = document.createElement("input");
+        input.type = "text";
+        input.value = text
+        input.focus();
+        input.select();
+        input.setSelectionRange(0, 99999);
         if (!navigator.clipboard) {
             onError()
         } else {
@@ -24,7 +32,7 @@ const utils = {
                 },
                 () => {
                 }
-              );
+            );
         }
     },
 
@@ -125,6 +133,12 @@ const utils = {
             else a.download = true
         }
         a.click()
+    },
+
+    copyUrl: function(id) {
+        api.getFileUrl(id, (url) => {
+            FileLinkDialog.getInstance(window.location.origin + url).show()
+        })
     },
 
     openFile: function(name, id, open) {

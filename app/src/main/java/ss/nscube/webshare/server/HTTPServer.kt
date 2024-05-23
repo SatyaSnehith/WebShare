@@ -193,7 +193,7 @@ class HTTPServer(val application: WebShareApp) {
                 } else {
                     application.startService(serverServiceIntent)
                 }
-            } catch (e: Exception) {}
+            } catch (_: Exception) {}
 
             lastInactiveTime = System.currentTimeMillis()
             timerTaskManager.schecule(periodCallRemoveExpiredSignedUrl, ::removeExpiredSignedUrls)
@@ -863,32 +863,32 @@ class HTTPServer(val application: WebShareApp) {
                         throw e
                     }
                 }
-                Path.DeleteFile -> {
-                    assertMethod(Get)
-                    val user = assertUser()
-                    assertAuth(user)
-                    val file = getFileFromPath()
-                    if (user != file.user) throw UnauthorizedException("file access denied")
-//                    fileManager.deleteReceived(file)
-                    downloadManager.remove(file)
-                    sendJson(DeletedResponse(true))
-                }
-                Path.DeleteMultiFile -> {
-                    assertMethod(Post)
-                    assertJson()
-                    val user = assertUser()
-                    assertAuth(user)
-                    val req: DeleteMultiRequest = getJson()
-                    val ids = req.ids ?: throw BadRequestException("id list not found")
-                    var isDeleted = true
-                    for (id in ids) {
-                        val file = getFile(id)
-                        if (user.id != file.user?.id) throw BadRequestException("file is not accessible")
-                        downloadManager.remove(file)
-//                        if (!fileManager.deleteReceived(file)) isDeleted = false
-                    }
-                    sendJson(DeletedResponse(isDeleted))
-                }
+//                Path.DeleteFile -> {
+//                    assertMethod(Get)
+//                    val user = assertUser()
+//                    assertAuth(user)
+//                    val file = getFileFromPath()
+//                    if (user != file.user) throw UnauthorizedException("file access denied")
+////                    fileManager.deleteReceived(file)
+//                    downloadManager.remove(file)
+//                    sendJson(DeletedResponse(true))
+//                }
+//                Path.DeleteMultiFile -> {
+//                    assertMethod(Post)
+//                    assertJson()
+//                    val user = assertUser()
+//                    assertAuth(user)
+//                    val req: DeleteMultiRequest = getJson()
+//                    val ids = req.ids ?: throw BadRequestException("id list not found")
+//                    var isDeleted = true
+//                    for (id in ids) {
+//                        val file = getFile(id)
+//                        if (user.id != file.user?.id) throw BadRequestException("file is not accessible")
+//                        downloadManager.remove(file)
+////                        if (!fileManager.deleteReceived(file)) isDeleted = false
+//                    }
+//                    sendJson(DeletedResponse(isDeleted))
+//                }
                 Path.ChangeName -> {
                     assertMethod(Post)
                     assertJson()

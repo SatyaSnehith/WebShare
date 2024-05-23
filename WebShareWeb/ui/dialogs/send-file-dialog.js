@@ -335,34 +335,34 @@ class SendFileDialog extends MaxDialog {
 
         if (state != fileStates.cancelled) {
             if (state == fileStates.completed) {
-                let deleteImage = element("IMG");
-                deleteImage.style.width = '40px';
-                deleteImage.style.height = '40px';
-                deleteImage.style.margin = '10px';
-                deleteImage.style.borderRadius = '20px';
-                deleteImage.style.display = 'flex';
-                deleteImage.style.justifyContent = 'center';
-                deleteImage.style.padding = "10px";
-                deleteImage.style.boxSizing = 'border-box';
-                deleteImage.style.backgroundColor = "#F443361A";
-                deleteImage.onclick = () => {
-                    const dialog =  DeleteDialog.getInstance()
-                    dialog.show(() => {
-                        api.deleteFile(file.id, (res) => {
-                            dialog.dismiss()
-                            if (res.isDeleted) {
-                                utils.showSnack("File deleted");
-                                div.remove();
-                                this.updateContentVisibility();
-                                this.updateMoreIfNotScrollable();
-                            } else {
-                                utils.showSnack("File deletion failed");
-                            }
-                        })
-                    })
-                };
-                deleteImage.src = 'images/remove_red.svg';
-                div.appendChild(deleteImage);
+                // let deleteImage = element("IMG");
+                // deleteImage.style.width = '40px';
+                // deleteImage.style.height = '40px';
+                // deleteImage.style.margin = '10px';
+                // deleteImage.style.borderRadius = '20px';
+                // deleteImage.style.display = 'flex';
+                // deleteImage.style.justifyContent = 'center';
+                // deleteImage.style.padding = "10px";
+                // deleteImage.style.boxSizing = 'border-box';
+                // deleteImage.style.backgroundColor = "#F443361A";
+                // deleteImage.onclick = () => {
+                //     const dialog =  DeleteDialog.getInstance()
+                //     dialog.show(() => {
+                //         api.deleteFile(file.id, (res) => {
+                //             dialog.dismiss()
+                //             if (res.isDeleted) {
+                //                 utils.showSnack("File deleted");
+                //                 div.remove();
+                //                 this.updateContentVisibility();
+                //                 this.updateMoreIfNotScrollable();
+                //             } else {
+                //                 utils.showSnack("File deletion failed");
+                //             }
+                //         })
+                //     })
+                // };
+                // deleteImage.src = 'images/remove_red.svg';
+                // div.appendChild(deleteImage);
             } else {
                 let cancelDiv = element("DIV");
                 cancelDiv.style.width = '40px';

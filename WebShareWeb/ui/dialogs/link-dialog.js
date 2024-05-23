@@ -1,46 +1,32 @@
-class ShareDialog extends Dialog {
+class FileLinkDialog extends Dialog {
     static inst = null
 
-    static getInstance() {
-        if (this.inst == null) {
-            this.inst = new this()
-        }
+    static getInstance(url) {
+        this.inst = new this(url)
         return this.inst
     }
 
-    constructor() {
-        super($('shareDialogWrap'))
+    constructor(url) {
+        super($('fileLinkDialogWrap'))
         this.setCancellable()
-        $('shareCloseButton').onclick = () => {
+        $('fileLinkCloseButton').onclick = () => {
             this.dismiss()
         }
-        const shareLink = $('shareLink')
-        const shareLinkCopy = $('shareLinkCopy')
-        const socialMediaList = $('socialMediaList')
-    
-        socialMediaList.innerHTML = ''
-        for (const sm of this.getSocialMediaList()) {
-            const media = sm
-            let image = element('img')
-            image.classList.add('pointer')
-            image.style.width = '40px'
-            image.style.height = '40px'
-            image.style.padding = '10px'
-            image.src = "images/" + media.name + ".svg"
-            image.onclick = () => {
-                let a = element('a')
-                a.href = media.url
-                a.target = '_blank'
-                a.click()
-            }
-            socialMediaList.appendChild(image)
-        }
+        const fileLink = $('fileLink')
+        const fileLinkA = $('fileLinkA')
+        const fileLinkCopy = $('fileLinkCopy')
+        fileLink.innerHTML = url
+        fileLinkA.href = url
+        fileLinkA.target = '_blank'
         if (!navigator.clipboard) {
-            utils.selectText(shareLink)
-            shareLinkCopy.style.display = 'none'
+            utils.selectText(fileLink)
+            fileLinkCopy.style.display = 'none'
         }
-        shareLinkCopy.onclick = () => {
-            utils.copyToClipboard(shareLink.innerHTML, () => {
+        utils.copyToClipboard(url, () => {
+
+        })
+        fileLinkCopy.onclick = () => {
+            utils.copyToClipboard(url, () => {
 
             })
 
