@@ -14,8 +14,8 @@ android {
     defaultConfig {
         applicationId = "ss.nscube.webshare"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 27
+        targetSdk = 34
+        versionCode = 28
         versionName = "2.0.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

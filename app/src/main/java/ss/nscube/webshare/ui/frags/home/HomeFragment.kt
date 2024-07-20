@@ -299,7 +299,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
 
     override fun onStart() {
         super.onStart()
-        checkPermissions()
+//        checkPermissions()
     }
 
     override fun onResume() {

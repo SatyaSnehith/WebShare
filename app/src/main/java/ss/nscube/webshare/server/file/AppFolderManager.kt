@@ -16,9 +16,12 @@ import java.io.File
 
 class AppFolderManager(val server: HTTPServer) {
     val context: Context = server.application
-    //path of main directory
-    private val webShareFolderPath = Environment.getExternalStorageDirectory().absolutePath + "/" + HTTPServer.SERVER_NAME
-    private var webShareFolder: File = File(webShareFolderPath)
+    // path of main directory
+    private val webShareFolder = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        context.getExternalFilesDir(HTTPServer.SERVER_NAME)
+    } else {
+        File(Environment.getExternalStorageDirectory(), HTTPServer.SERVER_NAME)
+    }
     lateinit var imagesFolder: File
     lateinit var videosFolder: File
     lateinit var documentsFolder: File
@@ -43,23 +46,23 @@ class AppFolderManager(val server: HTTPServer) {
     }
 
     fun getAvailableSpace(): Long {
-        return StatFs(webShareFolderPath).availableBytes
+        return StatFs(webShareFolder?.absolutePath).availableBytes
     }
 
     private var scanCompleted = false
 
-    fun initFolders() {
+    fun initFolders() = webShareFolder?.let { appFolder ->
         MainScope().launch(Dispatchers.IO) {
-            createFolder(webShareFolder)
-            imagesFolder = File(webShareFolder.absolutePath + "/" + HTTPServer.SERVER_NAME + " Images")
+            createFolder(appFolder)
+            imagesFolder = File(appFolder, HTTPServer.SERVER_NAME + " Images")
             createFolder(imagesFolder)
-            videosFolder = File(webShareFolder.absolutePath + "/" + HTTPServer.SERVER_NAME + " Video")
+            videosFolder = File(appFolder, HTTPServer.SERVER_NAME + " Video")
             createFolder(videosFolder)
-            documentsFolder = File(webShareFolder.absolutePath + "/" + HTTPServer.SERVER_NAME + " Documents")
+            documentsFolder = File(appFolder, HTTPServer.SERVER_NAME + " Documents")
             createFolder(documentsFolder)
-            audioFolder = File(webShareFolder.absolutePath + "/" + HTTPServer.SERVER_NAME + " Audio")
+            audioFolder = File(appFolder, HTTPServer.SERVER_NAME + " Audio")
             createFolder(audioFolder)
-            appsFolder = File(webShareFolder.absolutePath + "/" + HTTPServer.SERVER_NAME + " Apps")
+            appsFolder = File(appFolder, HTTPServer.SERVER_NAME + " Apps")
             createFolder(appsFolder)
             val jobList = startScan(this)
             log("JOB_LIST ${jobList.size}")
