@@ -862,9 +862,6 @@ class FileLinkDialog extends Dialog {
             utils.selectText(fileLink)
             fileLinkCopy.style.display = 'none'
         }
-        utils.copyToClipboard(url, () => {
-
-        })
         fileLinkCopy.onclick = () => {
             utils.copyToClipboard(url, () => {
 

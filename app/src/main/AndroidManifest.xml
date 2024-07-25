@@ -69,7 +69,9 @@
         <service
             android:name=".ServerService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:ignore="ForegroundServicePermission" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

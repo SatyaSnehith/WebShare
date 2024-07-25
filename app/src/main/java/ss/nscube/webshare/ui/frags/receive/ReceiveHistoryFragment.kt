@@ -1,12 +1,17 @@
 package ss.nscube.webshare.ui.frags.receive
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +59,35 @@ class ReceiveHistoryFragment: BaseFragment() {
         return binding?.root
     }
 
+    var selectedFile: AppFile? = null
+
+    val createDocumentedLauncher = registerForActivityResult(
+        object: ActivityResultContracts.CreateDocument("*/*") {
+            override fun createIntent(context: Context, input: String): Intent {
+                return super.createIntent(context, input).apply {
+                    selectedFile?.let { file ->
+                        val extension = MimeTypeMap.getFileExtensionFromUrl(file.name)
+                        if (extension != null) {
+                            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+                            setType(type)
+                        }
+                    }
+                }
+            }
+        }
+    ) { uri ->
+        uri?.let {
+            selectedFile?.let { file ->
+                context?.let { con ->
+                    con.contentResolver?.openOutputStream(uri)?.use {
+                        file.file.inputStream().copyTo(it)
+                    }
+                    Toast.makeText(con, "Saved", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateMode(ModeNormal)
@@ -89,7 +123,7 @@ class ReceiveHistoryFragment: BaseFragment() {
     fun onItemMenuClicked(file: AppFile, position: Int, view: View) {
         val menuPopup = MenuPopup(requireContext())
         menuPopup.addMenuItem(0, R.drawable.icon_menu_share, "Share")
-//        menuPopup.addMenuItem(1, R.drawable.icon_menu_rename, "Rename")
+        menuPopup.addMenuItem(1, R.drawable.icon_save, "Save to")
         menuPopup.addMenuItem(2, R.drawable.icon_menu_delete, "Delete")
         menuPopup.onItemClick {
             when(it) {
@@ -100,6 +134,10 @@ class ReceiveHistoryFragment: BaseFragment() {
                             .setType(URLConnection.guessContentTypeFromName(file.name))
                             .startChooser()
                     }
+                }
+                1 -> {
+                    selectedFile = file
+                    createDocumentedLauncher.launch(file.name)
                 }
                 2 -> {
                     DeleteConfirmationDialog.show(this, "this file") {

@@ -2,11 +2,14 @@ package ss.nscube.webshare.ui.frags.receive
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -36,6 +39,31 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
     var binding: FragmentReceiveBinding? = null
 
     var adapter: ReceiveAdapter = ReceiveAdapter(this)
+
+    var selectedFile: WebFile? = null
+
+    val createDocumentedLauncher = registerForActivityResult(
+        object: ActivityResultContracts.CreateDocument("*/*") {
+            override fun createIntent(context: Context, input: String): Intent {
+                return super.createIntent(context, input).apply {
+                    selectedFile?.let { file ->
+                        setType(file.mime)
+                    }
+                }
+            }
+        }
+    ) { uri ->
+        uri?.let {
+            selectedFile?.let { file ->
+                context?.let { con ->
+                    con.contentResolver?.openOutputStream(uri)?.use {
+                        file.file?.inputStream()?.copyTo(it)
+                    }
+                    Toast.makeText(con, "Saved", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +110,7 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
     fun onMenuClicked(view: View, file: WebFile) {
         val menuPopup = MenuPopup(requireContext())
         menuPopup.addMenuItem(0, R.drawable.icon_menu_share, "Share")
-//        menuPopup.addMenuItem(1, R.drawable.icon_menu_rename, "Rename")
+        menuPopup.addMenuItem(1, R.drawable.icon_save, "Save to")
         menuPopup.addMenuItem(2, R.drawable.icon_menu_delete, "Delete")
         menuPopup.onItemClick {
             when(it) {
@@ -92,6 +120,10 @@ class ReceiveFragment : BaseFragment(), FileTransferObserver {
                         .setStream(FileProvider.getUriForFile(view.context, activity?.applicationContext?.packageName + ".provider", file.file!!))
                         .setType(URLConnection.guessContentTypeFromName(file.name))
                         .startChooser()
+                }
+                1 -> {
+                    selectedFile = file
+                    createDocumentedLauncher.launch(file.name)
                 }
 //                1 -> {
 //                    if (file.file == null) return@onItemClick

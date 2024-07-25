@@ -32,7 +32,6 @@ import ss.nscube.webshare.server.file.FileTransferObserver
 import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.ui.MenuPopup
 import ss.nscube.webshare.ui.dialogs.QrDialog
-import ss.nscube.webshare.ui.dialogs.RequestPermissionDialog
 import ss.nscube.webshare.ui.dialogs.SecurityDialog
 import ss.nscube.webshare.ui.dialogs.ThemeDialog
 import ss.nscube.webshare.ui.frags.BaseFragment
@@ -244,10 +243,8 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
     private fun checkPermissions() {
         if (permissionRequestHelper.isStoragePermissionNotAccepted() && mainActivity?.isRequestPermissionDialogShowed == false) {
             mainActivity?.isRequestPermissionDialogShowed = true
-            RequestPermissionDialog.show(this) {
-                log("RequestPermissionDialog accept")
-                permissionRequestHelper.requestPermissions()
-            }
+            log("RequestPermissionDialog accept")
+            permissionRequestHelper.requestPermissions()
         }
     }
 
@@ -299,7 +296,7 @@ class HomeFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ServerStat
 
     override fun onStart() {
         super.onStart()
-//        checkPermissions()
+        checkPermissions()
     }
 
     override fun onResume() {
