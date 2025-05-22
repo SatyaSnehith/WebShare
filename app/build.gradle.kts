@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "ss.nscube.webshare"
-        minSdk = 21
+        minSdk = 31
         targetSdk = 34
         versionCode = 29
         versionName = "2.0.8"
