@@ -3,11 +3,11 @@ name: Android Build CI
 on:
   push:
     branches:
-      - main
+      - master
       - 'releases/**'
   pull_request:
     branches:
-      - main
+      - master
   release:
     types: [created, published]
 
