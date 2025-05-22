@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "ss.nscube.webshare"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ss.nscube.webshare"
