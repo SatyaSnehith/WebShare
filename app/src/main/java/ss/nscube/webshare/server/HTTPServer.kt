@@ -187,13 +187,29 @@ class HTTPServer(val application: WebShareApp) {
 
     fun start() {
         if (!isRunning) {
+            var serviceStartedSuccessfully = false
             try {
+                log("Attempting to start ServerService...")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     application.startForegroundService(serverServiceIntent)
                 } else {
                     application.startService(serverServiceIntent)
                 }
-            } catch (_: Exception) {}
+                serviceStartedSuccessfully = true
+                log("ServerService started successfully.")
+            } catch (e: android.app.ForegroundServiceStartNotAllowedException) {
+                log("ERROR: ForegroundServiceStartNotAllowedException while starting ServerService: ${e.message}")
+                // Consider adding user-facing notification here if applicable
+            } catch (e: Exception) {
+                log("ERROR: Exception while starting ServerService: ${e.message}")
+            }
+
+            if (!serviceStartedSuccessfully) {
+                log("ServerService failed to start. Aborting HTTPServer start.")
+                isRunning = false // Ensure isRunning is false
+                notifyListenersForStopping() // Notify listeners about the failure
+                return // Stop further execution
+            }
 
             lastInactiveTime = System.currentTimeMillis()
             timerTaskManager.schecule(periodCallRemoveExpiredSignedUrl, ::removeExpiredSignedUrls)
@@ -201,27 +217,46 @@ class HTTPServer(val application: WebShareApp) {
             //port of the service
             launchIO {
                 try {
-                    serverSocket =
-                        withContext(Dispatchers.IO) {
-                            ServerSocket(PORT)
-                        }
-                    d("Http log started")
+                    log("Initializing ServerSocket on port $PORT...")
+                    serverSocket = withContext(Dispatchers.IO) { ServerSocket(PORT) }
+                    log("ServerSocket initialized successfully.")
+                    // Only set isRunning to true after serverSocket is ready
                     isRunning = true
                     startTime = System.currentTimeMillis()
                     notifyListenersForStarting()
+                    log("HTTPServer is now running and accepting connections.")
                     while (isRunning) {
                         val start = System.currentTimeMillis()
-                        handleSocket(withContext(Dispatchers.IO) {
+                        // Accept must be on IO dispatcher
+                        val clientSocket = withContext(Dispatchers.IO) {
                             serverSocket!!.accept()
-                        })
+                        }
+                        handleSocket(clientSocket)
                         log("Http log resTime ${System.currentTimeMillis() - start} ms")
                     }
                 } catch (e: IOException) {
+                    log("ERROR: IOException in HTTPServer setup/loop: ${e.message}")
                     isRunning = false
-                    d("Http log start error $e")
-                    e.printStackTrace()
+                    notifyListenersForStopping()
+                } catch (e: Exception) {
+                    log("ERROR: Unexpected exception in HTTPServer setup/loop: ${e.message}")
+                    isRunning = false
+                    notifyListenersForStopping()
+                } finally {
+                    if (!isRunning) {
+                        log("HTTPServer is not running or has stopped.")
+                        try {
+                            serverSocket?.close()
+                            serverSocket = null // Avoid reusing a closed socket
+                            log("ServerSocket closed in finally block.")
+                        } catch (ioe: IOException) {
+                            log("Error closing serverSocket in finally block: ${ioe.message}")
+                        }
+                    }
                 }
             }
+        } else {
+            log("HTTPServer start() called but server is already running.")
         }
     }
 
