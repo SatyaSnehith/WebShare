@@ -1,7 +1,6 @@
 package ss.nscube.webshare.ui
 
 import android.content.Intent
-import android.content.IntentSanitizer
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -20,8 +19,6 @@ import ss.nscube.webshare.ui.utils.TimeCal
 import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
-import java.util.function.Consumer // Required for sanitize logging
-
 // Replaced ss.nscube.webshare.utils.log with a standard Android Log tag or your preferred logging wrapper
 // It's good practice to define a TAG for logging
 private const val TAG = "MainActivity"
@@ -78,31 +75,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleShareIntent() {
-        val originalIntent = intent ?: return // Early exit if intent is null
-        Log.d(TAG, "Handling original intent action: ${originalIntent.action}") // Use Android Log
-
-        val sanitizer = IntentSanitizer.Builder()
-            .allowAction(Intent.ACTION_SEND)
-            .allowAction(Intent.ACTION_SEND_MULTIPLE)
-            .allowExtra(Intent.EXTRA_TEXT, String::class.java)
-            .allowExtra(Intent.EXTRA_STREAM, Uri::class.java)
-            .allowClipDataText() // Allows text/* for ClipData items
-            .allowClipDataUris() // Allows URIs in ClipData items and grants read permission
-            .allowMimeType("text/*")
-            .allowMimeType("image/*")
-            .allowMimeType("video/*")
-            .allowMimeType("application/*")
-            .build()
-
-        val sanitizedIntent = sanitizer.sanitize(originalIntent, Consumer {
-            // Log error if sanitization fails
-            Log.e(TAG, "Intent sanitization failed: ${it.message}")
-        }) ?: run {
-            Log.e(TAG, "Sanitized intent is null, aborting.")
-            return // Early exit if sanitization results in null intent
-        }
-        Log.d(TAG, "Handling sanitized intent action: ${sanitizedIntent.action}")
-
+        val currentIntent = intent ?: return // Early exit if intent is null
+        Log.d(TAG, "Handling intent action: ${currentIntent.action}") // Use Android Log
 
         // Defer heavy processing to a background thread using coroutines
         // lifecycleScope is tied to the Activity's lifecycle
@@ -111,14 +85,14 @@ class MainActivity : AppCompatActivity() {
             val server = webShareApp.server
             var showSelectedDialog = false
 
-            when (sanitizedIntent.action) {
+            when (currentIntent.action) {
                 Intent.ACTION_SEND -> {
-                    val receivedText = sanitizedIntent.getStringExtra(Intent.EXTRA_TEXT)
+                    val receivedText = currentIntent.getStringExtra(Intent.EXTRA_TEXT)
                     val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        sanitizedIntent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+                        currentIntent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                     } else {
                         @Suppress("DEPRECATION") // Suppress for older SDKs
-                        sanitizedIntent.getParcelableExtra(Intent.EXTRA_STREAM)
+                        currentIntent.getParcelableExtra(Intent.EXTRA_STREAM)
                     }
                     Log.d(TAG, "Intent ACTION_SEND - URI: $uri, Text: $receivedText")
 
@@ -149,10 +123,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 Intent.ACTION_SEND_MULTIPLE -> {
                     val uriList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        sanitizedIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)
+                        currentIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)
                     } else {
                         @Suppress("DEPRECATION")
-                        sanitizedIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
+                        currentIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
                     }
                     Log.d(TAG, "Intent ACTION_SEND_MULTIPLE - URI list size: ${uriList?.size ?: 0}")
 
