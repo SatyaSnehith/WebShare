@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "ss.nscube.webshare"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ss.nscube.webshare"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 29
         versionName = "2.0.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

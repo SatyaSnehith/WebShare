@@ -20,6 +20,8 @@ import ss.nscube.webshare.server.file.WebFile
 import ss.nscube.webshare.server.utils.FileUtil
 import ss.nscube.webshare.utils.scan.models.*
 import java.io.File
+import java.util.Locale
+import androidx.core.graphics.createBitmap
 
 
 object WebFileUtil {
@@ -98,9 +100,9 @@ object WebFileUtil {
                     context.packageManager.getPackageArchiveInfo("/proc/self/fd/" + fileDescriptor.fd, 0)
                 }
                 log("AppLog got APK info $fileName ${fileDescriptor.fd} ${fileDescriptor.dup().fd} ${fileDescriptor.canDetectErrors()} ${fileDescriptor.statSize}    ${packageArchiveInfo != null}")
-                if (packageArchiveInfo != null) {
+                val applicationInfo = packageArchiveInfo?.applicationInfo
+                if (applicationInfo != null) {
     //                packageArchiveInfo.activities[0].labelRes
-                    val applicationInfo = packageArchiveInfo.applicationInfo
 
                     val apkFile = File(applicationInfo.publicSourceDir)
                     log("AppLog appLabel: $name $fileName ${fileName.endsWith(".apk")}")
@@ -140,16 +142,16 @@ object WebFileUtil {
         var sec = (duration / 1000)
         val min = sec / 60
         sec %= 60
-        return String.format("%02d : %02d", min, sec)
+        return String.format(Locale.getDefault(), "%02d : %02d", min, sec)
     }
 
     fun getAppIconFromFile(context: Context, path: String): Drawable? {
         val pm: PackageManager = context.packageManager
         val pi = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) pm.getPackageArchiveInfo(path, 0) else pm.getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(0))
         if (pi != null) {
-            pi.applicationInfo.sourceDir = path
-            pi.applicationInfo.publicSourceDir = path
-            return pi.applicationInfo.loadIcon(pm)
+            pi.applicationInfo?.sourceDir = path
+            pi.applicationInfo?.publicSourceDir = path
+            return pi.applicationInfo?.loadIcon(pm)
         }
         return null
     }
@@ -168,10 +170,9 @@ object WebFileUtil {
             drr[1] = icon.foreground
 
             val layerDrawable = LayerDrawable(drr)
-            val bitmap = Bitmap.createBitmap(
+            val bitmap = createBitmap(
                 icon.intrinsicWidth.coerceAtLeast(1),
-                icon.intrinsicHeight.coerceAtLeast(1),
-                Bitmap.Config.ARGB_8888
+                icon.intrinsicHeight.coerceAtLeast(1)
             )
 
             val canvas = Canvas(bitmap)
