@@ -1,12 +1,14 @@
 package ss.nscube.webshare.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import ss.nscube.webshare.R
 import ss.nscube.webshare.WebShareApp
 import ss.nscube.webshare.ui.dialogs.SelectedDialog
@@ -15,6 +17,8 @@ import ss.nscube.webshare.ui.utils.UiUtil
 import ss.nscube.webshare.ui.utils.Util
 import ss.nscube.webshare.utils.WebFileUtil
 import ss.nscube.webshare.utils.log
+
+
 class MainActivity : AppCompatActivity() {
     private val webShareApp: WebShareApp
         get() {
@@ -30,9 +34,24 @@ class MainActivity : AppCompatActivity() {
 //        setStatusBar()
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         handleShareIntent()
         TimeCal.stop(this, TimeCal.AppStart)
+        val REQUEST_CODE_FGS_DATA_SYNC= 32
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // API 34
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.FOREGROUND_SERVICE_DATA_SYNC
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.FOREGROUND_SERVICE_DATA_SYNC),
+                    REQUEST_CODE_FGS_DATA_SYNC
+                )
+                return
+            }
+        }
+
     }
 
     private fun updateTheme() {

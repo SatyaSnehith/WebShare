@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.satyasnehith.core.database"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
