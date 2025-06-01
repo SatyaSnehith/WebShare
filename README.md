@@ -21,8 +21,8 @@
     <a href="https://github.com/SatyaSnehith/WebShare"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/SatyaSnehith/WebShare">View Demo</a>
-    ·
+<!--     <a href="https://github.com/SatyaSnehith/WebShare">View Demo</a> -->
+<!--     · -->
     <a href="https://github.com/SatyaSnehith/WebShare/issues">Report Bug</a>
     ·
     <a href="https://github.com/SatyaSnehith/WebShare/issues">Request Feature</a>
