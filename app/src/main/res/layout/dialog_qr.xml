@@ -4,7 +4,8 @@
     android:layout_width="@dimen/dialog_width"
     android:layout_height="@dimen/dialog_width"
     android:background="@drawable/round_20"
-    android:backgroundTint="?dialogColor">
+    android:backgroundTint="?dialogColor"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/qrIV"

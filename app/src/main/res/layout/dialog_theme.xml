@@ -8,6 +8,7 @@
     android:background="@drawable/round_6"
     android:backgroundTint="?dialogColor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     >
     <TextView
         android:layout_width="match_parent"

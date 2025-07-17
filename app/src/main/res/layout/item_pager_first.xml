@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="@drawable/round_6"
-    android:backgroundTint="?homeCard">
+    android:backgroundTint="?homeCard"
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:layout_width="match_parent"

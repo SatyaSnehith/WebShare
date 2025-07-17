@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     android:background="@drawable/round_bg_ripple"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:fitsSystemWindows="true">
     <ImageView
         android:id="@+id/type_iv"
         android:layout_width="40dp"

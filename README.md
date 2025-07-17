@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/SatyaSnehith/WebShare">
+  <a href="https://github.com/X-android-pixel/WebShare">
     <img src="https://raw.githubusercontent.com/SatyaSnehith/WebShare/master/images/bluew.svg" alt="Logo" width="80" height="80">
   </a>
 

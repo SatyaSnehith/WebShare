@@ -8,7 +8,8 @@
     android:paddingHorizontal="15dp"
     android:clickable="true"
     android:focusable="true"
-    android:background="@drawable/round_bg_ripple">
+    android:background="@drawable/round_bg_ripple"
+    android:fitsSystemWindows="true">
 
     <RadioButton
         android:id="@+id/rb"

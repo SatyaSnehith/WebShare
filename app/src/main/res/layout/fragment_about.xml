@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="?attr/colorOnPrimary"
+    android:fitsSystemWindows="true"
     >
     <ss.nscube.webshare.ui.views.actionbar.ActionBar
         android:id="@+id/action_bar"

@@ -8,7 +8,8 @@
     android:background="@drawable/round_bg_ripple"
     android:clickable="true"
     android:focusable="true"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:id="@+id/icon_fl"

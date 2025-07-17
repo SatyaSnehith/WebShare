@@ -7,7 +7,8 @@
     android:orientation="horizontal"
     android:paddingVertical="10dp"
     android:gravity="center_vertical"
-    android:background="@drawable/round_bg_ripple">
+    android:background="@drawable/round_bg_ripple"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/item_icon_iv"

@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/round_6"
-    android:backgroundTint="?dialogColor">
+    android:backgroundTint="?dialogColor"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:layout_width="match_parent"

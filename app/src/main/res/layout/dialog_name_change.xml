@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:background="@drawable/round_6"
     android:backgroundTint="?dialogColor"
-    android:padding="15dp">
+    android:padding="15dp"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:layout_width="match_parent"
